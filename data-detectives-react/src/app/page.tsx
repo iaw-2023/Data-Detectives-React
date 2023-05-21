@@ -1,11 +1,16 @@
 import React from 'react';
-import Navbar from './Navbar';
+import NavScrollExample from './Navbar';
+import Container from './Container';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const HomePage: React.FC = () => {
   return (
     <div>
-      <h1>Bienvenido a tu Aplicación de Turnos Médicos</h1>
-      <Navbar />    </div>
+      <NavScrollExample />
+      <Container>
+        <h1>Bienvenido a tu Aplicación de Turnos Médicos</h1>
+      </Container>
+    </div>
   );
 };
 
