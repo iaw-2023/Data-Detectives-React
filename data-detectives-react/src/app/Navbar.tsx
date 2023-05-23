@@ -6,35 +6,35 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Link from 'next/link';
 
-interface NavScrollExampleProps {} 
+interface NavScrollProps {} 
 
-const NavScrollExample: React.FC<NavScrollExampleProps> = () => {
+const NavScroll: React.FC<NavScrollProps> = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand href="#">HealthTime</Navbar.Brand>
+        <Navbar.Brand>HealthTime</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: '100px' }}
-            navbarScroll
-          >
-            <Nav.Link href="#action1">Inicio</Nav.Link>
-            <Nav.Link href="#action2">Sobre nosotros</Nav.Link>
-            <NavDropdown title="Turnos" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">Disponibles</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">
-                Another action
+          <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
+            <Nav.Link>Inicio</Nav.Link>
+            <Nav.Link>
+              <Link href="/aboutUs">Sobre nosotros</Link>
+            </Nav.Link>
+            <Nav.Link>
+              <Link href="/profesional">Profesional</Link>
+            </Nav.Link>
+            <NavDropdown title="Paciente" id="navbarScrollingDropdown">
+              <NavDropdown.Item >
+                <Link href="/reservar">Reservar un turno</Link>
               </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action5">
-                Something else here
+              <NavDropdown.Item>
+                <Link href="/asignados">Turnos asignados</Link>
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#" disabled>
-              Link
+            <Nav.Link>
+              Especialidades
             </Nav.Link>
           </Nav>
           <Form className="d-flex">
@@ -52,4 +52,4 @@ const NavScrollExample: React.FC<NavScrollExampleProps> = () => {
   );
 };
 
-export default NavScrollExample;
+export default NavScroll;
