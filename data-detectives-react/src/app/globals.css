@@ -21,3 +21,7 @@ body {
   background: rgb(var(--background-start-rgb));
 }
 
+h1 {
+  color:teal; 
+  font-family: 'Kaisei Opti', serif;
+}

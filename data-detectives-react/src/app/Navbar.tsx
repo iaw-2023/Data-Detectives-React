@@ -7,7 +7,6 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-
 interface NavScrollExampleProps {} 
 
 const NavScrollExample: React.FC<NavScrollExampleProps> = () => {
