@@ -41,7 +41,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSubmit, fo
   return (
     <div>
       <CenteredDiv>
-        <ProgressBar animated now={20} />
+        <ProgressBar animated now={60} />
         <h2>Seleccione el profesional para {selectedSpecialty.nombre}</h2>
         <Form.Select value={selectedProfessional?.id.toString() || ""} onChange={(e) => {
           const selectedProfId = parseInt(e.target.value);

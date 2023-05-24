@@ -16,6 +16,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, onNext }) => {
     if (specialty) {
       setSelectedSpecialty(specialty);
       setCurrentPage(2);
+      onNext(specialty);
     } else {
       console.log("Debe seleccionar una especialidad antes de continuar.");
     }
