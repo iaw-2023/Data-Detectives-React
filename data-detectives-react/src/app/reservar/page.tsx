@@ -1,22 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import FirstPage from "./firstPage";
-import SecondPage, { SecondPageProps } from "./secondPage";
-
-
-interface Especialidad {
-  id: number;
-  nombre: string;
-  descripcion: string;
-}
+import SecondPage from "./secondPage";
+import { SecondPageProps, Especialidad } from '../types';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Formulario: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [formData, setFormData] = useState<SecondPageProps["formData"] | null>(null);
   const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
+  const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>(null);
 
-  const handleNextPage = (specialty: string) => {
+  const handleNextPage = (specialty: Especialidad) => {
     setSelectedSpecialty(specialty);
     setCurrentPage(2);
   };
@@ -27,9 +22,9 @@ const Formulario: React.FC = () => {
         const response = await fetch("https://data-detectives-laravel.vercel.app/rest/especialidades");
         const data = await response.json();
   
-        // Verificar si la respuesta contiene la propiedad "data" y si es un array válido
         if (Array.isArray(data?.data)) {
           setEspecialidades(data.data);
+          setSelectedSpecialty(data.data[0] || null);
         } else {
           console.log("La respuesta de la API no contiene un array válido de especialidades:", data);
         }
@@ -49,7 +44,7 @@ const Formulario: React.FC = () => {
   return (
     <div>
       {currentPage === 1 && (
-        <FirstPage specialties={especialidades.map((especialidad) => especialidad.nombre)} onNext={handleNextPage} />
+        <FirstPage specialties={especialidades} onNext={handleNextPage} selectedSpecialty={selectedSpecialty || undefined} />
       )}
       {currentPage === 2 && selectedSpecialty && (
         <SecondPage selectedSpecialty={selectedSpecialty} onSubmit={handleSubmitForm} formData={formData || { name: "", email: "" }}

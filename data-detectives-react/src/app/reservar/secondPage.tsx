@@ -2,30 +2,8 @@
 import React, { useEffect, useState } from "react";
 import CenteredDiv from "./centeredDiv";
 import { Button, Form, ProgressBar } from "react-bootstrap";
+import { SecondPageProps, Profesional, Especialidad } from '../types';
 
-interface SecondPageProps {
-  selectedSpecialty: Especialidad;
-  onSubmit: (formData: FormData) => void; // Callback para enviar el formulario completo
-  formData: FormData;
-}
-
-interface Especialidad {
-  id: number;
-  nombre: string;
-  descripcion: string;
-}
-
-interface Profesional {
-  id: number;
-  nombre: string;
-  // Otros campos relevantes
-}
-
-interface FormData {
-  name: string;
-  email: string;
-  // ...
-}
 
 const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSubmit, formData }) => {
   const [professionals, setProfessionals] = useState<Profesional[]>([]);

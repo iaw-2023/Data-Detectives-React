@@ -19,23 +19,10 @@ const NavScroll: React.FC<NavScrollProps> = () => {
         <Navbar.Collapse id="navbarScroll">
           <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
             <Nav.Link>Inicio</Nav.Link>
-            <Nav.Link>
-              <Link href="/aboutUs">Sobre nosotros</Link>
-            </Nav.Link>
-            <Nav.Link>
-              <Link href="/profesional">Profesional</Link>
-            </Nav.Link>
-            <NavDropdown title="Paciente" id="navbarScrollingDropdown">
-              <NavDropdown.Item >
-                <Link href="/reservar">Reservar un turno</Link>
-              </NavDropdown.Item>
-              <NavDropdown.Item>
-                <Link href="/asignados">Turnos asignados</Link>
-              </NavDropdown.Item>
-            </NavDropdown>
-            <Nav.Link>
-              Especialidades
-            </Nav.Link>
+            <Nav.Link href="/aboutUs">Sobre nosotros</Nav.Link>
+            <Nav.Link href="/profesional">Profesional</Nav.Link>
+            <Nav.Link href="/reservar">Reservar turno</Nav.Link>
+            <Nav.Link href="/asignados">Ver turnos asignados</Nav.Link>
           </Nav>
           <Form className="d-flex">
             <Form.Control
