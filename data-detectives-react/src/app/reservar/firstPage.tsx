@@ -1,5 +1,9 @@
 "use client";
 import React, { useState } from "react";
+import ProgressBar from 'react-bootstrap/ProgressBar';
+import CenteredDiv from "./centeredDiv";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 interface FirstPageProps {
   specialties: string[]; // Especialidades obtenidas de la API
@@ -15,16 +19,18 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, onNext }) => {
 
   return (
     <div>
-      <h2>Selecciona una especialidad</h2>
-      <select value={selectedSpecialty} onChange={(e) => setSelectedSpecialty(e.target.value)} >
-        <option value="">Seleccione una especialidad</option>
-        {specialties.map((specialty) => (
-          <option key={specialty} value={specialty}>
-            {specialty}
-          </option>
-        ))}
-      </select>
-      <button onClick={handleNext}>Siguiente</button>
+      <CenteredDiv> 
+        <ProgressBar animated now={20} />
+        <h2>Selecciona una especialidad</h2>
+        <Form.Select value={selectedSpecialty} onChange={(e) => setSelectedSpecialty(e.target.value)} >
+            {specialties.map((specialty) => (
+                <option key={specialty} value={specialty}>
+                    {specialty}
+                </option>
+            ))}
+        </Form.Select>
+        <Button variant="primary" className="mt-2" onClick={handleNext}>Siguiente</Button>
+      </CenteredDiv>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import FirstPage from "./firstPage";
 import SecondPage, { SecondPageProps } from "./secondPage";
 
+
 interface Especialidad {
   id: number;
   nombre: string;
