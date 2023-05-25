@@ -1,19 +1,35 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import FirstPage from "./firstPage";
-import SecondPage from "./secondPage";
-import { SecondPageProps, Especialidad } from '../types';
+import FirstPage from "./selectEspecialidadPage";
+import SecondPage from "./selectProfesionalPage";
+import ThirdPage from "./selectTurnoDisponiblePage";
+import { SecondPageProps, Especialidad, Profesional, TurnoDisponible } from '../types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Formulario: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [formData, setFormData] = useState<SecondPageProps["formData"] | null>(null);
   const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
   const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>(null);
+  const [selectedProfessional, setSelectedProfessional] = useState<Profesional | null>(null);
+  const [selectedTurno, setSelectedTurno] = useState<TurnoDisponible | null>(null);
 
-  const handleNextPage = (specialty: Especialidad) => {
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const handleSelectSpecialty = (specialty: Especialidad) => {
     setSelectedSpecialty(specialty);
-    setCurrentPage(2);
+    handleNextPage();
+  };
+
+  const handleSelectProfessional = (professional: Profesional) => {
+    setSelectedProfessional(professional);
+    handleNextPage();
+  };
+
+  const handleSelectTurno = (turno: TurnoDisponible) => {
+    setSelectedTurno(turno);
+    handleNextPage();
   };
 
   useEffect(() => {
@@ -36,19 +52,19 @@ const Formulario: React.FC = () => {
     fetchEspecialidades();
   }, []);
   
-  const handleSubmitForm = (data: SecondPageProps["formData"]) => {
-    setFormData(data);
-    console.log("Formulario enviado:", data);
-  };
-
   return (
     <div>
       {currentPage === 1 && (
-        <FirstPage specialties={especialidades} onNext={handleNextPage} selectedSpecialty={selectedSpecialty || undefined} />
+        <FirstPage specialties={especialidades} selectedSpecialty={selectedSpecialty} onSelectSpecialty={handleSelectSpecialty} />
       )}
       {currentPage === 2 && selectedSpecialty && (
-        <SecondPage selectedSpecialty={selectedSpecialty} onSubmit={handleSubmitForm} formData={formData || { name: "", email: "" }}
-        />
+        <SecondPage selectedSpecialty={selectedSpecialty} onNext={handleSelectProfessional} />
+      )}
+      {currentPage === 3 && selectedSpecialty && selectedProfessional && (
+        <ThirdPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} onNext={handleSelectTurno} />
+      )}
+      {currentPage === 4 && selectedSpecialty && selectedProfessional && selectedTurno && (
+        <FourthPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedTurno={selectedTurno} />
       )}
     </div>
   );

@@ -4,18 +4,17 @@ import CenteredDiv from "./centeredDiv";
 import { Button, Form, ProgressBar } from "react-bootstrap";
 import { SecondPageProps, Profesional, Especialidad } from '../types';
 
-
-const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSubmit, formData }) => {
+const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onNext }) => {
   const [professionals, setProfessionals] = useState<Profesional[]>([]);
   const [selectedProfessional, setSelectedProfessional] = useState<Profesional | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(2);
 
   useEffect(() => {
     const fetchProfessionals = async () => {
       try {
         const response = await fetch(`https://data-detectives-laravel.vercel.app/rest/profesionales/${selectedSpecialty.id}`);
         const data = await response.json();
-        dd(response);
-        // Verificar si la respuesta contiene la propiedad "data" y si es un array válido
+
         if (Array.isArray(data?.data)) {
           setProfessionals(data.data);
         } else {
@@ -29,13 +28,13 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSubmit, fo
     fetchProfessionals();
   }, [selectedSpecialty]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    onSubmit({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = () => {
-    onSubmit(formData);
+  const handleNextPage = () => {
+    if (selectedProfessional) {
+      onNext(selectedProfessional);
+      setCurrentPage(3);
+    } else {
+      console.log("Debe seleccionar un profesional antes de continuar.");
+    }
   };
 
   return (
@@ -50,12 +49,12 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSubmit, fo
         }}>
           {professionals.map((professional) => (
             <option key={professional.id} value={professional.id.toString()}>
-              {professional.nombre}
+              {professional.apellido}, {professional.nombre}
             </option>
           ))}
         </Form.Select>
-        <Button variant="primary" className="mt-2" onClick={handleSubmit}>
-          Enviar
+        <Button variant="primary" className="mt-2" onClick={handleNextPage}>
+          Siguiente
         </Button>
       </CenteredDiv>
     </div>
@@ -63,8 +62,3 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSubmit, fo
 };
 
 export default SecondPage;
-export type { SecondPageProps };
-  function dd($response: any) {
-    throw new Error("Function not implemented.");
-  }
-

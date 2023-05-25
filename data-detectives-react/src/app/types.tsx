@@ -1,9 +1,15 @@
 import React from "react";
 
+export interface FirstPageProps {
+    specialties: Especialidad[];
+    selectedSpecialty?: Especialidad | null;
+    onSelectSpecialty: (specialty: Especialidad) => void;
+}
+
 export interface SecondPageProps {
     selectedSpecialty: Especialidad;
-    onSubmit: (formData: FormData) => void;
-    formData: FormData;
+    selectedProfessional?: Profesional | null;
+    onNext: (professional: Profesional) => void;
 }
   
 export interface Especialidad {
@@ -25,8 +31,7 @@ export  interface FormData {
     email: string;
 }
 
-export interface FirstPageProps {
-    specialties: Especialidad[];
-    selectedSpecialty?: Especialidad;
-    onNext: (selectedSpecialty: Especialidad) => void; 
+export  interface TurnoDisponible {
+    fecha: Date;
+    hora: Date;
 }
