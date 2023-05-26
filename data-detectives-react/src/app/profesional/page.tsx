@@ -1,18 +1,23 @@
 "use client";
 
-import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SearchInput from './inputDNI';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Form } from 'react-bootstrap';
 import CenteredDiv from '../reservar/centeredDiv';
-import { Profesional, Especialidad_Profesional, ApiResponseEspecialidadesProfesional } from '../types';
+import { Profesional, Especialidad_Profesional, ApiResponseEspecialidadesProfesional, TurnoAsignadoProfesional } from '../types';
+import { Calendar } from '@fullcalendar/core';
+import listPlugin from '@fullcalendar/list';
+
 
 
 const MainComponent: React.FC = () => {
-  var [searchProfessionalResult] = useState<Profesional| null>(null);
-  var [searchSpecialitiesResult] = useState<Especialidad_Profesional[]>([]);
-  var [selectedSpecialty] = useState<Especialidad_Profesional | null>(null); 
-  
+  const [searchProfessionalResult, setSearchProfesionalResult] = useState<Profesional| null>(null);
+  const [searchSpecialitiesResult, setSearchSpecialitiesResult] = useState<Especialidad_Profesional[]>([]);
+  const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad_Profesional | undefined>(searchSpecialitiesResult[0]);
+  const [searchTurnosResult, setSearchTurnosResult] = useState<TurnoAsignadoProfesional| null>(null);
+  const calendarRef = useRef<HTMLDivElement>(null);
+ 
   
   const handleSearch = async (value: string) => {
     try {
@@ -22,19 +27,19 @@ const MainComponent: React.FC = () => {
       const data_professional = await response_professional.json();
 
       if (response_professional.ok) {
-        searchProfessionalResult = data_professional.data;
+        setSearchProfesionalResult(data_professional.data);
         
         var id_profesional = searchProfessionalResult?.id;
         const response_specialities = await fetch(
           `https://data-detectives-laravel-e5p4ga6p5-data-detectives.vercel.app/rest/profesional_especialidades/${id_profesional}`
         );
         const data_specialities = await response_specialities.json();
-        const apiResponse: ApiResponseEspecialidadesProfesional = data_specialities;
-        const searchSpecialitiesResult: Especialidad_Profesional[] = apiResponse.data;
-       
-                
-        console.log(searchProfessionalResult);
-        console.log(searchSpecialitiesResult);
+        if (response_specialities.ok) {
+          const apiResponse: ApiResponseEspecialidadesProfesional = data_specialities;
+          setSearchSpecialitiesResult(apiResponse.data);
+        }
+        else { console.log("La respuesta de la API no contiene un array válido de especialidades del profesional:", data_professional);
+        }     
       } else {
         console.log("La respuesta de la API no contiene un array válido de profesional:", data_professional);
       }
@@ -43,46 +48,52 @@ const MainComponent: React.FC = () => {
     }
   };
   
-  /*  const handleSelectSpecialty = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value;
-    const option = specialties.find((specialty) => specialty.nombre === selectedValue);
-    if (option) {
-      setSelectedOption(option);
-    }
-  };
-
-  const handleNext = () => {
-    if (selectedOption) {
-      onSelectSpecialty(selectedOption);
-    }
-  };
-  
-  useEffect(() => {
-    if (selectedSpecialty && !selectedOption) {
-      setSelectedOption(selectedSpecialty);
-    }
-  }, [selectedSpecialty]);*/
   const handleSelectSpecialty = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     const option = searchSpecialitiesResult.find((specialty) => specialty.especialidad.nombre === selectedValue);
     if (option) {
-      selectedSpecialty = option;
+      setSelectedSpecialty(option);
     }
-    if (selectedSpecialty) {
-      onSelectSpecialty(selectedSpecialty);
-    }
+   
   };
 
   const handleDiary = () => {
+    console.log(selectedSpecialty);
     if (selectedSpecialty) {
       onSelectSpecialty(selectedSpecialty);
     }
   };
   
-  function onSelectSpecialty(specialty: Especialidad_Profesional) {
-    if (specialty) {
+ /* useEffect(() => {
+    if (selectedSpecialty && !selectedSpecialty) {
+      setSelectedOption(selectedSpecialty);
     }
+  }, [selectedSpecialty]);*/
+  
+  async function onSelectSpecialty(specialty: Especialidad_Profesional) {
+    const response_turnos = await fetch(
+      `https://data-detectives-laravel-1kywjtt0d-data-detectives.vercel.app/rest/turnos_asignados_profesional/${specialty.id_profesional_especialidad}`
+    );
+    const data_turnos = await response_turnos.json();
+
+    if (response_turnos.ok) {
+      setSearchProfesionalResult(data_turnos.data);
   }
+}
+
+useEffect(() => {
+  const calendarEl = calendarRef.current;
+  if (calendarEl) {
+    const calendar = new Calendar(calendarEl, {
+      plugins: [listPlugin], // Agrega aquí el plugin listPlugin
+      initialView: 'list', // Establece la vista inicial como 'list'
+      // Resto de las opciones de configuración del calendario
+    });
+
+    calendar.render();
+  }
+}, []);
+
 
   return (
     <><div>
@@ -109,6 +120,10 @@ const MainComponent: React.FC = () => {
           Ver agenda
         </Button>
         </div>
+    
+        <div ref={calendarRef}></div>
+
+       
         </CenteredDiv>
       </div>
        </>
