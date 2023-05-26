@@ -9,7 +9,14 @@ export interface FirstPageProps {
 export interface SecondPageProps {
     selectedSpecialty: Especialidad;
     selectedProfessional?: Profesional | null;
-    onNext: (professional: Profesional) => void;
+    onSelectedProfessional: (professional: Profesional) => void;
+}
+
+export interface ThirdPageProps {
+    selectedSpecialty: Especialidad;
+    selectedProfessional: Profesional;
+    selectedTurno?: TurnoDisponible | null;
+    onNext: (turno: TurnoDisponible) => void;
 }
   
 export interface Especialidad {

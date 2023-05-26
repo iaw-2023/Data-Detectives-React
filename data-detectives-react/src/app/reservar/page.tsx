@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import FirstPage from "./selectEspecialidadPage";
 import SecondPage from "./selectProfesionalPage";
 import ThirdPage from "./selectTurnoDisponiblePage";
+import FourthPage from "./selectTurnoDisponiblePage";
 import { SecondPageProps, Especialidad, Profesional, TurnoDisponible } from '../types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Formulario: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
   const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>(null);
   const [selectedProfessional, setSelectedProfessional] = useState<Profesional | null>(null);
@@ -19,17 +20,17 @@ const Formulario: React.FC = () => {
 
   const handleSelectSpecialty = (specialty: Especialidad) => {
     setSelectedSpecialty(specialty);
-    handleNextPage();
+    setCurrentPage(2);
   };
 
   const handleSelectProfessional = (professional: Profesional) => {
     setSelectedProfessional(professional);
-    handleNextPage();
+    setCurrentPage(3);
   };
 
   const handleSelectTurno = (turno: TurnoDisponible) => {
     setSelectedTurno(turno);
-    handleNextPage();
+    setCurrentPage(4);
   };
 
   useEffect(() => {
@@ -58,10 +59,10 @@ const Formulario: React.FC = () => {
         <FirstPage specialties={especialidades} selectedSpecialty={selectedSpecialty} onSelectSpecialty={handleSelectSpecialty} />
       )}
       {currentPage === 2 && selectedSpecialty && (
-        <SecondPage selectedSpecialty={selectedSpecialty} onNext={handleSelectProfessional} />
+        <SecondPage selectedSpecialty={selectedSpecialty} onSelectedProfessional={handleSelectProfessional} selectedProfessional={selectedProfessional} />
       )}
       {currentPage === 3 && selectedSpecialty && selectedProfessional && (
-        <ThirdPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} onNext={handleSelectTurno} />
+        <ThirdPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} onNext={handleSelectTurno} selectedTurno={selectedTurno} />
       )}
       {currentPage === 4 && selectedSpecialty && selectedProfessional && selectedTurno && (
         <FourthPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedTurno={selectedTurno} />
