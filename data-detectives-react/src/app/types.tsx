@@ -29,8 +29,22 @@ export  interface Profesional {
     id: number;
     nombre: string;
     apellido: string;
-    marticula: string;
+    matricula: string;
     email: string;
+    DNI: number;
+}
+
+export interface Especialidad_Profesional {
+    especialidad: {
+      id: number;
+      nombre: string;
+      descripcion: string;
+    };
+    id_profesional_especialidad: number;
+}
+
+export interface ApiResponseEspecialidadesProfesional {
+    data: Especialidad_Profesional[];
 }
   
 export  interface FormData {

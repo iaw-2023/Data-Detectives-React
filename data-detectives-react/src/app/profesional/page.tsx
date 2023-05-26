@@ -2,37 +2,18 @@
 
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import SearchInput from './inputDNI';
-//import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Form } from 'react-bootstrap';
 import CenteredDiv from '../reservar/centeredDiv';
+import { Profesional, Especialidad_Profesional, ApiResponseEspecialidadesProfesional } from '../types';
 
-
-interface Professional {
-  id: number;
-  DNI: number;
-  nombre: string;
-  apellido: string;
-  email: string;
-}
-
-interface Speciality {
-  especialidad: {
-    id: number;
-    nombre: string;
-    descripcion: string;
-  };
-  id_profesional_especialidad: number;
-}
-
-interface ApiResponse {
-  data: Speciality[];
-}
 
 const MainComponent: React.FC = () => {
-  var [searchProfessionalResult] = useState<Professional| null>(null);
-  var [searchSpecialitiesResult] = useState<Speciality[]>([]);
-  var [selectedSpecialty] = useState<Speciality | null>(null); 
-
+  var [searchProfessionalResult] = useState<Profesional| null>(null);
+  var [searchSpecialitiesResult] = useState<Especialidad_Profesional[]>([]);
+  var [selectedSpecialty] = useState<Especialidad_Profesional | null>(null); 
+  
+  
   const handleSearch = async (value: string) => {
     try {
       const response_professional = await fetch(
@@ -48,8 +29,8 @@ const MainComponent: React.FC = () => {
           `https://data-detectives-laravel-e5p4ga6p5-data-detectives.vercel.app/rest/profesional_especialidades/${id_profesional}`
         );
         const data_specialities = await response_specialities.json();
-        const apiResponse: ApiResponse = data_specialities;
-        const searchSpecialitiesResult: Speciality[] = apiResponse.data;
+        const apiResponse: ApiResponseEspecialidadesProfesional = data_specialities;
+        const searchSpecialitiesResult: Especialidad_Profesional[] = apiResponse.data;
        
                 
         console.log(searchProfessionalResult);
@@ -62,9 +43,31 @@ const MainComponent: React.FC = () => {
     }
   };
   
+  /*  const handleSelectSpecialty = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    const option = specialties.find((specialty) => specialty.nombre === selectedValue);
+    if (option) {
+      setSelectedOption(option);
+    }
+  };
+
+  const handleNext = () => {
+    if (selectedOption) {
+      onSelectSpecialty(selectedOption);
+    }
+  };
+  
+  useEffect(() => {
+    if (selectedSpecialty && !selectedOption) {
+      setSelectedOption(selectedSpecialty);
+    }
+  }, [selectedSpecialty]);*/
   const handleSelectSpecialty = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
-    const selectedSpecialty = searchSpecialitiesResult.find((specialty) => specialty.especialidad.nombre === selectedValue);
+    const option = searchSpecialitiesResult.find((specialty) => specialty.especialidad.nombre === selectedValue);
+    if (option) {
+      selectedSpecialty = option;
+    }
     if (selectedSpecialty) {
       onSelectSpecialty(selectedSpecialty);
     }
@@ -76,7 +79,7 @@ const MainComponent: React.FC = () => {
     }
   };
   
-  function onSelectSpecialty(specialty: Speciality) {
+  function onSelectSpecialty(specialty: Especialidad_Profesional) {
     if (specialty) {
     }
   }
