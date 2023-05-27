@@ -15,6 +15,7 @@ const Formulario: React.FC = () => {
   const [selectedProfessional, setSelectedProfessional] = useState<Profesional_con_especialidad_id | null>(null);
   const [selectedFecha, setSelectedFecha] = useState<string | "">();
   const [selectedTurno, setSelectedTurno] = useState<TurnoDisponible | null>(null);
+  const [primeraConsulta, setPrimerConsulta] = useState<boolean>();
 
   const handleSelectSpecialty = (specialty: Especialidad) => {
     setSelectedSpecialty(specialty);
@@ -36,8 +37,8 @@ const Formulario: React.FC = () => {
     setCurrentPage(5);
   };
 
-  const handleConfirmTurno = (turno: TurnoDisponible,profesional_especialidad:Profesional_con_especialidad_id) => {
-    
+  const handleConfirmTurno = (turno: TurnoDisponible,profesional_especialidad:Profesional_con_especialidad_id,primeraConsulta:boolean) => {
+    setPrimerConsulta(primeraConsulta);
   };
 
   useEffect(() => {
@@ -74,7 +75,7 @@ const Formulario: React.FC = () => {
         <FourthPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedFecha={selectedFecha} onSelectedTurno={handleSelectTurno} />
       )}
       {currentPage === 5 && selectedSpecialty && selectedProfessional && selectedTurno && (
-        <FifthPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedTurno={selectedTurno} onConfirmTruno={handleConfirmTurno} />
+        <FifthPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedTurno={selectedTurno} primeraConsulta onConfirmTruno={handleConfirmTurno} />
       )}
     </div>
   );

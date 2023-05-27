@@ -8,7 +8,7 @@ interface CenteredDivProps {
 
 const CenteredDiv: React.FC<CenteredDivProps> = ({ children }) => {
   return (
-    <Container className="mt-3">
+    <Container className="mt-3 vh-100 mt-5">
       <Row>
         <Col md={{ span: 6, offset: 3 }}>
             {children}

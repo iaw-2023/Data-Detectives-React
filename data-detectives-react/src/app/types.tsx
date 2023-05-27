@@ -29,7 +29,8 @@ export interface FifthPageProps {
     selectedSpecialty: Especialidad;
     selectedProfessional: Profesional_con_especialidad_id;
     selectedTurno: TurnoDisponible;
-    onConfirmTruno: (turnoAsignado: TurnoDisponible, profesional_especialidad: Profesional_con_especialidad_id) => void;
+    primeraConsulta: boolean;
+    onConfirmTruno: (turnoAsignado: TurnoDisponible, profesional_especialidad: Profesional_con_especialidad_id, primera_consulta:boolean) => void;
 }
 
 export interface Especialidad {
@@ -85,7 +86,7 @@ export interface Profesional_Especialidad {
     profesional: Profesional;
     especialidad: Especialidad;
     matricula: string;
-  }
+}
   
 export interface Turno {
     id: number;
@@ -93,7 +94,7 @@ export interface Turno {
     hora: string;
     profesional_especialidad: Profesional_Especialidad;
     disponible: boolean;
-  }
+}
   
 export interface Paciente {
     id: number;
@@ -112,7 +113,7 @@ export interface TurnoAsignado {
     paciente: Paciente;
     fecha_asignacion: string;
     primera_consulta: boolean;
-  }
+}
   
 export interface TurnoAsignadoData {
     data: TurnoAsignado[];

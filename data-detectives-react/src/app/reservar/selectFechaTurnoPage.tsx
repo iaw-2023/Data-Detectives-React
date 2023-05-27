@@ -5,6 +5,7 @@ import { Button, ProgressBar } from "react-bootstrap";
 import { ThirdPageProps, TurnoDisponible, TurnoDisponibleResponse } from '../types';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import DarkDiv from "../darkDiv";
 
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedFecha }) => {
@@ -79,10 +80,10 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
   };
 
   return (
-    <div>
+    <DarkDiv>
       <CenteredDiv>
         <ProgressBar animated now={60} />
-        <h2>Seleccione un turno para {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</h2>
+        <h2 className="text-white">Seleccione un turno para {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</h2>
         <Calendar
           tileDisabled={tileDisabled}
           onChange={handleSelectTurno as any}
@@ -92,7 +93,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
           Siguiente
         </Button>
       </CenteredDiv>
-    </div>
+    </DarkDiv>
   );
 };
 
