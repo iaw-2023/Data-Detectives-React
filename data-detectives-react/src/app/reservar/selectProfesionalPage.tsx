@@ -2,15 +2,15 @@
 import React, { useEffect, useState } from "react";
 import CenteredDiv from "./centeredDiv";
 import { Button, Form, ProgressBar } from "react-bootstrap";
-import { SecondPageProps, Profesional, Especialidad } from '../types';
+import { SecondPageProps, Profesional_con_especialidad_id } from '../types';
 
 const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedProfessional, selectedProfessional}) => {
-  const [professionals, setProfessionals] = useState<Profesional[]>([]);
-  const [selectedOption, setSelectedOption] = useState<Profesional | null>();
+  const [professionals_with_specialty, setProfessionals] = useState<Profesional_con_especialidad_id[]>([]);
+  const [selectedOption, setSelectedOption] = useState<Profesional_con_especialidad_id | null>();
 
   const handleSelectProfessional = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
-    const option = professionals.find((professional) => professional.id.toString() == selectedValue);
+    const option = professionals_with_specialty.find((professional) => professional.profesional.id.toString() == selectedValue);
     if (option) {
       setSelectedOption(option)
     }
@@ -19,9 +19,9 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
   useEffect(() => {
     const fetchProfessionals = async () => {
       try {
-        const response = await fetch(`https://data-detectives-laravel.vercel.app/rest/profesionales/${selectedSpecialty.id}`);
+        const response = await fetch(`https://data-detectives-laravel-e5p4ga6p5-data-detectives.vercel.app/rest/profesionales/${selectedSpecialty.id}`);
         const data = await response.json();
-
+        console.log(data);
         if (Array.isArray(data?.data)) {
           setProfessionals(data.data);
         } else {
@@ -36,6 +36,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
   }, [selectedOption]);
 
   const handleNext = () => {
+    console.log(selectedOption);
     if (selectedOption) {
       onSelectedProfessional(selectedOption);
     } else {
@@ -44,10 +45,10 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
   };
 
   useEffect(() => {
-    if (professionals.length > 0 && !selectedOption) {
-      setSelectedOption(professionals[0]);
+    if (professionals_with_specialty.length > 0 && !selectedOption) {
+      setSelectedOption(professionals_with_specialty[0]);
     }
-  }, [professionals]);
+  }, [professionals_with_specialty]);
 
   useEffect(() => {
     if (selectedProfessional && !selectedOption) {
@@ -60,11 +61,11 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
       <CenteredDiv>
         <ProgressBar animated now={60} />
         <h2>Seleccione el profesional para {selectedSpecialty.nombre}</h2>
-        <Form.Select value={selectedOption?.id || undefined} 
+        <Form.Select value={selectedOption?.profesional.id || undefined} 
           onChange={handleSelectProfessional}>
-          {professionals.map((professional) => (
-            <option key={professional.id} value={professional.id}>
-              {professional.apellido}, {professional.nombre}
+          {professionals_with_specialty.map((professional_with_specialty) => (
+            <option key={professional_with_specialty.profesional.id} value={professional_with_specialty.profesional.id}>
+              {professional_with_specialty.profesional.apellido}, {professional_with_specialty.profesional.nombre}
             </option>
           ))}
         </Form.Select>

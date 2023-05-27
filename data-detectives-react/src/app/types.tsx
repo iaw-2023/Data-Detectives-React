@@ -8,16 +8,24 @@ export interface FirstPageProps {
 
 export interface SecondPageProps {
     selectedSpecialty: Especialidad;
-    selectedProfessional?: Profesional | null;
-    onSelectedProfessional: (professional: Profesional) => void;
+    selectedProfessional?: Profesional_con_especialidad_id | null;
+    onSelectedProfessional: (professional_specialty: Profesional_con_especialidad_id) => void;
 }
 
 export interface ThirdPageProps {
-    selectedSpecialty: Especialidad;
-    selectedProfessional: Profesional;
-    selectedTurno?: TurnoDisponible | null;
-    onNext: (turno: TurnoDisponible) => void;
+    selectedProfessional: Profesional_con_especialidad_id;
+    onSelectedFecha: (fecha: Date) => void;
 }
+
+export interface FourthPageProps {
+    selectedSpecialty: Especialidad;
+    selectedProfessional: Profesional_con_especialidad_id;
+    selectedFecha: Date;
+    selectedTurno?: TurnoDisponible | null;
+
+}
+
+
   
 export interface Especialidad {
     id: number;
@@ -52,6 +60,7 @@ export  interface FormData {
 }
 
 export  interface TurnoDisponible {
+    id: number;
     fecha: Date;
     hora: Date;
 }
@@ -61,9 +70,12 @@ export interface TurnoAsignadoProfesional {
 
 }
 
+export interface Profesional_con_especialidad_id {
+    profesional: Profesional;
+    id_profesional_especialidad: number;
+}
 
-  
-export interface ProfessionalEspecialidad {
+export interface Profesional_Especialidad {
     id: number;
     profesional: Profesional;
     especialidad: Especialidad;
@@ -74,7 +86,7 @@ export interface Turno {
     id: number;
     fecha: string;
     hora: string;
-    profesional_especialidad: ProfessionalEspecialidad;
+    profesional_especialidad: Profesional_Especialidad;
     disponible: boolean;
   }
   
