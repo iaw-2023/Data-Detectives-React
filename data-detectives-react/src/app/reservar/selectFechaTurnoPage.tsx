@@ -2,17 +2,14 @@
 import React, { useEffect, useState } from "react";
 import CenteredDiv from "./centeredDiv";
 import { Button, ProgressBar } from "react-bootstrap";
-import { ThirdPageProps, TurnoDisponible } from '../types';
+import { ThirdPageProps, TurnoDisponible, TurnoDisponibleResponse } from '../types';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-interface TurnoDisponibleResponse {
-  data: TurnoDisponible[];
-}
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedFecha }) => {
   const [turnosDisponibles, setTurnosDisponibles] = useState<TurnoDisponible[]>([]);
-  const [selectedOption, setSelectedOption] = useState<Date>();
+  const [selectedOption, setSelectedOption] = useState<string>();
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
 
   useEffect(() => {
@@ -39,6 +36,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
 
   const handleSelectTurno = (date: Date) => {
     const dateFormat = formatDate(date); 
+    console.log(selectedOption);
     setSelectedOption(dateFormat);
   };
   
@@ -46,7 +44,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
-    return new Date(`${year}-${month}-${day}`);
+    return `${year}-${month}-${day}`;
   };
   
 

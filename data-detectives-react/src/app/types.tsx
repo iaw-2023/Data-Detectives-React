@@ -14,19 +14,24 @@ export interface SecondPageProps {
 
 export interface ThirdPageProps {
     selectedProfessional: Profesional_con_especialidad_id;
-    onSelectedFecha: (fecha: Date) => void;
+    onSelectedFecha: (fecha: string) => void;
 }
 
 export interface FourthPageProps {
     selectedSpecialty: Especialidad;
     selectedProfessional: Profesional_con_especialidad_id;
-    selectedFecha: Date;
+    selectedFecha: string;
     selectedTurno?: TurnoDisponible | null;
-
+    onSelectedTurno: (turno: TurnoDisponible) => void;
 }
 
+export interface FifthPageProps {
+    selectedSpecialty: Especialidad;
+    selectedProfessional: Profesional_con_especialidad_id;
+    selectedTurno: TurnoDisponible;
+    onConfirmTruno: (turnoAsignado: TurnoDisponible, profesional_especialidad: Profesional_con_especialidad_id) => void;
+}
 
-  
 export interface Especialidad {
     id: number;
     nombre: string;
@@ -61,8 +66,8 @@ export  interface FormData {
 
 export  interface TurnoDisponible {
     id: number;
-    fecha: Date;
-    hora: Date;
+    fecha: string;
+    hora: string;
 }
 
 export interface TurnoAsignadoProfesional {
@@ -111,4 +116,8 @@ export interface TurnoAsignado {
   
 export interface TurnoAsignadoData {
     data: TurnoAsignado[];
+  }
+
+  export interface TurnoDisponibleResponse {
+    data: TurnoDisponible[];
   }

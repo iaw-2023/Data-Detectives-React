@@ -3,16 +3,17 @@ import React, { useEffect, useState } from "react";
 import FirstPage from "./selectEspecialidadPage";
 import SecondPage from "./selectProfesionalPage";
 import ThirdPage from "./selectFechaTurnoPage";
-import FourthPage from "./confirmTurnoPage";
+import FourthPage from "./selectHoraTurnoPage";
 import { Especialidad, TurnoDisponible, Profesional_con_especialidad_id } from '../types';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import FifthPage from "./confirmTurnoPage";
 
 const Formulario: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
   const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>(null);
   const [selectedProfessional, setSelectedProfessional] = useState<Profesional_con_especialidad_id | null>(null);
-  const [selectedFecha, setSelectedFecha] = useState<Date | null>(null);
+  const [selectedFecha, setSelectedFecha] = useState<string | "">();
   const [selectedTurno, setSelectedTurno] = useState<TurnoDisponible | null>(null);
 
   const handleSelectSpecialty = (specialty: Especialidad) => {
@@ -25,7 +26,7 @@ const Formulario: React.FC = () => {
     setCurrentPage(3);
   };
 
-  const handleSelectFecha = (fecha: Date) => {
+  const handleSelectFecha = (fecha: string) => {
     setSelectedFecha(fecha);
     setCurrentPage(4);
   };
@@ -33,6 +34,10 @@ const Formulario: React.FC = () => {
   const handleSelectTurno = (turno: TurnoDisponible) => {
     setSelectedTurno(turno);
     setCurrentPage(5);
+  };
+
+  const handleConfirmTurno = (turno: TurnoDisponible,profesional_especialidad:Profesional_con_especialidad_id) => {
+    
   };
 
   useEffect(() => {
@@ -66,7 +71,10 @@ const Formulario: React.FC = () => {
         <ThirdPage  selectedProfessional={selectedProfessional} onSelectedFecha={handleSelectFecha} />
       )}
       {currentPage === 4 && selectedSpecialty && selectedProfessional && selectedFecha && (
-        <FourthPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedFecha={selectedFecha} />
+        <FourthPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedFecha={selectedFecha} onSelectedTurno={handleSelectTurno} />
+      )}
+      {currentPage === 5 && selectedSpecialty && selectedProfessional && selectedTurno && (
+        <FifthPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedTurno={selectedTurno} onConfirmTruno={handleConfirmTurno} />
       )}
     </div>
   );
