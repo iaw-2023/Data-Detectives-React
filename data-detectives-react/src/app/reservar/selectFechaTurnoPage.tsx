@@ -16,13 +16,19 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
     const fetchTurnosDisponibles = async () => {
       try {
         const id_especialidad = selectedProfessional.id_profesional_especialidad;
-        const response = await fetch(`https://data-detectives-laravel.vercel.app/rest/turnos_disponibles_profesional/${id_especialidad}`); 
+        const response = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/turnos_disponibles_profesional/${id_especialidad}`); 
         const data: TurnoDisponibleResponse = await response.json();
 
         if (Array.isArray(data?.data)) {
           setTurnosDisponibles(data.data);
-          const dates = data.data.map((turno) => new Date(turno.fecha));
+          const dates = data.data.map((turno) => {
+            const [year, month, day] = turno.fecha.split("-");
+            return new Date(Number(year), Number(month) - 1, Number(day), 0, 0, 0);
+          });
+          
           setAvailableDates(dates);
+          console.log(data.data);
+          console.log(dates);
         } else {
           console.log("La respuesta de la API no contiene un array válido de turnos disponibles:", data);
         }
@@ -47,6 +53,13 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
     return `${year}-${month}-${day}`;
   };
   
+  const getSelectedDate = () => {
+    if (selectedOption) {
+      const [year, month, day] = selectedOption.split("-");
+      return new Date(Number(year), Number(month) - 1, Number(day));
+    }
+    return null;
+  };
 
   const handleNextPage = () => {
     if (selectedOption) {
@@ -58,23 +71,22 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
   };
 
   const tileDisabled = ({ date }: { date: Date }) => {
-    return !availableDates.some(
-      (availableDate) =>
-        availableDate.getFullYear() === date.getFullYear() &&
-        availableDate.getMonth() === date.getMonth() &&
-        availableDate.getDate() === date.getDate()
-    );
+    const currentDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    return !availableDates.some((availableDate) => {
+      const availableDateCopy = new Date(availableDate.getFullYear(), availableDate.getMonth(), availableDate.getDate());
+      return currentDate.getTime() === availableDateCopy.getTime();
+    });
   };
 
   return (
     <div>
       <CenteredDiv>
-        <ProgressBar animated now={80} />
+        <ProgressBar animated now={60} />
         <h2>Seleccione un turno para {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</h2>
         <Calendar
           tileDisabled={tileDisabled}
           onChange={handleSelectTurno as any}
-          value={selectedOption ? new Date(selectedOption) : null}
+          value={getSelectedDate()}
         />
         <Button variant="primary" className="mt-2" onClick={handleNextPage}>
           Siguiente

@@ -11,7 +11,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   return (
     <div>
       <CenteredDiv>
-        <ProgressBar animated now={100} />
+        <ProgressBar animated now={99} />
         <h2>Resumen del turno:</h2>
         <p>Profesional: {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</p>
         <p>Especialidad: {selectedSpecialty.nombre}</p>

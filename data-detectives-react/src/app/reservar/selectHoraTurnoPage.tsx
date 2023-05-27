@@ -31,8 +31,9 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
     
     const handleSelectHour = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedHour = event.target.value;
-        const selectedTurno = turnosDisponibles.find((turno) => turno.hora === selectedHour);
-        setSelectedOption(selectedTurno);
+        const option = turnosDisponibles.find((turno) => turno.hora === selectedHour);
+        if (option)
+          setSelectedOption(option);
     };
 
     const handleNextPage = () => {
@@ -50,10 +51,16 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
       }
     }, [selectedTurno]);
 
+    useEffect(() => {
+      if (turnosDisponibles.length > 0 && !selectedOption) {
+        setSelectedOption(turnosDisponibles[0]);
+      }
+    }, [turnosDisponibles]);
+
     return (
         <div>
           <CenteredDiv>
-            <ProgressBar animated now={90} />
+            <ProgressBar animated now={80} />
             <h2>Horarios disponibles</h2>
             <Form.Select
                 value={selectedOption ? selectedOption.hora : ""}
