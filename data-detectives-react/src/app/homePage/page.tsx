@@ -1,7 +1,7 @@
 "use client"
 import React, { useContext } from 'react';
-import NavScroll from './navbar';
-import Container from './container';
+import NavScroll from '../navbar';
+import Container from '../container';
 import Carousel from 'better-react-carousel'
 import 'bootstrap/dist/css/bootstrap.min.css';
 

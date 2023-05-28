@@ -1,5 +1,10 @@
 import React from "react";
 
+export interface InputDNIPacienteProps {
+    paciente?: Paciente | null;
+    onSelectPaciente: (paciente: Paciente) => void;
+}
+
 export interface FirstPageProps {
     specialties: Especialidad[];
     selectedSpecialty?: Especialidad | null;
@@ -14,18 +19,25 @@ export interface SecondPageProps {
 
 export interface ThirdPageProps {
     selectedProfessional: Profesional_con_especialidad_id;
-    onSelectedFecha: (fecha: Date) => void;
+    onSelectedFecha: (fecha: string) => void;
 }
 
 export interface FourthPageProps {
     selectedSpecialty: Especialidad;
     selectedProfessional: Profesional_con_especialidad_id;
-    selectedFecha: Date;
+    selectedFecha: string;
     selectedTurno?: TurnoDisponible | null;
-
+    onSelectedTurno: (turno: TurnoDisponible) => void;
 }
 
-export interface SearchPageProps {
+export interface FifthPageProps {
+    selectedSpecialty: Especialidad;
+    selectedProfessional: Profesional_con_especialidad_id;
+    selectedTurno: TurnoDisponible;
+    primeraConsulta: boolean;
+    paciente: Paciente;
+    onConfirmTruno: (turnoAsignado: TurnoDisponible, profesional_especialidad: Profesional_con_especialidad_id, primera_consulta:boolean) => void;
+}export interface SearchPageProps {
     profesional: Profesional | null;
     especialidades: Especialidad_Profesional[];
     selectedEspecialidad: Especialidad_Profesional | null;
@@ -36,7 +48,7 @@ export interface SearchPageProps {
     handleEspecialidadChange: (option: Especialidad_Profesional | null) => void;
   } 
 
-  
+
 export interface Especialidad {
     id: number;
     nombre: string;
@@ -71,8 +83,8 @@ export  interface FormData {
 
 export  interface TurnoDisponible {
     id: number;
-    fecha: Date;
-    hora: Date;
+    fecha: string;
+    hora: string;
 }
 
 export interface TurnoAsignadoProfesional {
@@ -93,7 +105,7 @@ export interface Profesional_Especialidad {
     profesional: Profesional;
     especialidad: Especialidad;
     matricula: string;
-  }
+}
   
 export interface Turno {
     id: number;
@@ -101,7 +113,7 @@ export interface Turno {
     hora: string;
     profesional_especialidad: Profesional_Especialidad;
     disponible: boolean;
-  }
+}
   
 export interface Paciente {
     id: number;
@@ -112,7 +124,7 @@ export interface Paciente {
     telefono_paciente: string;
     email_paciente: string;
     obra_social: string;
-  }
+}
   
 export interface TurnoAsignado {
     id: number;
@@ -120,8 +132,12 @@ export interface TurnoAsignado {
     paciente: Paciente;
     fecha_asignacion: string;
     primera_consulta: boolean;
-  }
+}
   
 export interface TurnoAsignadoData {
     data: TurnoAsignado[];
+  }
+
+  export interface TurnoDisponibleResponse {
+    data: TurnoDisponible[];
   }

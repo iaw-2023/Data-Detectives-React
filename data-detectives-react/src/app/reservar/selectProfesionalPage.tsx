@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react";
 import CenteredDiv from "./centeredDiv";
 import { Button, Form, ProgressBar } from "react-bootstrap";
+import Link from 'next/link';
 import { SecondPageProps, Profesional_con_especialidad_id } from '../types';
+import DarkDiv from "../darkDiv";
 
 const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedProfessional, selectedProfessional}) => {
   const [professionals_with_specialty, setProfessionals] = useState<Profesional_con_especialidad_id[]>([]);
@@ -45,7 +47,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
   };
 
   useEffect(() => {
-    if (professionals_with_specialty.length > 0 && !selectedOption) {
+    if (!selectedOption) {
       setSelectedOption(professionals_with_specialty[0]);
     }
   }, [professionals_with_specialty]);
@@ -57,10 +59,10 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
   }, [selectedProfessional]);
 
   return (
-    <div>
+    <DarkDiv>
       <CenteredDiv>
-        <ProgressBar animated now={60} />
-        <h2>Seleccione el profesional para {selectedSpecialty.nombre}</h2>
+        <ProgressBar animated now={40} />
+        <h2 className="text-white">Seleccione el profesional para {selectedSpecialty.nombre}</h2>
         <Form.Select value={selectedOption?.profesional.id || undefined} 
           onChange={handleSelectProfessional}>
           {professionals_with_specialty.map((professional_with_specialty) => (
@@ -73,7 +75,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
           Siguiente
         </Button>
       </CenteredDiv>
-    </div>
+    </DarkDiv>
   );
 };
 

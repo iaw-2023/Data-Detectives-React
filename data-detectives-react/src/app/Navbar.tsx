@@ -1,12 +1,8 @@
 "use client";
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Link from 'next/link';
 
 interface NavScrollProps {} 
 
@@ -21,18 +17,10 @@ const NavScroll: React.FC<NavScrollProps> = () => {
             <Nav.Link>Inicio</Nav.Link>
             <Nav.Link href="/aboutUs">Sobre nosotros</Nav.Link>
             <Nav.Link href="/profesional">Profesional</Nav.Link>
+            <Nav.Link href="/paciente">Paciente</Nav.Link>
             <Nav.Link href="/reservar">Reservar turno</Nav.Link>
             <Nav.Link href="/asignados">Ver turnos asignados</Nav.Link>
           </Nav>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
         </Navbar.Collapse>
       </Container>
     </Navbar>

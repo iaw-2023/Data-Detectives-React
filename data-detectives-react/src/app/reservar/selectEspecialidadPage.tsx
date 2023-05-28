@@ -5,6 +5,7 @@ import CenteredDiv from "./centeredDiv";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FirstPageProps, Especialidad } from '../types';
+import DarkDiv from "../darkDiv";
 
 const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, onSelectSpecialty }) => {
   const [selectedOption, setSelectedOption] = useState<Especialidad | undefined>(specialties[0]);
@@ -20,6 +21,8 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, o
   const handleNext = () => {
     if (selectedOption) {
       onSelectSpecialty(selectedOption);
+    } else {
+      console.log("Debe seleccionar una especialidad antes de continuar.")
     }
   };
   
@@ -30,10 +33,10 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, o
   }, [selectedSpecialty]);
 
   return (
-    <div>
+    <DarkDiv>
       <CenteredDiv> 
         <ProgressBar animated now={20} />
-        <h2>Selecciona una especialidad</h2>
+        <h2 className="text-white">Selecciona una especialidad</h2>
         <Form.Select value={selectedOption ? selectedOption.nombre : ""}
           onChange={handleSelectSpecialty}>
           {specialties.map((specialty) => (
@@ -46,7 +49,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, o
           Siguiente
         </Button>
       </CenteredDiv>
-    </div>
+    </DarkDiv>
   );
 };
 
