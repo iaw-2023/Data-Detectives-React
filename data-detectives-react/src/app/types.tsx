@@ -1,5 +1,10 @@
 import React from "react";
 
+export interface InputDNIPacienteProps {
+    paciente?: Paciente | null;
+    onSelectPaciente: (paciente: Paciente) => void;
+}
+
 export interface FirstPageProps {
     specialties: Especialidad[];
     selectedSpecialty?: Especialidad | null;
@@ -30,6 +35,7 @@ export interface FifthPageProps {
     selectedProfessional: Profesional_con_especialidad_id;
     selectedTurno: TurnoDisponible;
     primeraConsulta: boolean;
+    paciente: Paciente;
     onConfirmTruno: (turnoAsignado: TurnoDisponible, profesional_especialidad: Profesional_con_especialidad_id, primera_consulta:boolean) => void;
 }
 
@@ -105,7 +111,7 @@ export interface Paciente {
     telefono_paciente: string;
     email_paciente: string;
     obra_social: string;
-  }
+}
   
 export interface TurnoAsignado {
     id: number;

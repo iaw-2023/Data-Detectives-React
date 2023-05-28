@@ -3,11 +3,9 @@ import CenteredDiv from "./centeredDiv";
 import { Button, Form, ProgressBar } from "react-bootstrap";
 import { FifthPageProps } from '../types';
 import DarkDiv from "../darkDiv";
-import { useRouter } from 'next/router';
 
-const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTurno, selectedSpecialty}) => {
+const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTurno, selectedSpecialty, paciente}) => {
   const [primerConsulta, setPrimerConsulta] = useState(false);
-  const router = useRouter();
   
   const handleConfirm = async () => {
     try {
@@ -22,19 +20,14 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
               id: selectedTurno.id,
             },
             paciente: {
-              id: 1, // Ajusta el ID del paciente según corresponda
+              id: paciente.id,
             },
             primer_consulta: primerConsulta,
           },
         }),
       });
   
-      if (response.ok) {
-        // Si la respuesta es exitosa, redirige a otra página
-        router.push('/page');
-      } else {
-        console.log('Error al confirmar el turno:', response.status);
-      }
+      
     } catch (error) {
       console.log('Error al confirmar el turno:', error);
     }
@@ -50,6 +43,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
       <CenteredDiv>
         <ProgressBar animated now={99} />
         <h2 className="text-white mt-2">Resumen del turno:</h2>
+        <p className="text-white">Paciente: {paciente.apellido_paciente}, {paciente.nombre_paciente}</p>
         <p className="text-white">Profesional: {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</p>
         <p className="text-white">Especialidad: {selectedSpecialty.nombre}</p>
         <p className="text-white">Fecha: {selectedTurno.fecha}</p>

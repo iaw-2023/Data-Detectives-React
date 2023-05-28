@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
                   <Card.Text>
                     Aquí podrás seleccionar la especialidad y te mostraremos los profesionales y sus turnos disponibles
                   </Card.Text>
-                  <Button href="/reservar" variant="info">Reservar</Button>
+                  <Button href="/inputPaciente" variant="info">Reservar</Button>
                 </Card.Body>
               </Card>
             </Col>
