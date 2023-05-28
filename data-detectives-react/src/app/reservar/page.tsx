@@ -7,6 +7,7 @@ import FourthPage from "./selectHoraTurnoPage";
 import { Especialidad, TurnoDisponible, Profesional_con_especialidad_id } from '../types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FifthPage from "./confirmTurnoPage";
+import CenteredDiv from "./centeredDiv";
 
 const Formulario: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);

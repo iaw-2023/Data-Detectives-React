@@ -21,18 +21,10 @@ const NavScroll: React.FC<NavScrollProps> = () => {
             <Nav.Link>Inicio</Nav.Link>
             <Nav.Link href="/aboutUs">Sobre nosotros</Nav.Link>
             <Nav.Link href="/profesional">Profesional</Nav.Link>
+            <Nav.Link href="/paciente">Paciente</Nav.Link>
             <Nav.Link href="/reservar">Reservar turno</Nav.Link>
             <Nav.Link href="/asignados">Ver turnos asignados</Nav.Link>
           </Nav>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
         </Navbar.Collapse>
       </Container>
     </Navbar>
