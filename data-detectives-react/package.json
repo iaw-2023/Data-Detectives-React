@@ -9,8 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@babel/preset-react": "^7.22.3",
+    "@fullcalendar/common": "^5.11.5",
     "@fullcalendar/core": "^6.1.8",
+    "@fullcalendar/interaction": "^6.1.8",
     "@fullcalendar/list": "^6.1.8",
+    "@fullcalendar/react": "^6.1.8",
+    "@fullcalendar/timegrid": "^6.1.8",
     "@types/node": "20.2.1",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
@@ -20,12 +25,14 @@
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.3",
     "next": "13.4.3",
+    "next-transpile-modules": "^10.0.0",
     "postcss": "8.4.23",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-calendar": "^4.2.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
+    "react-select": "^5.7.3",
     "tailwindcss": "^3.3.2",
     "typescript": "5.0.4"
   }

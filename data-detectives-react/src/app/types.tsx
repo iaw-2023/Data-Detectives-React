@@ -25,6 +25,16 @@ export interface FourthPageProps {
 
 }
 
+export interface SearchPageProps {
+    profesional: Profesional | null;
+    especialidades: Especialidad_Profesional[];
+    selectedEspecialidad: Especialidad_Profesional | null;
+    turnosAsignados: TurnoAsignadoProfesional[];
+    dni: string;
+    setDNI: (dni: string) => void;
+    handleSearch: () => void;
+    handleEspecialidadChange: (option: Especialidad_Profesional | null) => void;
+  } 
 
   
 export interface Especialidad {
@@ -66,8 +76,11 @@ export  interface TurnoDisponible {
 }
 
 export interface TurnoAsignadoProfesional {
-
-
+    id: number;
+    turno: Turno;
+    paciente: Paciente;
+    fecha_asignacion: Date;
+    primer_consulta: Boolean;
 }
 
 export interface Profesional_con_especialidad_id {

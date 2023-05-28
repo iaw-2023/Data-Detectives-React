@@ -1,132 +1,103 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import SearchInput from './inputDNI';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Form } from 'react-bootstrap';
-import CenteredDiv from '../reservar/centeredDiv';
-import { Profesional, Especialidad_Profesional, ApiResponseEspecialidadesProfesional, TurnoAsignadoProfesional } from '../types';
-import { Calendar } from '@fullcalendar/core';
-import listPlugin from '@fullcalendar/list';
+import React, { useState, useEffect } from 'react';
+import { Profesional, Especialidad_Profesional, TurnoAsignadoProfesional, SearchPageProps } from '../types';
+import FullCalendar from "@fullcalendar/react";
+import Select, { ActionMeta } from 'react-select';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { ValueType } from 'tailwindcss/types/config';
 
 
 
-const MainComponent: React.FC = () => {
-  const [searchProfessionalResult, setSearchProfesionalResult] = useState<Profesional| null>(null);
-  const [searchSpecialitiesResult, setSearchSpecialitiesResult] = useState<Especialidad_Profesional[]>([]);
-  const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad_Profesional | undefined>(searchSpecialitiesResult[0]);
-  const [searchTurnosResult, setSearchTurnosResult] = useState<TurnoAsignadoProfesional| null>(null);
-  const calendarRef = useRef<HTMLDivElement>(null);
- 
-  
-  const handleSearch = async (value: string) => {
+const SearchPage: React.FC<SearchPageProps> = () => {
+  const [dni, setDNI] = useState('');
+  const [profesional, setProfesional] = useState<Profesional | null>(null);
+  const [especialidades, setEspecialidades] = useState<Especialidad_Profesional[]>([]);
+  const [selectedEspecialidad, setSelectedEspecialidad] = useState<Especialidad_Profesional>(especialidades[0]);
+  const [turnosAsignados, setTurnosAsignados] = useState<TurnoAsignadoProfesional[]>([]);
+
+  const handleSearch = async () => {
     try {
-      const response_professional = await fetch(
-        `https://data-detectives-laravel-1kywjtt0d-data-detectives.vercel.app/rest/profesionalPorDNI/${value}`
-      );
-      const data_professional = await response_professional.json();
-
-      if (response_professional.ok) {
-        setSearchProfesionalResult(data_professional.data);
-        
-        var id_profesional = searchProfessionalResult?.id;
-        const response_specialities = await fetch(
-          `https://data-detectives-laravel-e5p4ga6p5-data-detectives.vercel.app/rest/profesional_especialidades/${id_profesional}`
-        );
-        const data_specialities = await response_specialities.json();
-        if (response_specialities.ok) {
-          const apiResponse: ApiResponseEspecialidadesProfesional = data_specialities;
-          setSearchSpecialitiesResult(apiResponse.data);
-        }
-        else { console.log("La respuesta de la API no contiene un array válido de especialidades del profesional:", data_professional);
-        }     
-      } else {
-        console.log("La respuesta de la API no contiene un array válido de profesional:", data_professional);
-      }
+      const response = await fetch(`https://data-detectives-laravel-1kywjtt0d-data-detectives.vercel.app/rest/profesionalPorDNI/${dni}`);
+      const data = await response.json() as Profesional;
+      setProfesional(data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
-  
-  const handleSelectSpecialty = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedValue = e.target.value;
-    const option = searchSpecialitiesResult.find((specialty) => specialty.especialidad.nombre === selectedValue);
+
+  const handleEspecialidadChange = async (option: Especialidad_Profesional, actionMeta: ActionMeta<Especialidad_Profesional>) => {
+    setSelectedEspecialidad(option);  
     if (option) {
-      setSelectedSpecialty(option);
-    }
-   
-  };
-
-  const handleDiary = () => {
-    console.log(selectedSpecialty);
-    if (selectedSpecialty) {
-      onSelectSpecialty(selectedSpecialty);
+      try {
+        const response = await fetch(`https://data-detectives-laravel-e5p4ga6p5-data-detectives.vercel.app/rest/turnos_asignados_profesional/${option.id_profesional_especialidad}`);
+        const data = await response.json() as TurnoAsignadoProfesional[];
+        setTurnosAsignados(data);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
-  
- /* useEffect(() => {
-    if (selectedSpecialty && !selectedSpecialty) {
-      setSelectedOption(selectedSpecialty);
-    }
-  }, [selectedSpecialty]);*/
-  
-  async function onSelectSpecialty(specialty: Especialidad_Profesional) {
-    const response_turnos = await fetch(
-      `https://data-detectives-laravel-1kywjtt0d-data-detectives.vercel.app/rest/turnos_asignados_profesional/${specialty.id_profesional_especialidad}`
-    );
-    const data_turnos = await response_turnos.json();
 
-    if (response_turnos.ok) {
-      setSearchProfesionalResult(data_turnos.data);
-  }
-}
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`https://data-detectives-laravel-1kywjtt0d-data-detectives.vercel.app/rest/profesional_especialidades/${profesional?.id}`);
+        const data = await response.json() as Especialidad_Profesional[];
+        setEspecialidades(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-useEffect(() => {
-  const calendarEl = calendarRef.current;
-  if (calendarEl) {
-    const calendar = new Calendar(calendarEl, {
-      plugins: [listPlugin], // Agrega aquí el plugin listPlugin
-      initialView: 'list', // Establece la vista inicial como 'list'
-      // Resto de las opciones de configuración del calendario
-    });
-
-    calendar.render();
-  }
-}, []);
-
+    fetchData();
+  }, []);
 
   return (
-    <><div>
-    <CenteredDiv> 
-      <SearchInput onSearch={handleSearch} />
-      {searchProfessionalResult && (
-        <div>
-          <p>ID: {searchProfessionalResult.id}</p>
-          <p>DNI: {searchProfessionalResult.DNI}</p>
-          <p>Nombre: {searchProfessionalResult.nombre}</p>
-          <p>Apellido: {searchProfessionalResult.apellido}</p>
-          <p>Email: {searchProfessionalResult.email}</p>
-        </div>)}
-      <div>
-      <Form.Select value={selectedSpecialty ? selectedSpecialty.especialidad.nombre : ""}
-          onChange={handleSelectSpecialty}>
-          {searchSpecialitiesResult.map((specialty) => (          
-            <option key={specialty.especialidad.id} value={specialty.especialidad.nombre}>
-              {specialty.especialidad.nombre}
-            </option>
-          ))}
-        </Form.Select>
-        <Button variant="primary" className="mt-2" onClick={handleDiary}>
-          Ver agenda
-        </Button>
-        </div>
-    
-        <div ref={calendarRef}></div>
+    <div>
+      <h1>Buscar Profesional por DNI</h1>
+      <input type="text" value={dni} onChange={(e) => setDNI(e.target.value)} />
+      <button onClick={handleSearch}>Buscar</button>
 
-       
-        </CenteredDiv>
-      </div>
-       </>
+      {profesional && (
+        <div>
+          <h2>Profesional Encontrado:</h2>
+          <p>Nombre: {profesional.nombre}</p>
+          <p>Apellido: {profesional.apellido}</p>
+          <p>Email: {profesional.email}</p>
+        </div>
+      )}
+
+      {especialidades.length > 0 && (
+        <div>
+          <h2>Especialidades:</h2>
+          <Select
+            options={especialidades}
+            getOptionLabel={(option: { especialidad: { nombre: any; }; }) => option.especialidad.nombre}
+            getOptionValue={(option: { id_profesional_especialidad: { toString: () => any; }; }) => option.id_profesional_especialidad.toString()}
+            value={selectedEspecialidad}
+            onChange={handleEspecialidadChange}
+          />
+        </div>
+      )}
+
+      {turnosAsignados.length > 0 && (
+        <div>
+          <h2>Turnos Asignados:</h2>
+          <FullCalendar
+            plugins={[dayGridPlugin]}
+            initialView="dayGridWeek"
+            events={turnosAsignados.map((turno) => ({
+              title: turno.paciente.nombre_paciente,
+              start: new Date(turno.turno.fecha + 'T' + turno.turno.hora),
+              end: new Date(turno.turno.fecha + 'T' + turno.turno.hora),
+            }))}
+          />
+        </div>
+      )}
+    </div>
   );
-}
-export default MainComponent;
+};
+
+export default SearchPage;
+
