@@ -71,7 +71,12 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
     console.log(selectedOption);
   };
 
-  const tileDisabled = ({ date }: { date: Date }) => {
+  const tileDisabled = ({ date, view }: { date: Date; view: string }) => {
+    if (view === "year" || view === "decade" || view === "century") {
+      console.log("estoy en vista año, o lo que sea");
+      return false;
+    }
+
     const currentDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     return !availableDates.some((availableDate) => {
       const availableDateCopy = new Date(availableDate.getFullYear(), availableDate.getMonth(), availableDate.getDate());

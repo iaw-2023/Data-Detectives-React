@@ -20,12 +20,12 @@ body {
 }
 
 h1 {
-  color:teal; 
-  font-family: 'Kaisei Opti', serif;
+  color:rgb(8, 79, 79); 
+  font-family:'Courier New', Courier, monospace;
 }
 
 h2 {
-  color:teal; 
+  color:rgb(2, 3, 3); 
   font-family: 'Kaisei Opti', serif;
 }
 

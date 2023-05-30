@@ -1,19 +1,20 @@
 "use client"
 import React, { useContext } from 'react';
-import NavScroll from '../navbar';
+import NavScroll from '../Navbar';
 import Container from '../container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Col, Row } from 'react-bootstrap';
+import DarkDiv from '../darkDiv';
+import ContainerPaciente from './containerPaciente';
 
 const HomePage: React.FC = () => {
     return (
-      <div>
+      <ContainerPaciente>
         <NavScroll />
-        <Container>
-          <h1 className='mt-3'>Administra tus citas médicas de manera eficiente y cómoda</h1>
-          <Row>
+          <h2 className='mt-3'>Administra tus citas médicas de manera eficiente y cómoda</h2>
+            <Row>
             <Col>
               <Card className="mt-3 bg-dark text-white" style={{ width: '30rem', height: '30rem' }}>
                 <Card.Img variant="top" src={'/imgs/pic-card.jpg'} style={{ width: '30rem', height: '25rem' }} />
@@ -39,8 +40,7 @@ const HomePage: React.FC = () => {
               </Card>
             </Col>
           </Row>
-        </Container>
-      </div>
+      </ContainerPaciente>
     );
   };
 

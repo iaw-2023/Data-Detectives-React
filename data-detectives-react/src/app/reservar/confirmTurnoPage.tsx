@@ -3,11 +3,14 @@ import CenteredDiv from "./centeredDiv";
 import { Button, Form, ProgressBar } from "react-bootstrap";
 import { FifthPageProps } from '../types';
 import DarkDiv from "../darkDiv";
+import { useRouter } from "next/navigation";
 
 
 const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTurno, selectedSpecialty, paciente }) => {
   const [primerConsulta, setPrimerConsulta] = useState(false);
   const [turnoConfirmado, setTurnoConfirmado] = useState(false);
+
+  const router = useRouter();
 
   const handleConfirm = async () => {
     try {
@@ -39,13 +42,17 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
     setPrimerConsulta(e.target.checked);
   };
 
+  const handleBackHome = () => {
+    router.push("/homePage");
+  };
+
   return (
     <DarkDiv>
       <CenteredDiv>
         {turnoConfirmado ? (
           <div>
             <h2 className="text-white mt-2">El turno fue asignado correctamente.</h2>
-            <Button variant="primary" className="mt-2">
+            <Button variant="primary" className="mt-2" onClick= {handleBackHome}>
               Volver a la página de inicio
             </Button>
           </div>

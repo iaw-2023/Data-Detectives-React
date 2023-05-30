@@ -6,9 +6,12 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FirstPageProps, Especialidad } from '../types';
 import DarkDiv from "../darkDiv";
+import { useRouter } from "next/navigation";
 
 const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, onSelectSpecialty }) => {
   const [selectedOption, setSelectedOption] = useState<Especialidad | undefined>(specialties[0]);
+
+  const router = useRouter();
   
   const handleSelectSpecialty = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
@@ -25,6 +28,10 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, o
       console.log("Debe seleccionar una especialidad antes de continuar.")
     }
   };
+
+  const handleBack = () => {
+    router.back()
+  };
   
   useEffect(() => {
     if (selectedSpecialty && !selectedOption) {
@@ -34,6 +41,9 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, o
 
   return (
     <DarkDiv>
+      <Button className="btn mt-2" variant="outline-info" onClick={handleBack}>
+        Back
+      </Button>
       <CenteredDiv> 
         <ProgressBar animated now={20} />
         <h2 className="text-white">Selecciona una especialidad</h2>
