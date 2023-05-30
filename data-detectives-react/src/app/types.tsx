@@ -5,6 +5,11 @@ export interface InputDNIPacienteProps {
     onSelectPaciente: (paciente: Paciente) => void;
 }
 
+export interface InputDNIProfesionalProps {
+    profesional?: Profesional | null;
+    onSelectProfesional: (profesional: Profesional) => void;
+}
+
 export interface FirstPageProps {
     specialties: Especialidad[];
     selectedSpecialty?: Especialidad | null;
