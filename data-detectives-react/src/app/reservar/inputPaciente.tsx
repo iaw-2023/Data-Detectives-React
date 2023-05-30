@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Paciente, InputDNIPacienteProps } from '../types';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
+import { Button, ListGroup } from 'react-bootstrap';
 import DarkDiv from '../darkDiv';
 import CenteredDiv from './centeredDiv';
 import CardComponent from '../card';
@@ -44,20 +44,19 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
     <DarkDiv>
       <CenteredDiv>
          <CardComponent>
-          <h2 className='text-white text-center mt-3'>Ingrese el DNI:</h2>
-          <input type="text" className='inputPaciente' value={dni} onChange={(e) => setDNI(e.target.value)} />
-          <Button onClick={buscarPaciente}>Buscar</Button>
+          <h3 className='text-white text-center mt-3'>Ingrese su DNI:</h3>
+          <input type="text" className='text-white text-center' value={dni} onChange={(e) => setDNI(e.target.value)} />
+          <Button className="btn mt-2" variant="outline-info" onClick={buscarPaciente}>Buscar</Button>
           {paciente && (
-            <div>
-              <h3 className='text-white mt-2'>Paciente encontrado:</h3>
-              <p className='text-white'>Nombre: {paciente.nombre_paciente}</p>
-              <p className='text-white'>Apellido: {paciente.apellido_paciente}</p>
-              <p className='text-white'>Dirección: {paciente.direccion_paciente}</p>
-              <p className='text-white'>Teléfono: {paciente.telefono_paciente}</p>
-              <p className='text-white'>Email: {paciente.email_paciente}</p>
-              <p className='text-white'>Obra Social: {paciente.obra_social}</p>
-              
-            </div>
+            <ListGroup>
+              <h3 className='text-white mt-2 text-center'></h3>
+              <ListGroup.Item className='text-white bg-dark' variant="info">Nombre: {paciente.nombre_paciente}</ListGroup.Item>
+              <ListGroup.Item className='text-white bg-dark'>Apellido: {paciente.apellido_paciente}</ListGroup.Item>
+              <ListGroup.Item className='text-white bg-dark'>Dirección: {paciente.direccion_paciente}</ListGroup.Item>
+              <ListGroup.Item className='text-white bg-dark'>Teléfono: {paciente.telefono_paciente}</ListGroup.Item>
+              <ListGroup.Item className='text-white bg-dark'>Email: {paciente.email_paciente}</ListGroup.Item>
+              <ListGroup.Item className='text-white bg-dark'>Obra Social: {paciente.obra_social}</ListGroup.Item>
+            </ListGroup>
           )}
         </CardComponent>
         <Button variant="dark" className="mt-3" onClick={handleNextPage}>

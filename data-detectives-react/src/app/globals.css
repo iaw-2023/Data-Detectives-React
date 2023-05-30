@@ -38,11 +38,11 @@ input {
   transition: border-color 0.3s ease-in-out;
   width: 20rem;
   align-self: center;
-  background-color: rgba(0, 123, 255, 0.25);
+  background-color: rgb(57, 182, 216);
   text-decoration-color: beige;
 }
 
 input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  border-color: #ffffff;
+  box-shadow: 0 0 0 0.2rem rgba(146, 180, 216, 0.25);
 }
