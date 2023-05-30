@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import InputDNIPacientePage from "./inputPaciente";
 import FirstPage from "./selectEspecialidadPage";
 import SecondPage from "./selectProfesionalPage";
 import ThirdPage from "./selectFechaTurnoPage";
@@ -7,12 +8,11 @@ import FourthPage from "./selectHoraTurnoPage";
 import { Especialidad, TurnoDisponible, Profesional_con_especialidad_id, Paciente } from '../types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FifthPage from "./confirmTurnoPage";
-import CenteredDiv from "./centeredDiv";
-import InputDNIPaciente from "../inputPaciente/page";
+
 
 const Formulario: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [paciente, setPaciente] = useState<Paciente>();
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [paciente, setPaciente] = useState<Paciente | null>(null);
   const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
   const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>(null);
   const [selectedProfessional, setSelectedProfessional] = useState<Profesional_con_especialidad_id | null>(null);
@@ -71,7 +71,7 @@ const Formulario: React.FC = () => {
   return (
     <div>
       {currentPage === 0 && (
-        <InputDNIPaciente paciente={paciente} onSelectPaciente={handleSelectPaciente} />
+        <InputDNIPacientePage onSelectPaciente={handleSelectPaciente} />
       )}
       {currentPage === 1 && (
         <FirstPage specialties={especialidades} selectedSpecialty={selectedSpecialty} onSelectSpecialty={handleSelectSpecialty} />
@@ -86,7 +86,7 @@ const Formulario: React.FC = () => {
         <FourthPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedFecha={selectedFecha} onSelectedTurno={handleSelectTurno} />
       )}
       {currentPage === 5 && selectedSpecialty && selectedProfessional && selectedTurno && paciente && (
-        <FifthPage paciente={paciente} selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedTurno={selectedTurno} primeraConsulta onConfirmTruno={handleConfirmTurno} />
+        <FifthPage paciente={paciente} selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedTurno={selectedTurno} primeraConsulta onConfirmTurno={handleConfirmTurno} />
       )}
     </div>
   );

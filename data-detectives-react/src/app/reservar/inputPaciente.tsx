@@ -4,10 +4,10 @@ import { Paciente, InputDNIPacienteProps } from '../types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import DarkDiv from '../darkDiv';
-import CenteredDiv from '../reservar/centeredDiv';
+import CenteredDiv from './centeredDiv';
 import CardComponent from '../card';
 
-const InputDNIPaciente: React.FC<InputDNIPacienteProps> = ({ onSelectPaciente }) => {
+const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPaciente }) => {
   const [dni, setDNI] = useState('');
   const [paciente, setPaciente] = useState<Paciente | null>(null);
 
@@ -27,10 +27,18 @@ const InputDNIPaciente: React.FC<InputDNIPacienteProps> = ({ onSelectPaciente })
         console.log(paciente);
     };
 
-    const handleNext = () => {
-      if (paciente)
-        onSelectPaciente(paciente);
+    const handleNextPage = () => {
+      if (paciente) {
+        if (typeof onSelectPaciente === 'function') {
+          onSelectPaciente(paciente);
+        } else {
+          console.log("onSelectPaciente is not a function");
+        }
+      } else {
+        console.log("Debe ingresar su DNI y buscar antes de continuar.");
+      }
     };
+    
 
   return (
     <DarkDiv>
@@ -41,22 +49,23 @@ const InputDNIPaciente: React.FC<InputDNIPacienteProps> = ({ onSelectPaciente })
           <Button onClick={buscarPaciente}>Buscar</Button>
           {paciente && (
             <div>
-              <h3 className='text-white'>Paciente encontrado:</h3>
+              <h3 className='text-white mt-2'>Paciente encontrado:</h3>
               <p className='text-white'>Nombre: {paciente.nombre_paciente}</p>
               <p className='text-white'>Apellido: {paciente.apellido_paciente}</p>
               <p className='text-white'>Dirección: {paciente.direccion_paciente}</p>
               <p className='text-white'>Teléfono: {paciente.telefono_paciente}</p>
               <p className='text-white'>Email: {paciente.email_paciente}</p>
               <p className='text-white'>Obra Social: {paciente.obra_social}</p>
-              <Button variant="dark" className="mt-3" onClick={handleNext}>
-                Siguiente
-              </Button>
+              
             </div>
           )}
         </CardComponent>
+        <Button variant="dark" className="mt-3" onClick={handleNextPage}>
+          Confirmar identidad
+        </Button>
       </CenteredDiv>
     </DarkDiv>
   );
 };
 
-export default InputDNIPaciente;
+export default InputDNIPacientePage;
