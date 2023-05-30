@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { Profesional, Especialidad_Profesional, TurnoAsignadoProfesional, SearchPageProps } from '../types';
-import FullCalendar from "@fullcalendar/react";
+/*import FullCalendar from "@fullcalendar/react";
 import Select, { ActionMeta } from 'react-select';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { ValueType } from 'tailwindcss/types/config';
+import { ValueType } from 'tailwindcss/types/config';*/
 
 
 

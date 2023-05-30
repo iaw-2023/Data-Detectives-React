@@ -11,7 +11,7 @@ import CenteredDiv from "./centeredDiv";
 import InputDNIPaciente from "../inputPaciente/page";
 
 const Formulario: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [paciente, setPaciente] = useState<Paciente>();
   const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
   const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>(null);
@@ -45,7 +45,7 @@ const Formulario: React.FC = () => {
     setCurrentPage(5);
   };
 
-  const handleConfirmTurno = (turno: TurnoDisponible,profesional_especialidad:Profesional_con_especialidad_id,primeraConsulta:boolean) => {
+  const handleConfirmTurno = (turno: TurnoDisponible, profesional_especialidad:Profesional_con_especialidad_id, primeraConsulta:boolean) => {
     setPrimerConsulta(primeraConsulta);
   };
 

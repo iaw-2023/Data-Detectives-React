@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button } from 'react-bootstrap';
 import DarkDiv from '../darkDiv';
 import CenteredDiv from '../reservar/centeredDiv';
+import CardComponent from '../card';
 
 const InputDNIPaciente: React.FC<InputDNIPacienteProps> = ({ onSelectPaciente }) => {
   const [dni, setDNI] = useState('');
@@ -34,23 +35,25 @@ const InputDNIPaciente: React.FC<InputDNIPacienteProps> = ({ onSelectPaciente })
   return (
     <DarkDiv>
       <CenteredDiv>
-        <p className='text-white'>Ingrese el DNI:</p>
-        <input type="text" value={dni} onChange={(e) => setDNI(e.target.value)} />
-        <Button onClick={buscarPaciente}>Buscar</Button>
-        {paciente && (
-          <div>
-            <h3 className='text-white'>Paciente encontrado:</h3>
-            <p className='text-white'>Nombre: {paciente.nombre_paciente}</p>
-            <p className='text-white'>Apellido: {paciente.apellido_paciente}</p>
-            <p className='text-white'>Dirección: {paciente.direccion_paciente}</p>
-            <p className='text-white'>Teléfono: {paciente.telefono_paciente}</p>
-            <p className='text-white'>Email: {paciente.email_paciente}</p>
-            <p className='text-white'>Obra Social: {paciente.obra_social}</p>
-            <Button variant="primary" className="mt-2" onClick={handleNext}>
-              Siguiente
-            </Button>
-          </div>
-        )}
+         <CardComponent>
+          <h2 className='text-white text-center mt-3'>Ingrese el DNI:</h2>
+          <input type="text" className='inputPaciente' value={dni} onChange={(e) => setDNI(e.target.value)} />
+          <Button onClick={buscarPaciente}>Buscar</Button>
+          {paciente && (
+            <div>
+              <h3 className='text-white'>Paciente encontrado:</h3>
+              <p className='text-white'>Nombre: {paciente.nombre_paciente}</p>
+              <p className='text-white'>Apellido: {paciente.apellido_paciente}</p>
+              <p className='text-white'>Dirección: {paciente.direccion_paciente}</p>
+              <p className='text-white'>Teléfono: {paciente.telefono_paciente}</p>
+              <p className='text-white'>Email: {paciente.email_paciente}</p>
+              <p className='text-white'>Obra Social: {paciente.obra_social}</p>
+              <Button variant="dark" className="mt-3" onClick={handleNext}>
+                Siguiente
+              </Button>
+            </div>
+          )}
+        </CardComponent>
       </CenteredDiv>
     </DarkDiv>
   );

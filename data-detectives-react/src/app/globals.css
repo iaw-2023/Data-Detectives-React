@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -31,3 +29,20 @@ h2 {
   font-family: 'Kaisei Opti', serif;
 }
 
+input {
+  padding: 10px;
+  border: 1px solid #2c2b2b;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+  width: 20rem;
+  align-self: center;
+  background-color: rgba(0, 123, 255, 0.25);
+  text-decoration-color: beige;
+}
+
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}

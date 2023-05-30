@@ -2,7 +2,7 @@
 const nextConfig = {}
 
 module.exports = nextConfig
-
+/*
 const withTM = require("next-transpile-modules")([
     "@fullcalendar/common",
     "@babel/preset-react",
@@ -15,4 +15,4 @@ const withTM = require("next-transpile-modules")([
   
   module.exports = withTM({
    
-  });
+  });*/

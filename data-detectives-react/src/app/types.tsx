@@ -37,7 +37,9 @@ export interface FifthPageProps {
     primeraConsulta: boolean;
     paciente: Paciente;
     onConfirmTruno: (turnoAsignado: TurnoDisponible, profesional_especialidad: Profesional_con_especialidad_id, primera_consulta:boolean) => void;
-}export interface SearchPageProps {
+}
+
+export interface SearchPageProps {
     profesional: Profesional | null;
     especialidades: Especialidad_Profesional[];
     selectedEspecialidad: Especialidad_Profesional | null;

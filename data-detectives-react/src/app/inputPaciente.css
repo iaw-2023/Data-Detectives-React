@@ -1,0 +1,17 @@
+
+.inputPaciente input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+  width: 20rem;
+  align-self: center;
+}
+
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+  
