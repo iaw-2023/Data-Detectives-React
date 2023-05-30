@@ -6,10 +6,15 @@ import { Button, ListGroup } from 'react-bootstrap';
 import DarkDiv from '../darkDiv';
 import CenteredDiv from './centeredDiv';
 import CardComponent from '../card';
+import { useRouter } from "next/navigation";
+import Container from '../container';
+
 
 const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPaciente }) => {
   const [dni, setDNI] = useState('');
   const [paciente, setPaciente] = useState<Paciente | null>(null);
+
+  const router = useRouter();
 
   const buscarPaciente = async () => {
     try {
@@ -38,10 +43,17 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
         console.log("Debe ingresar su DNI y buscar antes de continuar.");
       }
     };
+
+    const handleBack = () => {
+      router.back()
+    };
     
 
   return (
-    <DarkDiv>
+    <Container>
+      <Button className="btn mt-2" variant="outline-info" onClick={handleBack}>
+        Back
+      </Button>
       <CenteredDiv>
          <CardComponent>
           <h3 className='text-white text-center mt-3'>Ingrese su DNI:</h3>
@@ -63,7 +75,7 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
           Confirmar identidad
         </Button>
       </CenteredDiv>
-    </DarkDiv>
+    </Container>
   );
 };
 

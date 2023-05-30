@@ -3,12 +3,16 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Image from 'react-bootstrap/Image';
+import Link from 'next/link';
+
 
 interface NavScrollProps {} 
 
 const NavScroll: React.FC<NavScrollProps> = () => {
+
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar className="bg-light" expand="lg">
       <Container fluid>
         <Navbar.Brand>HealthTime</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -18,7 +22,7 @@ const NavScroll: React.FC<NavScrollProps> = () => {
             <Nav.Link href="/aboutUs">Sobre nosotros</Nav.Link>
             <Nav.Link href="/profesional">Profesional</Nav.Link>
             <Nav.Link href="/paciente">Paciente</Nav.Link>
-            <Nav.Link href="/reservar">Reservar turno</Nav.Link>
+            <Link className='text-decoration-none text-black' href="/reservar">Reservar turno</Link>
             <Nav.Link href="/asignados">Ver turnos asignados</Nav.Link>
           </Nav>
         </Navbar.Collapse>

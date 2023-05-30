@@ -5,17 +5,20 @@ interface DarkDivProps {
 }
 
 const DarkDiv: React.FC<DarkDivProps> = ({ children }) => {
-  const backgroundImageUrl = '/imgs/fondo.jpg';
+  const backgroundImageUrl = '/imgs/fondo-homePage.jpg';
 
-  const divStyle = {
+  const divStyle : React.CSSProperties = {
     backgroundImage: `url(${backgroundImageUrl})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    width: '100%',
-    height: '100%',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
   };
 
-  return <div className="container bg-dark modal-fullscreen-xxl-down float-end" style={divStyle}>{children}</div>;
+  return <div style={divStyle}>{children}</div>;
 };
 
 export default DarkDiv;
