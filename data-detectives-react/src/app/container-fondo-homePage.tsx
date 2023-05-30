@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
 
-interface DarkDivProps {
+interface ContainerHomePageProps {
   children?: ReactNode;
 }
 
-const DarkDiv: React.FC<DarkDivProps> = ({ children }) => {
+const ContainerHomePage: React.FC<ContainerHomePageProps> = ({ children }) => {
   const backgroundImageUrl = '/imgs/fondo-homePage.jpg';
 
   const divStyle : React.CSSProperties = {
@@ -21,4 +21,4 @@ const DarkDiv: React.FC<DarkDivProps> = ({ children }) => {
   return <div style={divStyle}>{children}</div>;
 };
 
-export default DarkDiv;
+export default ContainerHomePage;

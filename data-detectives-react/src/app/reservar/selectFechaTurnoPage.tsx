@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import CenteredDiv from "./centeredDiv";
-import { Button, ProgressBar } from "react-bootstrap";
+import { Button, Container, ProgressBar } from "react-bootstrap";
 import { ThirdPageProps, TurnoDisponible, TurnoDisponibleResponse } from '../types';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import DarkDiv from "../darkDiv";
+import DarkDiv from "../container-fondo-homePage";
 
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedFecha }) => {
@@ -85,7 +85,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
   };
 
   return (
-    <DarkDiv>
+    <Container>
       <CenteredDiv>
         <ProgressBar animated now={60} />
         <h2 className="text-white">Seleccione un turno para {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</h2>
@@ -98,7 +98,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
           Siguiente
         </Button>
       </CenteredDiv>
-    </DarkDiv>
+    </Container>
   );
 };
 

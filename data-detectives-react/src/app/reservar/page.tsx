@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import InputDNIPacientePage from "./inputPaciente";
+import InputDNIPacientePage from "../paciente/inputPaciente";
 import FirstPage from "./selectEspecialidadPage";
 import SecondPage from "./selectProfesionalPage";
 import ThirdPage from "./selectFechaTurnoPage";

@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { Paciente, InputDNIPacienteProps } from '../types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, ListGroup } from 'react-bootstrap';
-import DarkDiv from '../darkDiv';
-import CenteredDiv from './centeredDiv';
+import DarkDiv from '../container-fondo-homePage';
+import CenteredDiv from '../reservar/centeredDiv';
 import CardComponent from '../card';
 import { useRouter } from "next/navigation";
-import Container from '../container';
+import Container from '../container-fondo';
 
 
 const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPaciente }) => {

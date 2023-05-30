@@ -2,9 +2,8 @@
 import React, { useEffect, useState } from "react";
 import CenteredDiv from "./centeredDiv";
 import { Button, Form, ProgressBar } from "react-bootstrap";
-import Link from 'next/link';
 import { SecondPageProps, Profesional_con_especialidad_id } from '../types';
-import DarkDiv from "../darkDiv";
+import Container from "../container-fondo";
 
 const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedProfessional, selectedProfessional}) => {
   const [professionals_with_specialty, setProfessionals] = useState<Profesional_con_especialidad_id[]>([]);
@@ -59,7 +58,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
   }, [selectedProfessional]);
 
   return (
-    <DarkDiv>
+    <Container>
       <CenteredDiv>
         <ProgressBar animated now={40} />
         <h2 className="text-white">Seleccione el profesional para {selectedSpecialty.nombre}</h2>
@@ -75,7 +74,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
           Siguiente
         </Button>
       </CenteredDiv>
-    </DarkDiv>
+    </Container>
   );
 };
 

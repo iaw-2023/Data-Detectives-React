@@ -4,7 +4,8 @@ import { Button, Form, ProgressBar } from "react-bootstrap";
 import CenteredDiv from "./centeredDiv";
 import { useEffect, useState } from "react";
 import { FourthPageProps, TurnoDisponible, TurnoDisponibleResponse } from "../types";
-import DarkDiv from "../darkDiv";
+import DarkDiv from "../container-fondo-homePage";
+import Container from "../container-fondo";
 
 const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedFecha, onSelectedTurno, selectedTurno }) => {
     const [turnosDisponibles, setTurnosDisponibles] = useState<TurnoDisponible[]>([]);
@@ -59,7 +60,7 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
     }, [turnosDisponibles]);
 
     return (
-        <DarkDiv>
+        <Container>
           <CenteredDiv>
             <ProgressBar animated now={80} />
             <h2 className="text-white">Horarios disponibles</h2>
@@ -77,7 +78,7 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
               Siguiente
             </Button>
           </CenteredDiv>
-        </DarkDiv>
+        </Container>
       );
 };
 

@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@babel/preset-react": "^7.22.3",
+    "@chakra-ui/react": "^2.6.1",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
     "@fullcalendar/common": "^5.11.5",
     "@fullcalendar/core": "^6.1.8",
     "@fullcalendar/interaction": "^6.1.8",
@@ -24,6 +27,7 @@
     "bootstrap": "^5.2.3",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.3",
+    "framer-motion": "^10.12.16",
     "next": "13.4.3",
     "next-transpile-modules": "^10.0.0",
     "postcss": "8.4.23",

@@ -5,8 +5,9 @@ import CenteredDiv from "./centeredDiv";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FirstPageProps, Especialidad } from '../types';
-import DarkDiv from "../darkDiv";
+import DarkDiv from "../container-fondo-homePage";
 import { useRouter } from "next/navigation";
+import { Container } from "react-bootstrap";
 
 const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, onSelectSpecialty }) => {
   const [selectedOption, setSelectedOption] = useState<Especialidad | undefined>(specialties[0]);
@@ -40,7 +41,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, o
   }, [selectedSpecialty]);
 
   return (
-    <DarkDiv>
+    <Container>
       <Button className="btn mt-2" variant="outline-info" onClick={handleBack}>
         Back
       </Button>
@@ -59,7 +60,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, o
           Siguiente
         </Button>
       </CenteredDiv>
-    </DarkDiv>
+    </Container>
   );
 };
 

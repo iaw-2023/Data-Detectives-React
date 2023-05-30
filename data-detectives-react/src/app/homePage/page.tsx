@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import NavScroll from '../Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import DarkDiv from '../darkDiv';
+import DarkDiv from '../container-fondo-homePage';
 import WelcomeHP from './welcomeHP';
 
 const HomePage: React.FC = () => {

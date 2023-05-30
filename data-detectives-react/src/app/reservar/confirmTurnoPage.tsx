@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import CenteredDiv from "./centeredDiv";
 import { Button, Form, ProgressBar } from "react-bootstrap";
 import { FifthPageProps } from '../types';
-import DarkDiv from "../darkDiv";
 import { useRouter } from "next/navigation";
+import Container from "../container-fondo";
 
 
 const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTurno, selectedSpecialty, paciente }) => {
@@ -47,7 +47,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   };
 
   return (
-    <DarkDiv>
+    <Container>
       <CenteredDiv>
         {turnoConfirmado ? (
           <div>
@@ -78,7 +78,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
           </>
         )}
       </CenteredDiv>
-    </DarkDiv>
+    </Container>
   );
 };
 
