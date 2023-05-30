@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import CenteredDiv from "./centeredDiv";
-import { Button, Container, ProgressBar } from "react-bootstrap";
+import { Button, ProgressBar } from "react-bootstrap";
 import { ThirdPageProps, TurnoDisponible, TurnoDisponibleResponse } from '../types';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import DarkDiv from "../container-fondo-homePage";
+import Container from "../container-fondo";
 
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedFecha }) => {

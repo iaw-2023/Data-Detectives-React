@@ -5,9 +5,8 @@ import CenteredDiv from "./centeredDiv";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FirstPageProps, Especialidad } from '../types';
-import DarkDiv from "../container-fondo-homePage";
+import Container from "../container-fondo-homePage";
 import { useRouter } from "next/navigation";
-import { Container } from "react-bootstrap";
 
 const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, onSelectSpecialty }) => {
   const [selectedOption, setSelectedOption] = useState<Especialidad | undefined>(specialties[0]);

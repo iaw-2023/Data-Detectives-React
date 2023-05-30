@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Col, Row } from 'react-bootstrap';
-import DarkDiv from '../container-fondo-homePage';
 import ContainerPaciente from './containerPaciente';
 
 const HomePage: React.FC = () => {

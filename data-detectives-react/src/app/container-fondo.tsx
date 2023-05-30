@@ -10,8 +10,7 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
   const divStyle : React.CSSProperties = {
     backgroundImage: `url(${backgroundImageUrl})`,
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    position: 'absolute',
+    position: 'fixed',
     top: 0,
     right: 0,
     bottom: 0,

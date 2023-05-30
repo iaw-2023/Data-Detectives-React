@@ -4,7 +4,6 @@ import { Button, Form, ProgressBar } from "react-bootstrap";
 import CenteredDiv from "./centeredDiv";
 import { useEffect, useState } from "react";
 import { FourthPageProps, TurnoDisponible, TurnoDisponibleResponse } from "../types";
-import DarkDiv from "../container-fondo-homePage";
 import Container from "../container-fondo";
 
 const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedFecha, onSelectedTurno, selectedTurno }) => {

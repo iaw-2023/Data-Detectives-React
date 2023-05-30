@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { Profesional, InputDNIProfesionalProps } from '../types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, ListGroup } from 'react-bootstrap';
-import DarkDiv from '../darkDiv';
 import CardComponent from '../card';
 import CenteredDiv from '../reservar/centeredDiv';
+import Container from '../container-fondo';
 
 const InputDNIProfesional: React.FC<InputDNIProfesionalProps> = ({ onSelectProfesional }) => {
   const [dni, setDNI] = useState('');
@@ -33,7 +33,7 @@ const InputDNIProfesional: React.FC<InputDNIProfesionalProps> = ({ onSelectProfe
      };
 
   return (
-    <DarkDiv>
+    <Container>
       <CenteredDiv>
          <CardComponent>
           <h3 className='text-white text-center mt-3'>Ingrese su DNI:</h3>
@@ -53,7 +53,7 @@ const InputDNIProfesional: React.FC<InputDNIProfesionalProps> = ({ onSelectProfe
         </CardComponent>
        
       </CenteredDiv>
-    </DarkDiv>
+    </Container>
   );
 };
 
