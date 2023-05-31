@@ -15,7 +15,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ children }) => {
           bg={variant.toLowerCase()}
           key={variant}
           text={variant.toLowerCase() === 'light' ? 'dark' : 'white'}
-          style={{ width: '30rem', height: '30rem' }}
+          style={{ width: '40rem', height: '30rem' }}
           className="mb-2"
         >
           {children}

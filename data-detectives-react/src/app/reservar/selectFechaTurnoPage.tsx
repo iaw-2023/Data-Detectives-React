@@ -6,12 +6,14 @@ import { ThirdPageProps, TurnoDisponible, TurnoDisponibleResponse } from '../typ
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Container from "../container-fondo";
-
+import Card from '../card';
+import { useRouter } from "next/navigation";
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedFecha }) => {
   const [turnosDisponibles, setTurnosDisponibles] = useState<TurnoDisponible[]>([]);
   const [selectedOption, setSelectedOption] = useState<string>();
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTurnosDisponibles = async () => {
@@ -84,19 +86,30 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
     });
   };
 
+  const handleBack = () => {
+    router.back()
+  };
+
   return (
     <Container>
+      <ProgressBar striped variant="info" animated now={60} />
+      <Button className="btn mt-2" variant="outline-info" onClick={handleBack}>
+        Back
+      </Button>
       <CenteredDiv>
-        <ProgressBar animated now={60} />
-        <h2 className="text-white">Seleccione un turno para {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</h2>
-        <Calendar
-          tileDisabled={tileDisabled}
-          onChange={handleSelectTurno as any}
-          value={getSelectedDate()}
-        />
-        <Button variant="primary" className="mt-2" onClick={handleNextPage}>
-          Siguiente
-        </Button>
+        <Card>
+          <h3 className='text-white text-center mt-3'>Seleccione un turno para {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</h3>
+          <CenteredDiv>
+            <Calendar
+            tileDisabled={tileDisabled}
+            onChange={handleSelectTurno as any}
+            value={getSelectedDate()}
+            />
+          </CenteredDiv>
+          <Button variant="dark" className="mt-2" onClick={handleNextPage}>
+            Siguiente
+          </Button>
+        </Card>
       </CenteredDiv>
     </Container>
   );

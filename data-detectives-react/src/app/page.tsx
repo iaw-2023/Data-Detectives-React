@@ -1,8 +1,8 @@
 "use client"
 import React, { useContext } from 'react';
-import NavScroll from '../Navbar';
+import NavScroll from './Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ContainerHomePage from '../container-fondo-homePage';
+import ContainerHomePage from './container-fondo-homePage';
 
 const HomePage: React.FC = () => {
   return (

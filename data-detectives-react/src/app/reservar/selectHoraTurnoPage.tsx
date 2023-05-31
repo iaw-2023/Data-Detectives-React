@@ -5,6 +5,7 @@ import CenteredDiv from "./centeredDiv";
 import { useEffect, useState } from "react";
 import { FourthPageProps, TurnoDisponible, TurnoDisponibleResponse } from "../types";
 import Container from "../container-fondo";
+import Card from '../card';
 
 const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedFecha, onSelectedTurno, selectedTurno }) => {
     const [turnosDisponibles, setTurnosDisponibles] = useState<TurnoDisponible[]>([]);
@@ -60,10 +61,12 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
 
     return (
         <Container>
+          <ProgressBar striped variant="info" animated now={80} />
           <CenteredDiv>
-            <ProgressBar animated now={80} />
-            <h2 className="text-white">Horarios disponibles</h2>
-            <Form.Select
+            <Card>
+              <h3 className='text-white text-center mt-3'>Horarios disponibles</h3>
+              <Form.Select
+                className="bg-dark text-white"
                 value={selectedOption ? selectedOption.hora : ""}
                 onChange={handleSelectHour}
                 >
@@ -73,9 +76,10 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
                     </option>
                 ))}
             </Form.Select>
-            <Button variant="primary" className="mt-2" onClick={handleNextPage}>
+            <Button variant="dark" className="mt-2" onClick={handleNextPage}>
               Siguiente
             </Button>
+            </Card>
           </CenteredDiv>
         </Container>
       );

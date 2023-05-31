@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import TurnosAsignadosPacientePage from "./turnosAsignadosPage";
 
 
-const PageTurnosAsignados: React.FC = () => {
+const TurnosAsignadosPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [paciente, setPaciente] = useState<Paciente>();
   const [turnosAsignados, setTurnosAsignados] = useState<TurnoAsignado[]>();
@@ -46,4 +46,4 @@ const PageTurnosAsignados: React.FC = () => {
   );
 };
 
-export default PageTurnosAsignados;
+export default TurnosAsignadosPage;

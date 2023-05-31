@@ -4,10 +4,13 @@ import CenteredDiv from "./centeredDiv";
 import { Button, Form, ProgressBar } from "react-bootstrap";
 import { SecondPageProps, Profesional_con_especialidad_id } from '../types';
 import Container from "../container-fondo";
+import Card from '../card';
+import { useRouter } from "next/navigation";
 
 const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedProfessional, selectedProfessional}) => {
   const [professionals_with_specialty, setProfessionals] = useState<Profesional_con_especialidad_id[]>([]);
   const [selectedOption, setSelectedOption] = useState<Profesional_con_especialidad_id | null>();
+  const router = useRouter();
 
   const handleSelectProfessional = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
@@ -57,22 +60,31 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
     }
   }, [selectedProfessional]);
 
+  const handleBack = () => {
+    router.back()
+  };
+
   return (
     <Container>
+      <ProgressBar striped variant="info" animated now={40} />
+      <Button className="btn mt-2" variant="outline-info" onClick={handleBack}>
+        Back
+      </Button>
       <CenteredDiv>
-        <ProgressBar animated now={40} />
-        <h2 className="text-white">Seleccione el profesional para {selectedSpecialty.nombre}</h2>
-        <Form.Select value={selectedOption?.profesional.id || undefined} 
-          onChange={handleSelectProfessional}>
-          {professionals_with_specialty.map((professional_with_specialty) => (
-            <option key={professional_with_specialty.profesional.id} value={professional_with_specialty.profesional.id}>
-              {professional_with_specialty.profesional.apellido}, {professional_with_specialty.profesional.nombre}
-            </option>
-          ))}
-        </Form.Select>
-        <Button variant="primary" className="mt-2" onClick={handleNext}>
-          Siguiente
-        </Button>
+        <Card>
+          <h3 className='text-white text-center mt-3'>Seleccione el profesional para {selectedSpecialty.nombre}</h3>
+          <Form.Select className="bg-dark text-white" value={selectedOption?.profesional.id || undefined} 
+            onChange={handleSelectProfessional}>
+            {professionals_with_specialty.map((professional_with_specialty) => (
+              <option key={professional_with_specialty.profesional.id} value={professional_with_specialty.profesional.id}>
+                {professional_with_specialty.profesional.apellido}, {professional_with_specialty.profesional.nombre}
+              </option>
+            ))}
+          </Form.Select>
+          <Button variant="dark" className="mt-2" onClick={handleNext}>
+            Siguiente
+          </Button>
+        </Card>
       </CenteredDiv>
     </Container>
   );

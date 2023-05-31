@@ -57,7 +57,7 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
          <CardComponent>
           <h3 className='text-white text-center mt-3'>Ingrese su DNI:</h3>
           <input type="text" className='text-white text-center' value={dni} onChange={(e) => setDNI(e.target.value)} />
-          <Button className="btn mt-2" variant="outline-info" onClick={buscarPaciente}>Buscar</Button>
+          <Button className="btn mt-2" variant="dark" onClick={buscarPaciente}>Buscar</Button>
           {paciente && (
             <ListGroup>
               <h3 className='text-white mt-2 text-center'></h3>
