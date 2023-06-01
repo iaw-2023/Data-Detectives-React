@@ -49,17 +49,16 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
 
   return (
     <Container>
-      <Button className="btn mt-2" variant="outline-info" onClick={handleBack}>
+      <Button className="btn mt-2" variant="outline-dark" onClick={handleBack}>
         Back
       </Button>
       <CenteredDiv>
          <CardComponent>
           <h3 className='text-white text-center mt-3'>Ingrese su DNI:</h3>
-          <input type="text" className='text-white text-center' value={dni} onChange={(e) => setDNI(e.target.value)} />
+          <input type="text" className='text-black text-center' value={dni} onChange={(e) => setDNI(e.target.value)} />
           <Button className="btn mt-2" variant="dark" onClick={buscarPaciente}>Buscar</Button>
           {paciente && (
             <ListGroup>
-              <h3 className='text-white mt-2 text-center'></h3>
               <ListGroup.Item className='text-white bg-dark' variant="info">Nombre: {paciente.nombre_paciente}</ListGroup.Item>
               <ListGroup.Item className='text-white bg-dark'>Apellido: {paciente.apellido_paciente}</ListGroup.Item>
               <ListGroup.Item className='text-white bg-dark'>Dirección: {paciente.direccion_paciente}</ListGroup.Item>
@@ -69,7 +68,7 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
             </ListGroup>
           )}
         </CardComponent>
-        <Button variant="dark" className="mt-3" onClick={handleNextPage}>
+        <Button variant="outline-dark" className="mt-3" onClick={handleNextPage}>
           Confirmar identidad
         </Button>
       </CenteredDiv>

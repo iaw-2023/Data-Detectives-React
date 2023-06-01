@@ -31,18 +31,18 @@ h2 {
 
 input {
   padding: 10px;
-  border: 1px solid #2c2b2b;
+  border: 1px solid #0c253d;
   border-radius: 4px;
   font-size: 16px;
   outline: none;
   transition: border-color 0.3s ease-in-out;
   width: 20rem;
   align-self: center;
-  background-color: rgb(16, 34, 39);
+  background-color: rgb(203, 218, 223);
   text-decoration-color: beige;
 }
 
 input:focus {
-  border-color: #ffffff;
-  box-shadow: 0 0 0 0.2rem rgba(146, 180, 216, 0.25);
+  border-color: #101427;
+  box-shadow: 0 0 0 0.2rem rgba(53, 79, 90, 0.829);
 }

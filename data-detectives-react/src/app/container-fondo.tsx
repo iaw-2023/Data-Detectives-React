@@ -5,7 +5,7 @@ interface ContainerProps {
 }
 
 const Container: React.FC<ContainerProps> = ({ children }) => {
-  const backgroundImageUrl = '/imgs/fondo.jpg';
+  const backgroundImageUrl = '/imgs/fondo-reserva.jpg';
 
   const divStyle : React.CSSProperties = {
     backgroundImage: `url(${backgroundImageUrl})`,
