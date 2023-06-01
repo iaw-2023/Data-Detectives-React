@@ -4,7 +4,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import CenteredDiv from "../reservar/centeredDiv";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import {  ApiResponseEspecialidadesProfesional, Especialidad_Profesional, ShowTurnosProfesionalProps, TurnoAsignadoProfesional } from '../types';
+import {  ApiResponseEspecialidadesProfesional, ApiResponseTurnosProfesional, Especialidad_Profesional, ShowTurnosProfesionalProps, TurnoAsignadoProfesional } from '../types';
 import Container from "../container-fondo";
 import { useRouter } from "next/navigation";
 import Card from '../card';
@@ -30,7 +30,8 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
     );
     const data_turnos = await response_turnos.json();
     if (response_turnos.ok) {
-      return data_turnos.data;
+      const apiResponse : ApiResponseTurnosProfesional = data_turnos;
+      return apiResponse.data;
     }
     return null;
   };
@@ -90,16 +91,19 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         console.log("espe", especialidadesProfesional);
         for (const especialidad of especialidadesProfesional) {
           const turnosAsignados = await fetchTurnosAsignados(especialidad);
-          if (turnosAsignados) {
-            newTurnosAsignados.push(turnosAsignados);
+          if (turnosAsignados)
+           {
+           for (const turnoAsignado of turnosAsignados)
+              {
+                newTurnosAsignados.push(turnoAsignado);              
+              }
             console.log("turnos asignadosss: " + especialidad.especialidad.nombre, turnosAsignados);
+           }
           }
-        }
-        setTurnosAsignados(newTurnosAsignados);
   
-        if (Array.isArray(turnosAsignados)) {
-          setTurnosAsignados(turnosAsignados);
-          const dates = turnosAsignados.map((turno) => {
+        if (Array.isArray(newTurnosAsignados)) {
+          setTurnosAsignados(newTurnosAsignados);
+          const dates = newTurnosAsignados.map((turno) => {
             const [year, month, day] = turno.turno.fecha.split("-");
             return new Date(Number(year), Number(month) - 1, Number(day), 0, 0, 0);
           });

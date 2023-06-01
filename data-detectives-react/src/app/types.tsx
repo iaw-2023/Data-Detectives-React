@@ -90,6 +90,11 @@ export interface Especialidad_Profesional {
 export interface ApiResponseEspecialidadesProfesional {
     data: Especialidad_Profesional[];
 }
+
+export interface ApiResponseTurnosProfesional {
+    data: TurnoAsignadoProfesional[];
+}
+
   
 export  interface FormData {
     name: string;
