@@ -34,20 +34,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
     }
     return null;
   };
-
-  const searchTurnos = async () => {
-    const newTurnosAsignados: TurnoAsignadoProfesional[] = [];
-    console.log(especialidadesProfesional);
-    for (const especialidad of especialidadesProfesional) {
-      const turnosAsignados = await fetchTurnosAsignados(especialidad);
-      if (turnosAsignados) {
-        newTurnosAsignados.concat(turnosAsignados.data);
-        console.log("turnos asignadosss", turnosAsignados);
-      }
-    }
-    setTurnosAsignados(newTurnosAsignados);
-  };
-    
+     
     const tileDisabled = ({ date }: { date: Date }) => {
         const currentDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
         return !availableDates.some((availableDate) => {
@@ -75,7 +62,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         }
         return null;
       };
-  
+ 
   useEffect(() => {
     const fetchEspecialidadesProfesional = async () => {
       try {
@@ -83,20 +70,47 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         console.log(id_profesional);
         const response_specialities = await fetch(`https://data-detectives-laravel-e5p4ga6p5-data-detectives.vercel.app/rest/profesional_especialidades/${id_profesional}`);
         const data_specialities = await response_specialities.json();
-
+  
         if (response_specialities.ok) {
           const apiResponse: ApiResponseEspecialidadesProfesional = data_specialities;
           setEspecialidadesProfesional(apiResponse.data);
-          searchTurnos();
-        }; 
-    } catch (error) {
+        }
+      } catch (error) {
         console.log(error);
       }
     };
-
+  
     fetchEspecialidadesProfesional();
-   
   }, []);
+  
+  useEffect(() => {
+    if (especialidadesProfesional.length > 0) {
+      const searchTurnos = async () => {
+        const newTurnosAsignados: TurnoAsignadoProfesional[] = [];
+        console.log("espe", especialidadesProfesional);
+        for (const especialidad of especialidadesProfesional) {
+          const turnosAsignados = await fetchTurnosAsignados(especialidad);
+          if (turnosAsignados) {
+            newTurnosAsignados.push(turnosAsignados);
+            console.log("turnos asignadosss: " + especialidad.especialidad.nombre, turnosAsignados);
+          }
+        }
+        setTurnosAsignados(newTurnosAsignados);
+  
+        if (Array.isArray(turnosAsignados)) {
+          setTurnosAsignados(turnosAsignados);
+          const dates = turnosAsignados.map((turno) => {
+            const [year, month, day] = turno.turno.fecha.split("-");
+            return new Date(Number(year), Number(month) - 1, Number(day), 0, 0, 0);
+          });
+          setAvailableDates(dates);
+          console.log("fechas asignadas: ", dates);
+        }
+      };
+      searchTurnos();
+    }
+  }, [especialidadesProfesional]);
+  
 
   return (
     <Container>
@@ -111,9 +125,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         onChange={handleSelectAsignados as any}
         value={getSelectedDate()}
         />
-      </CardComponent>
-
-      
+      </CardComponent>      
       </CenteredDiv>
     </Container>
   );
