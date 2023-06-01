@@ -59,7 +59,6 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
           <Button className="btn mt-2" variant="dark" onClick={buscarPaciente}>Buscar</Button>
           {paciente && (
             <ListGroup>
-              <h3 className='text-white mt-2 text-center'></h3>
               <ListGroup.Item className='text-white bg-dark' variant="info">Nombre: {paciente.nombre_paciente}</ListGroup.Item>
               <ListGroup.Item className='text-white bg-dark'>Apellido: {paciente.apellido_paciente}</ListGroup.Item>
               <ListGroup.Item className='text-white bg-dark'>Dirección: {paciente.direccion_paciente}</ListGroup.Item>
