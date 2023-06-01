@@ -25,7 +25,6 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
       try {
         const response = await fetch(`https://data-detectives-laravel-e5p4ga6p5-data-detectives.vercel.app/rest/profesionales/${selectedSpecialty.id}`);
         const data = await response.json();
-        console.log(data);
         if (Array.isArray(data?.data)) {
           setProfessionals(data.data);
         } else {

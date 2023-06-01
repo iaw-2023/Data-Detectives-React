@@ -15,6 +15,7 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
     right: 0,
     bottom: 0,
     left: 0,
+    overflow: 'auto',
   };
 
   return <div  style={divStyle}>{children}</div>;

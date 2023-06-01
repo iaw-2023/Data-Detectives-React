@@ -37,7 +37,7 @@ const HomePage: React.FC = () => {
                   Aquí podrás visualizar los turnos reservados anteriormente
                 </Card.Text>
                 <Button className='btn-dark mt-4'>
-                  <Link className='text-decoration-none text-white' href="/asignados">Ver turnos asignados</Link>
+                  <Link className='text-decoration-none text-white' href="/turnosAsignados">Ver turnos asignados</Link>
                 </Button>
               </Card.Body>
             </Card>

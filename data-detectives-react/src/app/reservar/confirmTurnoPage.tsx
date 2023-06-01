@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CenteredDiv from "./centeredDiv";
-import { Button, Form, ListGroup, ListGroupItem, ProgressBar } from "react-bootstrap";
+import { Button, Form, ListGroup, ProgressBar } from "react-bootstrap";
 import { FifthPageProps } from '../types';
 import { useRouter } from "next/navigation";
 import Container from "../container-fondo";

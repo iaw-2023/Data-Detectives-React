@@ -44,6 +44,11 @@ export interface FifthPageProps {
     onConfirmTurno: (turnoAsignado: TurnoDisponible, profesional_especialidad: Profesional_con_especialidad_id, primera_consulta:boolean) => void;
 }
 
+export interface ShowTurnosAsignadosPageProps {
+    paciente: Paciente;
+    turnosAsignados: Turno[];
+}
+
 export interface SearchPageProps {
     profesional: Profesional | null;
     especialidades: Especialidad_Profesional[];
@@ -139,6 +144,7 @@ export interface TurnoAsignado {
     paciente: Paciente;
     fecha_asignacion: string;
     primera_consulta: boolean;
+    profesional_especialidad: Profesional_Especialidad;
 }
   
 export interface TurnoAsignadoData {
