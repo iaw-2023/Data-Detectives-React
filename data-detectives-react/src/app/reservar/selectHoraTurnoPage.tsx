@@ -6,10 +6,23 @@ import { useEffect, useState } from "react";
 import { FourthPageProps, TurnoDisponible, TurnoDisponibleResponse } from "../types";
 import Container from "../container-fondo";
 import Card from '../card';
+import MyModal from '../modalAlert';
+import { useRouter } from "next/navigation";
+
 
 const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedFecha, onSelectedTurno, selectedTurno }) => {
     const [turnosDisponibles, setTurnosDisponibles] = useState<TurnoDisponible[]>([]);
     const [selectedOption, setSelectedOption] = useState<TurnoDisponible>();
+    const router = useRouter();
+    const [showModal, setShowModal] = useState(false);
+
+    const handleShow = () => {
+      setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+      setShowModal(false);
+    };
     
     useEffect(() => {
         const fetchTurnosDisponibles = async () => {
@@ -47,6 +60,10 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
         console.log(selectedOption);
     };
 
+    const handleBack = () => {
+      router.back()
+    };
+
     useEffect(() => {
       if (selectedTurno && !selectedOption) {
         setSelectedOption(selectedTurno);
@@ -62,6 +79,10 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
     return (
         <Container>
           <ProgressBar striped variant="info" animated now={80} />
+          <Button className="btn mt-2" variant="outline-info" onClick={handleShow}>
+            Back
+          </Button>
+          <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
           <CenteredDiv>
             <Card>
               <h3 className='text-white text-center mt-3'>Horarios disponibles</h3>

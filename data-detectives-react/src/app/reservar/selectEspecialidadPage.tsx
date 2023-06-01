@@ -8,9 +8,19 @@ import { FirstPageProps, Especialidad } from '../types';
 import Container from "../container-fondo";
 import { useRouter } from "next/navigation";
 import Card from '../card';
+import MyModal from '../modalAlert';
 
 const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, onSelectSpecialty }) => {
   const [selectedOption, setSelectedOption] = useState<Especialidad | undefined>(specialties[0]);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShow = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   const router = useRouter();
   
@@ -43,10 +53,11 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, o
   return (
     <Container>
       <ProgressBar striped variant="info" animated now={20} />
-      <Button className="btn mt-2" variant="outline-info" onClick={handleBack}>
+      <Button className="btn mt-2" variant="outline-info" onClick={handleShow}>
         Back
       </Button>
-      <CenteredDiv> 
+      <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
+        <CenteredDiv> 
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione una especialidad</h3>
           <Form.Select className="bg-dark text-white" value={selectedOption ? selectedOption.nombre : ""}

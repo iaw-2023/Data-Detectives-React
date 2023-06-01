@@ -5,12 +5,21 @@ import { FifthPageProps } from '../types';
 import { useRouter } from "next/navigation";
 import Container from "../container-fondo";
 import CardComponent from '../card';
-
+import MyModal from '../modalAlert';
 
 const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTurno, selectedSpecialty, paciente }) => {
   const [primerConsulta, setPrimerConsulta] = useState(false);
   const [turnoConfirmado, setTurnoConfirmado] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
+    const handleShow = () => {
+      setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+      setShowModal(false);
+    };
+    
   const router = useRouter();
 
   const handleConfirm = async () => {
@@ -47,9 +56,17 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
     router.push("/");
   };
 
+  const handleBack = () => {
+    router.back()
+  };
+
   return (
     <Container>
       <ProgressBar striped variant="info" animated now={99} />
+      <Button className="btn mt-2" variant="outline-info" onClick={handleShow}>
+        Back
+      </Button>
+      <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
       <CenteredDiv>
         {turnoConfirmado ? (
           <div>

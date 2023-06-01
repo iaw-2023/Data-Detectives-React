@@ -6,11 +6,21 @@ import { SecondPageProps, Profesional_con_especialidad_id } from '../types';
 import Container from "../container-fondo";
 import Card from '../card';
 import { useRouter } from "next/navigation";
+import MyModal from '../modalAlert';
 
 const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedProfessional, selectedProfessional}) => {
   const [professionals_with_specialty, setProfessionals] = useState<Profesional_con_especialidad_id[]>([]);
   const [selectedOption, setSelectedOption] = useState<Profesional_con_especialidad_id | null>();
   const router = useRouter();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShow = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   const handleSelectProfessional = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
@@ -66,9 +76,10 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
   return (
     <Container>
       <ProgressBar striped variant="info" animated now={40} />
-      <Button className="btn mt-2" variant="outline-info" onClick={handleBack}>
+      <Button className="btn mt-2" variant="outline-info" onClick={handleShow}>
         Back
       </Button>
+      <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
       <CenteredDiv>
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione el profesional para {selectedSpecialty.nombre}</h3>

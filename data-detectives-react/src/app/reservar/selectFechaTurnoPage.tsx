@@ -8,12 +8,22 @@ import 'react-calendar/dist/Calendar.css';
 import Container from "../container-fondo";
 import Card from '../card';
 import { useRouter } from "next/navigation";
+import MyModal from '../modalAlert';
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedFecha }) => {
   const [turnosDisponibles, setTurnosDisponibles] = useState<TurnoDisponible[]>([]);
   const [selectedOption, setSelectedOption] = useState<string>();
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const router = useRouter();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShow = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   useEffect(() => {
     const fetchTurnosDisponibles = async () => {
@@ -93,9 +103,10 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
   return (
     <Container>
       <ProgressBar striped variant="info" animated now={60} />
-      <Button className="btn mt-2" variant="outline-info" onClick={handleBack}>
+      <Button className="btn mt-2" variant="outline-info" onClick={handleShow}>
         Back
       </Button>
+      <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
       <CenteredDiv>
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione un turno para {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</h3>
