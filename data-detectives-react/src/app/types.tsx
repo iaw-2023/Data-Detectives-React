@@ -60,6 +60,9 @@ export interface SearchPageProps {
     handleEspecialidadChange: (option: Especialidad_Profesional | null) => void;
   } 
 
+export interface ShowTurnosProfesionalProps {
+    profesional: Profesional;
+} 
 
 export interface Especialidad {
     id: number;
