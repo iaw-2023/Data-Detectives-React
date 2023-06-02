@@ -12,7 +12,8 @@ import CardTitle from "../cardTitle";
 const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ paciente }) => {
   const [turnosAsignados, setTurnosAsignados] = useState<TurnoAsignado[]>([]);
   const [canceladoExitoso, setCanceladoExitoso] = useState<boolean>(false);  
-  const [turnosDisponibles, setTurnosDisponibles] = useState<boolean>(true);
+  const [tieneTurnos, setTieneTurnos] = useState<boolean>(true);
+  const [fetchRealizado, setFetch] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -22,11 +23,11 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
         const id_paciente = paciente.id;
         const response = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/turnos_asignados_paciente/${id_paciente}`);
         if (!response.ok) {
-          setTurnosDisponibles(false);
+          setTieneTurnos(false);
         } else {
           const data = await response.json();
           if (Array.isArray(data?.data)) {
-            setTurnosDisponibles(true);
+            setTieneTurnos(true);
             setTurnosAsignados(data.data);
           } else {
             console.log("La respuesta de la API no contiene un array válido de especialidades:", data);
@@ -36,9 +37,15 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
         console.log(error);
       }
     };
-  
     fetchTurnosAsignados();
+    setFetch(true);
   }, []);
+
+  useEffect(() => {
+    if (fetchRealizado && turnosAsignados.length === 0){
+      setTieneTurnos(false);
+    }
+  }, [turnosAsignados])
 
   const handleBack = () => {
     router.back()
@@ -88,7 +95,7 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
         <CardTitle>
           <h3 className='text-white text-center mt-3'>Turnos asignados a {paciente.apellido_paciente}, {paciente.nombre_paciente}</h3>
         </CardTitle>
-        {!turnosDisponibles ? (
+        {!tieneTurnos ? (
           <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert>
         ) : (
           turnosAsignados.map((turno) => (

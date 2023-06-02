@@ -8,13 +8,16 @@ import { useRouter } from "next/navigation";
 import Calendar from "react-calendar";
 import { Table } from "react-bootstrap";
 import CardTurnosAsignados from "../cardTurnosAsignados";
+import CenteredDivCalendar from "../centeredDivTable";
 
 const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesional }) => {
 
   const [especialidadesProfesional, setEspecialidadesProfesional] = useState<Especialidad_Profesional[]>([]);
   const [turnosAsignados, setTurnosAsignados] = useState<TurnoAsignadoProfesional[]>([]);
+  const [turnosAsignadosFecha, setTurnosAsignadosFecha] = useState<TurnoAsignadoProfesional[]>([]);
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const [selectedOption, setSelectedOption] = useState<string>();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const router = useRouter();  
 
@@ -32,27 +35,8 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         return currentDate.getTime() === availableDateCopy.getTime();
       });
   };
-      
-      
-  const handleSelectAsignados = (date: Date) => {
-    const dateFormat = formatDate(date);
-    setSelectedOption(dateFormat);
-      
-    const filteredTurnos = turnosAsignados.filter(
-      (turno) => turno.turno.fecha === dateFormat
-    );
-      
-    setTurnosAsignados (filteredTurnos.sort((a, b) => {
-      return a.turno.hora.localeCompare(b.turno.hora);
-    }))
-  }
-      
-  const formatDate = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
+         
+  
       
   const getSelectedDate = () => {
     if (selectedOption) {
@@ -90,10 +74,6 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         for (const turnoAsignado of turnosAsignados) {
           newTurnosAsignados.push(turnoAsignado);
         }
-        console.log(
-          "turnos asignados: " + especialidad.especialidad.nombre,
-          turnosAsignados
-        );
       }
     }
   
@@ -104,7 +84,6 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         return new Date(Number(year), Number(month) - 1, Number(day), 0, 0, 0);
       });
       setAvailableDates(dates);
-      console.log("fechas asignadas: ", dates);
     }
   };
 
@@ -123,6 +102,26 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
     }
     return null;
   };
+  
+  const handleSelectAsignados = (date: Date) => {
+    const dateFormat = date ? formatDate(date) : '';
+    setSelectedOption(dateFormat);
+      
+    const filteredTurnos = turnosAsignados.filter(
+      (turno) => turno.turno.fecha === dateFormat
+    );
+      
+    setTurnosAsignadosFecha(filteredTurnos.sort((a, b) => {
+      return a.turno.hora.localeCompare(b.turno.hora);
+    }))
+  }
+      
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
 
   return (
     <Container>
@@ -132,12 +131,14 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
       <CenteredDiv>
       <CardTurnosAsignados>
       <h3 className='text-white text-center mt-3'>Turnos asignados para {profesional.apellido}, {profesional.nombre}</h3>
-          <Calendar
-            tileDisabled={tileDisabled}
-            onChange={handleSelectAsignados as any}
-            value={getSelectedDate()}
+      <CenteredDivCalendar>
+        <Calendar
+          className="text-dark"
+          tileDisabled={tileDisabled}
+          onChange={handleSelectAsignados as any}
+          value={getSelectedDate()}
           />
-        <div className="table-container table-hover flex-fill">
+      </CenteredDivCalendar>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -148,7 +149,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
               </tr>
             </thead>
             <tbody>
-              {turnosAsignados.map((turno) => (
+              {turnosAsignadosFecha.map((turno) => (
                 <tr key={turno.id}>
                   <td className="text-white">{turno.turno.profesional_especialidad.especialidad.nombre}</td>
                   <td className="text-white">{turno.turno.hora}</td>
@@ -158,7 +159,6 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
               ))}
             </tbody>
           </Table>
-        </div>
       </CardTurnosAsignados>
     </CenteredDiv>
   </Container>

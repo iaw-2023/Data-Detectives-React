@@ -112,6 +112,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
           <h3 className='text-white text-center mt-3'>Seleccione un turno para {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</h3>
           <CenteredDiv>
             <Calendar
+            className="text-dark"
             tileDisabled={tileDisabled}
             onChange={handleSelectTurno as any}
             value={getSelectedDate()}
