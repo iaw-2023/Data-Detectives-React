@@ -22,16 +22,14 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
       const response = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/pacientePorDNI/${dni}`);
       if (!response.ok) {
         setEncontrado(false);
+        setPaciente(null);
       }
       else {
         setNoPuedeContinuar(false);
         setEncontrado(true);
         const data = await response.json();
-        if (data?.data) {
+        if (data?.data)
           setPaciente(data.data);
-        } else {
-          console.log("La API no contiene un Paciente con este DNI:", data);
-        }
       }
     } catch (error) {
       console.log(error);
@@ -43,7 +41,6 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
         onSelectPaciente(paciente);
       } else {
         setNoPuedeContinuar(true);
-        console.log("Debe ingresar su DNI y buscar antes de continuar.");
       }
     };
 

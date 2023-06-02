@@ -11,7 +11,9 @@ import CardTitle from "../cardTitle";
 
 const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ paciente }) => {
   const [turnosAsignados, setTurnosAsignados] = useState<TurnoAsignado[]>([]);
-  const [canceladoExitoso, setCanceladoExitoso] = useState<boolean>(false);
+  const [canceladoExitoso, setCanceladoExitoso] = useState<boolean>(false);  
+  const [turnosDisponibles, setTurnosDisponibles] = useState<boolean>(true);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -19,11 +21,16 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
       try {
         const id_paciente = paciente.id;
         const response = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/turnos_asignados_paciente/${id_paciente}`);
-        const data = await response.json();
-        if (Array.isArray(data?.data)) {
-          setTurnosAsignados(data.data);
+        if (!response.ok) {
+          setTurnosDisponibles(false);
         } else {
-          console.log("La respuesta de la API no contiene un array válido de especialidades:", data);
+          const data = await response.json();
+          if (Array.isArray(data?.data)) {
+            setTurnosDisponibles(true);
+            setTurnosAsignados(data.data);
+          } else {
+            console.log("La respuesta de la API no contiene un array válido de especialidades:", data);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -81,7 +88,7 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
         <CardTitle>
           <h3 className='text-white text-center mt-3'>Turnos asignados a {paciente.apellido_paciente}, {paciente.nombre_paciente}</h3>
         </CardTitle>
-        {turnosAsignados.length === 0 ? (
+        {!turnosDisponibles ? (
           <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert>
         ) : (
           turnosAsignados.map((turno) => (
