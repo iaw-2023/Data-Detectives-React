@@ -7,7 +7,7 @@ import Card from 'react-bootstrap/Card';
 import ContainerHomePage from '../container-fondo-homePage';
 import Link from 'next/link';
 import ContainerPaciente from './containerPaciente';
-import Footer from '../footer';
+
 
 const HomePage: React.FC = () => {
 
@@ -42,7 +42,6 @@ const HomePage: React.FC = () => {
               </Card.Body>
             </Card>
         </ContainerPaciente>  
-        <Footer address={''} phone={''} socialMediaIcons={[]} email={''}/> 
   
       </ContainerHomePage>
     );
