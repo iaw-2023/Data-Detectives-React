@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import Card from '../card';
 import Calendar from "react-calendar";
 import CardComponent from "../card";
+import { ListGroup, Table } from "react-bootstrap";
 
 const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesional }) => {
 
@@ -26,7 +27,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
   
   const fetchTurnosAsignados = async (especialidad: Especialidad_Profesional) => {
     const response_turnos = await fetch(
-      `https://data-detectives-laravel-1kywjtt0d-data-detectives.vercel.app/rest/turnos_asignados_profesional/${especialidad.id_profesional_especialidad}`
+      `https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/turnos_asignados_profesional/${especialidad.id_profesional_especialidad}`
     );
     const data_turnos = await response_turnos.json();
     if (response_turnos.ok) {
@@ -44,10 +45,19 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         });
       };
       
+      
       const handleSelectAsignados = (date: Date) => {
-        const dateFormat = formatDate(date); 
+        const dateFormat = formatDate(date);
         setSelectedOption(dateFormat);
-      };
+      
+        const filteredTurnos = turnosAsignados.filter(
+          (turno) => turno.turno.fecha === dateFormat
+        );
+      
+        setTurnosAsignados (filteredTurnos.sort((a, b) => {
+          return a.turno.hora.localeCompare(b.turno.hora);
+        }))
+      }
       
       const formatDate = (date: Date) => {
         const year = date.getFullYear();
@@ -69,7 +79,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
       try {
         var id_profesional = profesional.id;
         console.log(id_profesional);
-        const response_specialities = await fetch(`https://data-detectives-laravel-e5p4ga6p5-data-detectives.vercel.app/rest/profesional_especialidades/${id_profesional}`);
+        const response_specialities = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/profesional_especialidades/${id_profesional}`);
         const data_specialities = await response_specialities.json();
   
         if (response_specialities.ok) {
@@ -114,24 +124,48 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
       searchTurnos();
     }
   }, [especialidadesProfesional]);
-  
 
   return (
     <Container>
-      <ProgressBar striped variant="info" animated now={20} />
+      
       <Button className="btn mt-2" variant="outline-info" onClick={handleBack}>
         Back
       </Button>
-      <CenteredDiv> 
+      <CenteredDiv>
       <CardComponent>
-        <Calendar
-        tileDisabled={tileDisabled}
-        onChange={handleSelectAsignados as any}
-        value={getSelectedDate()}
-        />
-      </CardComponent>      
-      </CenteredDiv>
-    </Container>
+        <div className="text-center mb-3"> {/* Centrar el calendario y agregar margen inferior */}
+          <Calendar
+            tileDisabled={tileDisabled}
+            onChange={handleSelectAsignados as any}
+            value={getSelectedDate()}
+          />
+        </div>
+        <div className="table-container table-hover flex-fill"> {/* Contenedor de la tabla con separación */}
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th className="text-white">Especialidad</th>
+                <th className="text-white">Hora</th>
+                <th className="text-white">Paciente</th>
+                <th className="text-white">Primer consulta</th>
+              </tr>
+            </thead>
+            <tbody>
+              {turnosAsignados.map((turno) => (
+                <tr key={turno.id}>
+                  <td className="text-white">{turno.turno.profesional_especialidad.especialidad.nombre}</td>
+                  <td className="text-white">{turno.turno.hora}</td>
+                  <td className="text-white">{turno.paciente.apellido_paciente + " " + turno.paciente.nombre_paciente}</td>
+                  <td className="text-white">{turno.primer_consulta ? "Si" : "No"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
+      </CardComponent>
+    </CenteredDiv>
+  </Container>
+    
   );
 };
 
