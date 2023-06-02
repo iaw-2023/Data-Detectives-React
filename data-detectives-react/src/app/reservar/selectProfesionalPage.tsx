@@ -76,7 +76,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
   return (
     <Container>
       <ProgressBar striped variant="info" animated now={40} />
-      <Button className="btn mt-2" variant="outline-info" onClick={handleShow}>
+      <Button className="btn mt-2" variant="outline-dark" onClick={handleShow}>
         Back
       </Button>
       <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />

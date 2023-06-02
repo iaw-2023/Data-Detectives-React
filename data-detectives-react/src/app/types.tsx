@@ -11,7 +11,6 @@ export interface InputDNIProfesionalProps {
 }
 
 export interface FirstPageProps {
-    specialties: Especialidad[];
     selectedSpecialty?: Especialidad | null;
     onSelectSpecialty: (specialty: Especialidad) => void;
 }

@@ -71,12 +71,12 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
 
   return (
     <Container>
-      <Button className="btn mt-2" variant="outline-info" onClick={handleBack}>
+      <Button className="btn mt-2" variant="outline-dark" onClick={handleBack}>
         Back
       </Button>
       <CenteredDiv>
-      {canceladoExitoso && (
-          <Alert variant="success" style={{ width: "42rem" }}>El turno se ha cancelado con éxito.</Alert>
+        {canceladoExitoso && (
+          <Alert variant="info" style={{ width: "40rem" }}>El turno se ha cancelado con éxito.</Alert>
         )}
         <CardTitle>
           <h3 className='text-white text-center mt-3'>Turnos asignados a {paciente.apellido_paciente}, {paciente.nombre_paciente}</h3>
@@ -87,7 +87,7 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
           turnosAsignados.map((turno) => (
             <MinCardComponent key={turno.id}>
               <ListGroup key={turno.id}> 
-                <ListGroup.Item className='text-black bg-info'>Turno del {turno.turno.fecha}</ListGroup.Item>
+                <ListGroup.Item className='text-white bg-dark'>Turno del {turno.turno.fecha}</ListGroup.Item>
                 <ListGroup.Item className='text-white bg-dark'>Hora: {turno.turno.hora.substring(0, 5)}hs</ListGroup.Item>
                 <ListGroup.Item className='text-white bg-dark'>Profesional: {turno.turno.profesional_especialidad.profesional.apellido}, {turno.turno.profesional_especialidad.profesional.nombre}</ListGroup.Item>
                 <ListGroup.Item className='text-white bg-dark'>Especialidad: {turno.turno.profesional_especialidad.especialidad.nombre}</ListGroup.Item>

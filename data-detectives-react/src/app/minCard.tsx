@@ -16,7 +16,7 @@ const MinCardComponent: React.FC<MinCardComponentProps> = ({ children }) => {
           key={variant}
           text={variant.toLowerCase() === 'light' ? 'dark' : 'white'}
           style={{ width: '40rem', height: '14rem' }}
-          className="mt-2"
+          className="mt-2 border-light"
         >
           {children}
         </Card>

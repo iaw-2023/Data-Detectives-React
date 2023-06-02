@@ -79,7 +79,7 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
     return (
         <Container>
           <ProgressBar striped variant="info" animated now={80} />
-          <Button className="btn mt-2" variant="outline-info" onClick={handleShow}>
+          <Button className="btn mt-2" variant="outline-dark" onClick={handleShow}>
             Back
           </Button>
           <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />

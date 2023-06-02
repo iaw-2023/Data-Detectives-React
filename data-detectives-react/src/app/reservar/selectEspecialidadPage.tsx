@@ -10,9 +10,11 @@ import { useRouter } from "next/navigation";
 import Card from '../card';
 import MyModal from '../modalAlert';
 
-const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, onSelectSpecialty }) => {
-  const [selectedOption, setSelectedOption] = useState<Especialidad | undefined>(specialties[0]);
+const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
+  const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
+  const [selectedOption, setSelectedOption] = useState<Especialidad | undefined>(especialidades[0]);
   const [showModal, setShowModal] = useState(false);
+  const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>(null);
 
   const handleShow = () => {
     setShowModal(true);
@@ -26,7 +28,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, o
   
   const handleSelectSpecialty = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
-    const option = specialties.find((specialty) => specialty.nombre === selectedValue);
+    const option = especialidades.find((specialty) => specialty.nombre === selectedValue);
     if (option) {
       setSelectedOption(option);
     }
@@ -50,10 +52,29 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, o
     }
   }, [selectedSpecialty]);
 
+  useEffect(() => {
+    const fetchEspecialidades = async () => {
+      try {
+        const response = await fetch("https://data-detectives-laravel.vercel.app/rest/especialidades");
+        const data = await response.json();
+        if (Array.isArray(data?.data)) {
+          setEspecialidades(data.data);
+          setSelectedSpecialty(data.data[0] || null);
+        } else {
+          console.log("La respuesta de la API no contiene un array válido de especialidades:", data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchEspecialidades();
+  }, []);
+
   return (
     <Container>
       <ProgressBar striped variant="info" animated now={20} />
-      <Button className="btn mt-2" variant="outline-info" onClick={handleShow}>
+      <Button className="btn mt-2" variant="outline-dark" onClick={handleShow}>
         Back
       </Button>
       <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
@@ -62,7 +83,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ specialties, selectedSpecialty, o
           <h3 className='text-white text-center mt-3'>Seleccione una especialidad</h3>
           <Form.Select className="bg-dark text-white" value={selectedOption ? selectedOption.nombre : ""}
             onChange={handleSelectSpecialty}>
-            {specialties.map((specialty) => (
+            {especialidades.map((specialty) => (
               <option key={specialty.id} value={specialty.nombre}>
                 {specialty.nombre}
               </option>

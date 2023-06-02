@@ -11,6 +11,8 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   const [primerConsulta, setPrimerConsulta] = useState(false);
   const [turnoConfirmado, setTurnoConfirmado] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [progress, setprogress] = useState<number>(99);
+
 
     const handleShow = () => {
       setShowModal(true);
@@ -41,7 +43,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
           },
         }),
       });
-
+      setprogress(100);
       setTurnoConfirmado(true);
     } catch (error) {
       console.log('Error al confirmar el turno:', error);
@@ -62,16 +64,16 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
 
   return (
     <Container>
-      <ProgressBar striped variant="info" animated now={99} />
-      <Button className="btn mt-2" variant="outline-info" onClick={handleShow}>
+      <ProgressBar striped variant="info" animated now={progress} />
+      <Button className="btn mt-2" variant="outline-dark" onClick={handleShow}>
         Back
       </Button>
       <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
       <CenteredDiv>
         {turnoConfirmado ? (
           <div>
-            <h3 className='text-white mt-2'>El turno fue asignado correctamente</h3>
-            <Button variant="dark" className="mt-2" onClick= {handleBackHome}>
+            <h3 className='text-dark mt-2'>El turno fue asignado correctamente</h3>
+            <Button variant="outline-dark" className="mt-2" onClick= {handleBackHome}>
                 Volver a la página de inicio
             </Button>
           </div>
@@ -83,17 +85,19 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
                   <ListGroup.Item className="bg-dark text-white">Paciente: {paciente.apellido_paciente}, {paciente.nombre_paciente}</ListGroup.Item>
                   <ListGroup.Item className="bg-dark text-white">Profesional: {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</ListGroup.Item>
                   <ListGroup.Item className="bg-dark text-white">Especialidad: {selectedSpecialty.nombre}</ListGroup.Item>
-                  <ListGroup.Item className="bg-dark text-white">Hora: {selectedTurno.hora}</ListGroup.Item>
+                  <ListGroup.Item className="bg-dark text-white">Hora: {selectedTurno.hora.substring(0, 5)}hs</ListGroup.Item>
+                  <ListGroup.Item className="bg-dark text-white">
+                  <Form.Check
+                    type="checkbox"
+                    label="Primera consulta"
+                    checked={primerConsulta}
+                    onChange={handleCheckboxChange}
+                    className="text-white"
+                  />
+                  </ListGroup.Item>
                 </ListGroup>
               </CardComponent>
-            <Form.Check
-              type="checkbox"
-              label="Primera consulta"
-              checked={primerConsulta}
-              onChange={handleCheckboxChange}
-              className="text-white"
-            />
-            <Button variant="dark" className="mt-2" onClick={handleConfirm}>
+            <Button variant="outline-dark" className="mt-2" onClick={handleConfirm}>
               Confirmar
             </Button>
           </>
