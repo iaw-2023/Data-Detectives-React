@@ -1,145 +1,55 @@
 'use client';
 import React from 'react';
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import { Box, Image } from '@chakra-ui/react';
-import Link from 'next/link';
-import { Button } from 'react-bootstrap';
-import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { SocialIcon } from 'react-social-icons';
 
-interface FooterProps {
-  address: string;
-  phone: string;
-  socialMediaIcons: {
-    name: string;
-    icon: string;
-    url: string;
-  }[];
-  email: string;
-}
 
-const Footer: React.FC<FooterProps> = () => {
-  return (   
-        <MDBFooter bgColor='light' className='text-center text-lg-start text-muted'>
-          <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
-            <div className='me-5 d-none d-lg-block'>
-              <span>Get connected with us on social networks:</span>
-            </div>
-    
-            <div>
-              <a href='' className='me-4 text-reset'>
-                <MDBIcon fab icon="facebook-f" />
-              </a>
-              <a href='' className='me-4 text-reset'>
-                <MDBIcon fab icon="twitter" />
-              </a>
-              <a href='' className='me-4 text-reset'>
-                <MDBIcon fab icon="google" />
-              </a>
-              <a href='' className='me-4 text-reset'>
-                <MDBIcon fab icon="instagram" />
-              </a>
-              <a href='' className='me-4 text-reset'>
-                <MDBIcon fab icon="linkedin" />
-              </a>
-              <a href='' className='me-4 text-reset'>
-                <MDBIcon fab icon="github" />
-              </a>
-            </div>
-          </section>
-    
-          <section className=''>
-            <MDBContainer className='text-center text-md-start mt-5'>
-              <MDBRow className='mt-3'>
-                <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'>
-                  <h6 className='text-uppercase fw-bold mb-4'>
-                    <MDBIcon icon="gem" className="me-3" />
-                    Company name
-                  </h6>
-                  <p>
-                    Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
-                    consectetur adipisicing elit.
-                  </p>
-                </MDBCol>
-    
-                <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
-                  <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
-                  <p>
-                    <a href='#!' className='text-reset'>
-                      Angular
-                    </a>
-                  </p>
-                  <p>
-                    <a href='#!' className='text-reset'>
-                      React
-                    </a>
-                  </p>
-                  <p>
-                    <a href='#!' className='text-reset'>
-                      Vue
-                    </a>
-                  </p>
-                  <p>
-                    <a href='#!' className='text-reset'>
-                      Laravel
-                    </a>
-                  </p>
-                </MDBCol>
-    
-                <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
-                  <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
-                  <p>
-                    <a href='#!' className='text-reset'>
-                      Pricing
-                    </a>
-                  </p>
-                  <p>
-                    <a href='#!' className='text-reset'>
-                      Settings
-                    </a>
-                  </p>
-                  <p>
-                    <a href='#!' className='text-reset'>
-                      Orders
-                    </a>
-                  </p>
-                  <p>
-                    <a href='#!' className='text-reset'>
-                      Help
-                    </a>
-                  </p>
-                </MDBCol>
-    
-                <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>
-                  <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
-                  <p>
-                    <MDBIcon icon="home" className="me-2" />
-                    New York, NY 10012, US
-                  </p>
-                  <p>
-                    <MDBIcon icon="envelope" className="me-3" />
-                    info@example.com
-                  </p>
-                  <p>
-                    <MDBIcon icon="phone" className="me-3" /> + 01 234 567 88
-                  </p>
-                  <p>
-                    <MDBIcon icon="print" className="me-3" /> + 01 234 567 89
-                  </p>
-                </MDBCol>
-              </MDBRow>
-            </MDBContainer>
-          </section>
-    
-          <div className='text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
-            © 2021 Copyright:
-            <a className='text-reset fw-bold' href='https://mdbootstrap.com/'>
-              MDBootstrap.com
-            </a>
-          </div>
-        </MDBFooter>
-      );
-    };
+const divStyle : React.CSSProperties = {
+  position: 'absolute',
+  right: 0,
+  bottom: 0,
+  left: 0,
+  height: 50,
+  backgroundColor: 'white'
+};
+
+const Footer: React.FC = () => {
+  return (
+    <footer className="py-4" style={divStyle}>
+      <Container>
+        <Row>
+          <Col md={4}>
+            <h5>Contactate con nosotros</h5>
+            <p>Dirección: Evergreen Terrace 742, Springfield </p>
+            <p>Teléfono: 764 - 84377 </p>
+            <p>Email: healthtime@mail.com </p>
+          </Col>
+          <Col md={4}>
+            <h5>Seguinos en nuestras redes sociales</h5>
+                <SocialIcon network="instagram" url="https://www.instagram.com/healthtimenutrition/?hl=es" />
+                <SocialIcon network="facebook" url="https://www.facebook.com/healthtime/" />
+                <SocialIcon network="linkedin" url="https://ar.linkedin.com/company/healthtime" />
+          </Col>
+          <Col md={4}>
+            <h6 className='text-uppercase fw-bold mb-4'>
+              <SocialIcon network="smugmug" className="me-3" />
+              HealthTime
+            </h6>
+            <p>
+              Somos un grupo de profesionales dedicados a la atención primaria de la salud. Queremos brindarte el mejor servicio de atención médica en una amplia gama de especialidades.
+            </p>
+          </Col>
+        </Row>
+        <Row>
+          <Col className="text-center">
+            <p>&copy; {new Date().getFullYear()} HealthTime. Todos los derechos reservados.</p>
+          </Col>
+        </Row>
+      </Container>
+    </footer>
+  );
+};
 
 export default Footer;

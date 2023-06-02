@@ -6,7 +6,7 @@ import {  ApiResponseEspecialidadesProfesional, ApiResponseTurnosProfesional, Es
 import Container from "../container-fondo";
 import { useRouter } from "next/navigation";
 import Calendar from "react-calendar";
-import { Table } from "react-bootstrap";
+import { Alert, Table } from "react-bootstrap";
 import CardTurnosAsignados from "../cardTurnosAsignados";
 import CenteredDivCalendar from "../centeredDivTable";
 
@@ -18,6 +18,8 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const [selectedOption, setSelectedOption] = useState<string>();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [tieneTurnos, setTieneTurnos] = useState<boolean>(true);
+  const [fetchRealizado, setFetch] = useState<boolean>(false);
 
   const router = useRouter();  
 
@@ -53,17 +55,22 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         console.log(id_profesional);
         const response_specialities = await fetch(`https://data-detectives-laravel.vercel.app/rest/profesional_especialidades/${id_profesional}`);
         const data_specialities = await response_specialities.json();
-
+        
         if (response_specialities.ok) {
           const apiResponse: ApiResponseEspecialidadesProfesional = data_specialities;
           setEspecialidadesProfesional(apiResponse.data);
           await searchTurnos(apiResponse.data);
+          setTieneTurnos(true);
+        }
+        else {
+          setTieneTurnos(false);
         }
       } catch (error) {
         console.log(error);
       }
     };
     fetchEspecialidadesProfesional();
+    setFetch(true);
   }, [profesional.id]);
   
   const searchTurnos = async (especialidades: Especialidad_Profesional[]) => {
@@ -102,6 +109,12 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
     }
     return null;
   };
+
+  useEffect(() => {
+    if (fetchRealizado && turnosAsignados.length === 0){
+      setTieneTurnos(false);
+    }
+  }, [turnosAsignados])
   
   const handleSelectAsignados = (date: Date) => {
     const dateFormat = date ? formatDate(date) : '';
@@ -139,13 +152,16 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
           value={getSelectedDate()}
           />
       </CenteredDivCalendar>
+      {!tieneTurnos ? (
+          <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert>
+        ) : (
           <Table striped bordered hover>
-            <thead>
+            <thead className="bg-white">
               <tr>
-                <th className="text-white">Especialidad</th>
-                <th className="text-white">Hora</th>
-                <th className="text-white">Paciente</th>
-                <th className="text-white">Primer consulta</th>
+                <th className="text-dark">Especialidad</th>
+                <th className="text-dark">Hora</th>
+                <th className="text-dark">Paciente</th>
+                <th className="text-dark">Primer consulta</th>
               </tr>
             </thead>
             <tbody>
@@ -159,6 +175,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
               ))}
             </tbody>
           </Table>
+        )}
       </CardTurnosAsignados>
     </CenteredDiv>
   </Container>
