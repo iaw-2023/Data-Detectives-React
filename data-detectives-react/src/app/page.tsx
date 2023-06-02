@@ -1,6 +1,6 @@
 "use client"
-import React, { useContext } from 'react';
-import NavScroll from './Navbar';
+import React from 'react';
+import NavScroll from './mynavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ContainerHomePage from './container-fondo-homePage';
 

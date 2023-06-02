@@ -1,10 +1,9 @@
 "use client"
-import React, { useContext } from 'react';
-import NavScroll from '../Navbar';
+import React from 'react';
+import NavScroll from '../mynavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { Col, Row } from 'react-bootstrap';
 import ContainerHomePage from '../container-fondo-homePage';
 import Link from 'next/link';
 import ContainerPaciente from './containerPaciente';

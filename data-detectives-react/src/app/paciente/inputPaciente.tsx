@@ -40,11 +40,7 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
 
     const handleNextPage = () => {
       if (paciente && encontrado) {
-        if (typeof onSelectPaciente === 'function') {
-          onSelectPaciente(paciente);
-        } else {
-          console.log("onSelectPaciente is not a function");
-        }
+        onSelectPaciente(paciente);
       } else {
         setNoPuedeContinuar(true);
         console.log("Debe ingresar su DNI y buscar antes de continuar.");
