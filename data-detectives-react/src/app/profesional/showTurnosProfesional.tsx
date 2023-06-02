@@ -1,16 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ProgressBar from 'react-bootstrap/ProgressBar';
 import CenteredDiv from "../reservar/centeredDiv";
-import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {  ApiResponseEspecialidadesProfesional, ApiResponseTurnosProfesional, Especialidad_Profesional, ShowTurnosProfesionalProps, TurnoAsignadoProfesional } from '../types';
 import Container from "../container-fondo";
 import { useRouter } from "next/navigation";
-import Card from '../card';
 import Calendar from "react-calendar";
-import CardComponent from "../card";
-import { ListGroup, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
+import CardTurnosAsignados from "../cardTurnosAsignados";
 
 const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesional }) => {
 
@@ -27,7 +24,6 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
      
   const tileDisabled = ({ date, view }: { date: Date; view: string }) => {
     if (view === "year" || view === "decade" || view === "century") {
-      console.log("estoy en vista año, o lo que sea");
       return false;
     }
     const currentDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -71,57 +67,54 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
       try {
         var id_profesional = profesional.id;
         console.log(id_profesional);
-        const response_specialities = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/profesional_especialidades/${id_profesional}`);
+        const response_specialities = await fetch(`https://data-detectives-laravel.vercel.app/rest/profesional_especialidades/${id_profesional}`);
         const data_specialities = await response_specialities.json();
-  
+
         if (response_specialities.ok) {
           const apiResponse: ApiResponseEspecialidadesProfesional = data_specialities;
           setEspecialidadesProfesional(apiResponse.data);
+          await searchTurnos(apiResponse.data);
         }
       } catch (error) {
         console.log(error);
       }
     };
-  
     fetchEspecialidadesProfesional();
-  }, []);
+  }, [profesional.id]);
   
-  useEffect(() => {
-    if (especialidadesProfesional.length > 0) {
-      const searchTurnos = async () => {
-        const newTurnosAsignados: TurnoAsignadoProfesional[] = [];
-        console.log("espe", especialidadesProfesional);
-        for (const especialidad of especialidadesProfesional) {
-          const turnosAsignados = await fetchTurnosAsignados(especialidad);
-          if (turnosAsignados){
-            for (const turnoAsignado of turnosAsignados){
-              newTurnosAsignados.push(turnoAsignado);              
-            }
-            console.log("turnos asignadosss: " + especialidad.especialidad.nombre, turnosAsignados);
-           }
+  const searchTurnos = async (especialidades: Especialidad_Profesional[]) => {
+    const newTurnosAsignados: TurnoAsignadoProfesional[] = [];
+    for (const especialidad of especialidades) {
+      const turnosAsignados = await fetchTurnosAsignados(especialidad);
+      if (turnosAsignados) {
+        for (const turnoAsignado of turnosAsignados) {
+          newTurnosAsignados.push(turnoAsignado);
         }
-  
-        if (Array.isArray(newTurnosAsignados)) {
-          setTurnosAsignados(newTurnosAsignados);
-          const dates = newTurnosAsignados.map((turno) => {
-            const [year, month, day] = turno.turno.fecha.split("-");
-            return new Date(Number(year), Number(month) - 1, Number(day), 0, 0, 0);
-          });
-          setAvailableDates(dates);
-          console.log("fechas asignadas: ", dates);
-        }
-      };
-      searchTurnos();
+        console.log(
+          "turnos asignados: " + especialidad.especialidad.nombre,
+          turnosAsignados
+        );
+      }
     }
-  }, [especialidadesProfesional]);
+  
+    if (Array.isArray(newTurnosAsignados)) {
+      setTurnosAsignados(newTurnosAsignados);
+      const dates = newTurnosAsignados.map((turno) => {
+        const [year, month, day] = turno.turno.fecha.split("-");
+        return new Date(Number(year), Number(month) - 1, Number(day), 0, 0, 0);
+      });
+      setAvailableDates(dates);
+      console.log("fechas asignadas: ", dates);
+    }
+  };
 
   const fetchTurnosAsignados = async (especialidad: Especialidad_Profesional) => {
     try {
       const response_turnos = await fetch(
-        `https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/turnos_asignados_profesional/${especialidad.id_profesional_especialidad}`
+        `https://data-detectives-laravel.vercel.app/rest/turnos_asignados_profesional/${especialidad.id_profesional_especialidad}`
       );
-      const data_turnos = await response_turnos.json();
       if (response_turnos.ok) {
+        const data_turnos = await response_turnos.json();
         const apiResponse : ApiResponseTurnosProfesional = data_turnos;
         return apiResponse.data;
       }
@@ -137,14 +130,13 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         Back
       </Button>
       <CenteredDiv>
-      <CardComponent>
-        <CenteredDiv>
+      <CardTurnosAsignados>
+      <h3 className='text-white text-center mt-3'>Turnos asignados para {profesional.apellido}, {profesional.nombre}</h3>
           <Calendar
             tileDisabled={tileDisabled}
             onChange={handleSelectAsignados as any}
             value={getSelectedDate()}
           />
-        </CenteredDiv>
         <div className="table-container table-hover flex-fill">
           <Table striped bordered hover>
             <thead>
@@ -167,7 +159,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
             </tbody>
           </Table>
         </div>
-      </CardComponent>
+      </CardTurnosAsignados>
     </CenteredDiv>
   </Container>
     
