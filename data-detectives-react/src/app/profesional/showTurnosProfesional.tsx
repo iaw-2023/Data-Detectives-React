@@ -14,65 +14,57 @@ import { ListGroup, Table } from "react-bootstrap";
 
 const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesional }) => {
 
-    const [especialidadesProfesional, setEspecialidadesProfesional] = useState<Especialidad_Profesional[]>([]);
-    const [turnosAsignados, setTurnosAsignados] = useState<TurnoAsignadoProfesional[]>([]);
-    const [availableDates, setAvailableDates] = useState<Date[]>([]);
-    const [selectedOption, setSelectedOption] = useState<string>();
+  const [especialidadesProfesional, setEspecialidadesProfesional] = useState<Especialidad_Profesional[]>([]);
+  const [turnosAsignados, setTurnosAsignados] = useState<TurnoAsignadoProfesional[]>([]);
+  const [availableDates, setAvailableDates] = useState<Date[]>([]);
+  const [selectedOption, setSelectedOption] = useState<string>();
 
   const router = useRouter();  
 
   const handleBack = () => {
     router.back()
   };
-  
-  const fetchTurnosAsignados = async (especialidad: Especialidad_Profesional) => {
-    const response_turnos = await fetch(
-      `https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/turnos_asignados_profesional/${especialidad.id_profesional_especialidad}`
-    );
-    const data_turnos = await response_turnos.json();
-    if (response_turnos.ok) {
-      const apiResponse : ApiResponseTurnosProfesional = data_turnos;
-      return apiResponse.data;
-    }
-    return null;
-  };
      
-    const tileDisabled = ({ date }: { date: Date }) => {
-        const currentDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        return !availableDates.some((availableDate) => {
-          const availableDateCopy = new Date(availableDate.getFullYear(), availableDate.getMonth(), availableDate.getDate());
-          return currentDate.getTime() === availableDateCopy.getTime();
-        });
-      };
+  const tileDisabled = ({ date, view }: { date: Date; view: string }) => {
+    if (view === "year" || view === "decade" || view === "century") {
+      console.log("estoy en vista año, o lo que sea");
+      return false;
+    }
+    const currentDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      return !availableDates.some((availableDate) => {
+        const availableDateCopy = new Date(availableDate.getFullYear(), availableDate.getMonth(), availableDate.getDate());
+        return currentDate.getTime() === availableDateCopy.getTime();
+      });
+  };
       
       
-      const handleSelectAsignados = (date: Date) => {
-        const dateFormat = formatDate(date);
-        setSelectedOption(dateFormat);
+  const handleSelectAsignados = (date: Date) => {
+    const dateFormat = formatDate(date);
+    setSelectedOption(dateFormat);
       
-        const filteredTurnos = turnosAsignados.filter(
-          (turno) => turno.turno.fecha === dateFormat
-        );
+    const filteredTurnos = turnosAsignados.filter(
+      (turno) => turno.turno.fecha === dateFormat
+    );
       
-        setTurnosAsignados (filteredTurnos.sort((a, b) => {
-          return a.turno.hora.localeCompare(b.turno.hora);
-        }))
-      }
+    setTurnosAsignados (filteredTurnos.sort((a, b) => {
+      return a.turno.hora.localeCompare(b.turno.hora);
+    }))
+  }
       
-      const formatDate = (date: Date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        return `${year}-${month}-${day}`;
-      };
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
       
-      const getSelectedDate = () => {
-        if (selectedOption) {
-          const [year, month, day] = selectedOption.split("-");
-          return new Date(Number(year), Number(month) - 1, Number(day));
-        }
-        return null;
-      };
+  const getSelectedDate = () => {
+    if (selectedOption) {
+      const [year, month, day] = selectedOption.split("-");
+      return new Date(Number(year), Number(month) - 1, Number(day));
+    }
+      return null;
+  };
  
   useEffect(() => {
     const fetchEspecialidadesProfesional = async () => {
@@ -101,15 +93,13 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         console.log("espe", especialidadesProfesional);
         for (const especialidad of especialidadesProfesional) {
           const turnosAsignados = await fetchTurnosAsignados(especialidad);
-          if (turnosAsignados)
-           {
-           for (const turnoAsignado of turnosAsignados)
-              {
-                newTurnosAsignados.push(turnoAsignado);              
-              }
+          if (turnosAsignados){
+            for (const turnoAsignado of turnosAsignados){
+              newTurnosAsignados.push(turnoAsignado);              
+            }
             console.log("turnos asignadosss: " + especialidad.especialidad.nombre, turnosAsignados);
            }
-          }
+        }
   
         if (Array.isArray(newTurnosAsignados)) {
           setTurnosAsignados(newTurnosAsignados);
@@ -125,22 +115,37 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
     }
   }, [especialidadesProfesional]);
 
+  const fetchTurnosAsignados = async (especialidad: Especialidad_Profesional) => {
+    try {
+      const response_turnos = await fetch(
+        `https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/turnos_asignados_profesional/${especialidad.id_profesional_especialidad}`
+      );
+      const data_turnos = await response_turnos.json();
+      if (response_turnos.ok) {
+        const apiResponse : ApiResponseTurnosProfesional = data_turnos;
+        return apiResponse.data;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  };
+
   return (
     <Container>
-      
-      <Button className="btn mt-2" variant="outline-info" onClick={handleBack}>
+      <Button className="btn mt-2" variant="outline-dark" onClick={handleBack}>
         Back
       </Button>
       <CenteredDiv>
       <CardComponent>
-        <div className="text-center mb-3"> {/* Centrar el calendario y agregar margen inferior */}
+        <CenteredDiv>
           <Calendar
             tileDisabled={tileDisabled}
             onChange={handleSelectAsignados as any}
             value={getSelectedDate()}
           />
-        </div>
-        <div className="table-container table-hover flex-fill"> {/* Contenedor de la tabla con separación */}
+        </CenteredDiv>
+        <div className="table-container table-hover flex-fill">
           <Table striped bordered hover>
             <thead>
               <tr>
