@@ -9,12 +9,14 @@ import Container from "../container-fondo";
 import { useRouter } from "next/navigation";
 import Card from '../card';
 import MyModal from '../modalAlert';
+import { Spinner } from "react-bootstrap";
 
 const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
   const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
   const [selectedOption, setSelectedOption] = useState<Especialidad | undefined>(especialidades[0]);
   const [showModal, setShowModal] = useState(false);
   const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleShow = () => {
     setShowModal(true);
@@ -55,6 +57,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
   useEffect(() => {
     const fetchEspecialidades = async () => {
       try {
+        setLoading(true)
         const response = await fetch("https://data-detectives-laravel.vercel.app/rest/especialidades");
         const data = await response.json();
         if (Array.isArray(data?.data)) {
@@ -63,6 +66,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
         } else {
           console.log("La respuesta de la API no contiene un array válido de especialidades:", data);
         }
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -79,8 +83,12 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
       </Button>
       <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
         <CenteredDiv> 
+        
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione una especialidad</h3>
+          {loading ? (
+            <Spinner as="span" animation="border" variant="info" role="status" aria-hidden="true" className="mt-2 mx-auto" /> 
+          ) : (
           <Form.Select className="bg-dark text-white" value={selectedOption ? selectedOption.nombre : ""}
             onChange={handleSelectSpecialty}>
             {especialidades.map((specialty) => (
@@ -88,7 +96,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
                 {specialty.nombre}
               </option>
             ))}
-          </Form.Select>
+          </Form.Select>)}
           <Button variant="dark" className="mt-2" onClick={handleNext}>
             Siguiente
           </Button>

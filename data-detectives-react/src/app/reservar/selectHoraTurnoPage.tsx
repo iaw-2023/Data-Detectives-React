@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Form, ProgressBar } from "react-bootstrap";
+import { Button, Form, ProgressBar, Spinner } from "react-bootstrap";
 import CenteredDiv from "./centeredDiv";
 import { useEffect, useState } from "react";
 import { FourthPageProps, TurnoDisponible, TurnoDisponibleResponse } from "../types";
@@ -15,6 +15,7 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
     const [selectedOption, setSelectedOption] = useState<TurnoDisponible>();
     const router = useRouter();
     const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const handleShow = () => {
       setShowModal(true);
@@ -27,6 +28,7 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
     useEffect(() => {
         const fetchTurnosDisponibles = async () => {
             try {
+              setLoading(true);
               const id_especialidad = selectedProfessional.id_profesional_especialidad;
               const response = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/show_turno_fecha/${id_especialidad}/${selectedFecha}`); 
               const data: TurnoDisponibleResponse = await response.json();
@@ -36,6 +38,7 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
               } else {
                 console.log("La respuesta de la API no contiene un array válido de turnos disponibles:", data);
               }
+              setLoading(false);
             } catch (error) {
               console.log(error);
             }
@@ -86,6 +89,9 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
           <CenteredDiv>
             <Card>
               <h3 className='text-white text-center mt-3'>Horarios disponibles</h3>
+              {loading ? (
+              <Spinner as="span" animation="border" variant="info" role="status" aria-hidden="true" className="mt-2 mx-auto" /> 
+              ) : (
               <Form.Select
                 className="bg-dark text-white"
                 value={selectedOption ? selectedOption.hora : ""}
@@ -96,7 +102,7 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
                     {turno.hora}
                     </option>
                 ))}
-            </Form.Select>
+            </Form.Select>)}
             <Button variant="dark" className="mt-2" onClick={handleNextPage}>
               Siguiente
             </Button>

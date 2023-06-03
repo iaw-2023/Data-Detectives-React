@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import CenteredDiv from "./centeredDiv";
-import { Button, Form, ProgressBar } from "react-bootstrap";
+import { Button, Form, ProgressBar, Spinner } from "react-bootstrap";
 import { SecondPageProps, Profesional_con_especialidad_id } from '../types';
 import Container from "../container-fondo";
 import Card from '../card';
@@ -13,6 +13,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
   const [selectedOption, setSelectedOption] = useState<Profesional_con_especialidad_id | null>();
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleShow = () => {
     setShowModal(true);
@@ -33,6 +34,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
   useEffect(() => {
     const fetchProfessionals = async () => {
       try {
+        setLoading(true);
         const response = await fetch(`https://data-detectives-laravel-e5p4ga6p5-data-detectives.vercel.app/rest/profesionales/${selectedSpecialty.id}`);
         const data = await response.json();
         if (Array.isArray(data?.data)) {
@@ -40,6 +42,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
         } else {
           console.log("La respuesta de la API no contiene un array válido de profesionales:", data);
         }
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -83,6 +86,9 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
       <CenteredDiv>
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione el profesional para {selectedSpecialty.nombre}</h3>
+          {loading ? (
+            <Spinner as="span" animation="border" variant="info" role="status" aria-hidden="true" className="mt-2 mx-auto" /> 
+          ) : (
           <Form.Select className="bg-dark text-white" value={selectedOption?.profesional.id || undefined} 
             onChange={handleSelectProfessional}>
             {professionals_with_specialty.map((professional_with_specialty) => (
@@ -90,7 +96,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
                 {professional_with_specialty.profesional.apellido}, {professional_with_specialty.profesional.nombre}
               </option>
             ))}
-          </Form.Select>
+          </Form.Select>)}
           <Button variant="dark" className="mt-2" onClick={handleNext}>
             Siguiente
           </Button>
