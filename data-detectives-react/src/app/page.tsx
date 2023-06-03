@@ -2,18 +2,23 @@
 import React from 'react';
 import NavScroll from './mynavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ContainerHomePage from './container-fondo-homePage';
+import ContainerHomePage2 from './container-homePage2';
 import Footer from './footer';
+import ContainerHomePage from './container-fondo-homePage';
 
 const HomePage: React.FC = () => {
   return (
-    <><ContainerHomePage>
-      <NavScroll />
-      <h1 className='float-end mt-5 display-2 custom-h1'>
-        Bienvenido/a
-        <br />
-        a HealthTime</h1>
-    </ContainerHomePage><Footer /></>
+    
+    <div className="content-wrapper" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <ContainerHomePage> 
+          <NavScroll />
+          <h1 className='float-end mt-5 display-2 custom-h1'>
+            Bienvenido/a
+            <br />
+            a HealthTime</h1>
+        </ContainerHomePage>
+        <Footer />
+    </div>
   );
 };
 

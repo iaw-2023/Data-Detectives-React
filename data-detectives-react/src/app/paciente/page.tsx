@@ -14,8 +14,8 @@ const HomePage: React.FC = () => {
 
     return (
       <div className="content-wrapper" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-        <NavScroll />
         <ContainerHomePage>
+        <NavScroll />
           <ContainerPaciente>
             <h1 className='mt-2'>
               Administra tus citas médicas 
@@ -43,7 +43,7 @@ const HomePage: React.FC = () => {
                 </Button>
               </Card.Body>
             </Card>
-        </ContainerPaciente>  
+          </ContainerPaciente>  
         </ContainerHomePage>
         <Footer />
       </div>

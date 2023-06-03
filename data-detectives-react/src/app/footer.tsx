@@ -7,7 +7,7 @@ import { SocialIcon } from 'react-social-icons';
 
 
 const divStyle : React.CSSProperties = {
-  top: 700,
+  top: 0,
   right: 0,
   bottom: 0,
   left: 0,
@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
           </Col>
           <Col md={4} className="text-center">
             <h5 className='mt-2'>Seguinos en nuestras redes sociales</h5>
-            <div className="d-flex justify-content-center mt-5">
+            <div className="d-flex justify-content-center mt-2">
               <SocialIcon network="instagram" url="https://www.instagram.com/healthtimenutrition/?hl=es" className="mx-1" />
               <SocialIcon network="facebook" url="https://www.facebook.com/healthtime/" className="mx-1" />
               <SocialIcon network="linkedin" url="https://ar.linkedin.com/company/healthtime" className="mx-1" />

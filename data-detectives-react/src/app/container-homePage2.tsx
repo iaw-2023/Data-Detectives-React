@@ -1,12 +1,9 @@
 import React, { ReactNode } from 'react';
-
-interface ContainerHomePageProps {
+interface ContainerHomePage2Props {
   children?: ReactNode;
 }
-
-const ContainerHomePage: React.FC<ContainerHomePageProps> = ({ children }) => {
+const ContainerHomePage2: React.FC<ContainerHomePage2Props> = ({ children }) => {
   const backgroundImageUrl = '/imgs/fondo-homePage.jpg';
-
   const divStyle : React.CSSProperties = {
     backgroundImage: `url(${backgroundImageUrl})`,
     backgroundSize: 'cover',
@@ -18,8 +15,7 @@ const ContainerHomePage: React.FC<ContainerHomePageProps> = ({ children }) => {
     left: 0,
   };
 
-  
   return <div style={divStyle}>{children}</div>;
 };
 
-export default ContainerHomePage;
+export default ContainerHomePage2;
