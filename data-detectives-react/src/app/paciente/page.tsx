@@ -20,7 +20,7 @@ const HomePage: React.FC = () => {
               Administra tus citas médicas 
               <br />
               de manera eficiente y cómoda</h1>     
-            <Card className="mt-3 bg-light text-dark" style={{ width: '20rem', height: '13rem' }}>
+            <Card className="mt-3 bg-light text-dark" style={{ width: '30rem', height: '10rem' }}>
               <Card.Body>
                 <Card.Title>Reservar turno</Card.Title>
                 <Card.Text>
@@ -31,13 +31,13 @@ const HomePage: React.FC = () => {
                 </Button>
               </Card.Body>
             </Card>
-            <Card className="mt-2 bg-white text-dark" style={{ width: '20rem', height: '13rem' }}>
+            <Card className="mt-2 bg-white text-dark" style={{ width: '30rem', height: '10rem' }}>
               <Card.Body>
                 <Card.Title>Consultar turnos asignados</Card.Title>
                 <Card.Text>
                   Aquí podrás visualizar los turnos reservados anteriormente
                 </Card.Text>
-                <Button className='btn-dark mt-5'>
+                <Button className='btn-dark mt-4'>
                   <Link className='text-decoration-none text-white' href="/turnosAsignados">Ver turnos asignados</Link>
                 </Button>
               </Card.Body>
@@ -45,6 +45,7 @@ const HomePage: React.FC = () => {
         </ContainerPaciente>  
         <Footer/>
       </ContainerHomePage>
+      
     );
   };
 

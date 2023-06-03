@@ -7,12 +7,15 @@ import { SocialIcon } from 'react-social-icons';
 
 
 const divStyle : React.CSSProperties = {
-  position: 'absolute',
+  top: 700,
   right: 0,
   bottom: 0,
   left: 0,
   height: 50,
-  backgroundColor: 'white'
+  backgroundColor: 'white',
+  position: 'absolute',
+  width: '100%',
+  zIndex: 100
 };
 
 const Footer: React.FC = () => {
