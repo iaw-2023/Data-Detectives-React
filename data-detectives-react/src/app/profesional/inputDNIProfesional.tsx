@@ -50,7 +50,11 @@ const InputDNIProfesional: React.FC<InputDNIProfesionalProps> = ({ onSelectProfe
   const handleBack = () => {
     router.back()
   };
-    
+  
+  const handleChangeDNI = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDNI(e.target.value);
+    setProfesional(null);
+  }
 
   return (
     <Container>
@@ -66,7 +70,7 @@ const InputDNIProfesional: React.FC<InputDNIProfesionalProps> = ({ onSelectProfe
           )}
          <CardComponent>
           <h3 className='text-white text-center mt-3'>Ingrese su DNI:</h3>
-          <input type="text" className='text-dark text-center' value={dni} onChange={(e) => setDNI(e.target.value)} />
+          <input type="text" className='text-dark text-center' value={dni} onChange={handleChangeDNI} />
           {!loading && (
             <Button className="btn mt-2" variant="dark" onClick={buscarProfesional}>Buscar</Button>
           )}
@@ -75,9 +79,9 @@ const InputDNIProfesional: React.FC<InputDNIProfesionalProps> = ({ onSelectProfe
           )}
           {profesional && (
             <ListGroup>
-              <ListGroup.Item className='text-white bg-dark' variant="info">Nombre: {profesional.nombre}</ListGroup.Item>
-              <ListGroup.Item className='text-white bg-dark'>Apellido: {profesional.apellido}</ListGroup.Item>
-              <ListGroup.Item className='text-white bg-dark'>Mail: {profesional.email}</ListGroup.Item>
+              <ListGroup.Item className='text-white bg-dark' variant="info">Nombre: {profesional ? profesional.nombre : ""}</ListGroup.Item>
+              <ListGroup.Item className='text-white bg-dark'>Apellido: {profesional ? profesional.apellido : ""}</ListGroup.Item>
+              <ListGroup.Item className='text-white bg-dark'>Mail: {profesional ? profesional.email : ""}</ListGroup.Item>
             </ListGroup>
           )}           
         </CardComponent>

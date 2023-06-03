@@ -51,6 +51,11 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
       router.back()
     };
     
+    const handleChangeDNI = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setDNI(e.target.value);
+      setPaciente(null);
+    }
+    
   return (
     <Container>
       <Button className="btn mt-2" variant="outline-dark" onClick={handleBack}>
@@ -65,7 +70,7 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
           )}
          <CardComponent>
           <h3 className='text-white text-center mt-3'>Ingrese su DNI:</h3>
-          <input type="text" className='text-black text-center' value={dni} onChange={(e) => setDNI(e.target.value)} />
+          <input type="text" className='text-black text-center' value={dni} onChange={handleChangeDNI} />
           {!loading && (
             <Button className="btn mt-2" variant="dark" onClick={buscarPaciente}>Buscar</Button>
           )}
