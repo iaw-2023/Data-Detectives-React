@@ -7,7 +7,6 @@ import { Alert, Button, Card, ListGroup, Spinner } from "react-bootstrap";
 import CenteredDiv from "../reservar/centeredDiv";
 import MinCardComponent from "../minCard";
 import CardTitle from "../cardTitle";
-import ContainerSpinner from "../containerSpinner";
 
 
 const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ paciente }) => {
