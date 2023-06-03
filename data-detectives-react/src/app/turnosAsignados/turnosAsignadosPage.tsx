@@ -7,6 +7,7 @@ import { Alert, Button, Card, ListGroup, Spinner } from "react-bootstrap";
 import CenteredDiv from "../reservar/centeredDiv";
 import MinCardComponent from "../minCard";
 import CardTitle from "../cardTitle";
+import AppSpinner from "../app-spinner";
 
 
 const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ paciente }) => {
@@ -98,7 +99,7 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
         <CardTitle>
           <h3 className='text-white text-center mt-3'>Turnos asignados a {paciente.apellido_paciente}, {paciente.nombre_paciente}</h3>
         </CardTitle>
-     
+        <AppSpinner loading={loading}></AppSpinner> 
         {!tieneTurnos ? (
           <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert>
         ) : (

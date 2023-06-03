@@ -9,7 +9,7 @@ import Container from "../container-fondo";
 import { useRouter } from "next/navigation";
 import Card from '../card';
 import MyModal from '../modalAlert';
-import { Spinner } from "react-bootstrap";
+import AppSpinner from "../app-spinner";
 
 const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
   const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
@@ -87,7 +87,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione una especialidad</h3>
           {loading ? (
-            <Spinner as="span" animation="border" variant="info" role="status" aria-hidden="true" className="mt-2 mx-auto" /> 
+            <AppSpinner loading={loading}></AppSpinner>
           ) : (
           <Form.Select className="bg-dark text-white" value={selectedOption ? selectedOption.nombre : ""}
             onChange={handleSelectSpecialty}>
@@ -97,9 +97,10 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
               </option>
             ))}
           </Form.Select>)}
-          <Button variant="dark" className="mt-2" onClick={handleNext}>
-            Siguiente
-          </Button>
+          { !loading && 
+            (<Button variant="dark" className="mt-2" onClick={handleNext}>
+              Siguiente
+            </Button>) }          
         </Card>
       </CenteredDiv>
     </Container>

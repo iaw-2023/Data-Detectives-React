@@ -7,13 +7,14 @@ import CenteredDiv from '../reservar/centeredDiv';
 import CardComponent from '../card';
 import { useRouter } from "next/navigation";
 import Container from '../container-fondo';
+import AppSpinner from '../app-spinner';
+import AlertWarning from '../alert-warning';
 
 
 const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPaciente }) => {
   const [dni, setDNI] = useState('');
   const [paciente, setPaciente] = useState<Paciente | null>(null);
   const [encontrado, setEncontrado] = useState<boolean>(true);
-  const [noPuedeContinuar, setNoPuedeContinuar] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
@@ -27,7 +28,6 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
         setPaciente(null);
       }
       else {
-        setNoPuedeContinuar(false);
         setEncontrado(true);
         setLoading(false);
         const data = await response.json();
@@ -37,14 +37,13 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
     };
 
     const handleNextPage = () => {
       if (paciente && encontrado) {
         onSelectPaciente(paciente);
-      } else {
-        setNoPuedeContinuar(true);
-      }
+      } 
     };
 
     const handleBack = () => {
@@ -53,6 +52,7 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
     
     const handleChangeDNI = (e: React.ChangeEvent<HTMLInputElement>) => {
       setDNI(e.target.value);
+      setEncontrado(false);
       setPaciente(null);
     }
     
@@ -63,20 +63,15 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
       </Button>
       <CenteredDiv>
           {!encontrado && (
-            <Alert variant="danger" style={{ width: "40rem" }}>No existe un paciente con el DNI ingresado.</Alert>
-          )}
-          {noPuedeContinuar && (
-            <Alert variant="danger" style={{ width: "40rem" }}>No puede continuar sin ingresar un DNI valido.</Alert>
+            <AlertWarning mensaje={"No existe un paciente con el DNI ingresado."}/>
           )}
          <CardComponent>
           <h3 className='text-white text-center mt-3'>Ingrese su DNI:</h3>
           <input type="text" className='text-black text-center' value={dni} onChange={handleChangeDNI} />
-          {!loading && (
+          {loading ? (
+            <AppSpinner loading={loading}></AppSpinner> ) : (
             <Button className="btn mt-2" variant="dark" onClick={buscarPaciente}>Buscar</Button>
-          )}
-          {loading && (
-            <Spinner as="span" animation="border" variant="info" role="status" aria-hidden="true" className="mt-2 mx-auto" /> 
-          )}
+          )}          
           {paciente && (
             <ListGroup>
               <ListGroup.Item className='text-white bg-dark' variant="info">Nombre: {paciente.nombre_paciente}</ListGroup.Item>
@@ -88,9 +83,10 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
             </ListGroup>
           )}
         </CardComponent>
-        <Button variant="outline-dark" className="mt-3" onClick={handleNextPage}>
-          Confirmar identidad
-        </Button>
+        { encontrado && (
+          <Button variant="outline-dark" className="mt-3" onClick={handleNextPage}>
+            Confirmar identidad
+          </Button>)}        
       </CenteredDiv>
     </Container>
   );

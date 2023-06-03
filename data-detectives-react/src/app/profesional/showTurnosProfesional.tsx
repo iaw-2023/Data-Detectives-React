@@ -6,9 +6,11 @@ import {  ApiResponseEspecialidadesProfesional, ApiResponseTurnosProfesional, Es
 import Container from "../container-fondo";
 import { useRouter } from "next/navigation";
 import Calendar from "react-calendar";
-import { Alert, Spinner, Table } from "react-bootstrap";
+import { Alert, Table } from "react-bootstrap";
 import CardTurnosAsignados from "../cardTurnosAsignados";
 import CenteredDivCalendar from "../centeredDivTable";
+import AppSpinner from "../app-spinner";
+import IconTooltip from "../icon-tooltip";
 
 const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesional }) => {
 
@@ -19,6 +21,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
   const [selectedOption, setSelectedOption] = useState<string>();
   const [tieneTurnos, setTieneTurnos] = useState<boolean>(true);
   const [fetchRealizado, setFetch] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();  
 
@@ -50,8 +53,8 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
   useEffect(() => {
     const fetchEspecialidadesProfesional = async () => {
       try {
+        setLoading(true);
         var id_profesional = profesional.id;
-        console.log(id_profesional);
         const response_specialities = await fetch(`https://data-detectives-laravel.vercel.app/rest/profesional_especialidades/${id_profesional}`);
         const data_specialities = await response_specialities.json();
         
@@ -60,6 +63,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
           setEspecialidadesProfesional(apiResponse.data);
           await searchTurnos(apiResponse.data);
           setTieneTurnos(true);
+          setLoading(false);
         }
         else {
           setTieneTurnos(false);
@@ -70,11 +74,10 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
     };
     fetchEspecialidadesProfesional();
     setFetch(true);
-    console.log("fetch realizado: ", fetchRealizado);
-    console.log("tiene turnos: ", tieneTurnos);
   }, [profesional.id]);
   
   const searchTurnos = async (especialidades: Especialidad_Profesional[]) => {
+    setLoading(true);
     const newTurnosAsignados: TurnoAsignadoProfesional[] = [];
     for (const especialidad of especialidades) {
       const turnosAsignados = await fetchTurnosAsignados(especialidad);
@@ -84,6 +87,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         }
       }
     }
+    setLoading(false);
   
     if (Array.isArray(newTurnosAsignados)) {
       setTurnosAsignados(newTurnosAsignados);
@@ -97,6 +101,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
 
   const fetchTurnosAsignados = async (especialidad: Especialidad_Profesional) => {
     try {
+      setLoading(true);
       const response_turnos = await fetch(
         `https://data-detectives-laravel.vercel.app/rest/turnos_asignados_profesional/${especialidad.id_profesional_especialidad}`
       );
@@ -136,6 +141,9 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+  
+  const tooltipMessage = "Para ver los turnos asignados, primero deberás seleccionar alguno de los días marcados en el calendario";
+
 
   return (
     <Container>
@@ -145,6 +153,9 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
       <CenteredDiv>
       <CardTurnosAsignados>
       <h3 className='text-white text-center mt-3'>Turnos asignados para {profesional.apellido}, {profesional.nombre}</h3>
+      { !turnosAsignadosFecha && (  
+           <IconTooltip tooltipMessage={tooltipMessage}/> )
+        }
         <CenteredDivCalendar>
           <Calendar
             className="text-dark"
@@ -152,41 +163,34 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
             onChange={handleSelectAsignados as any}
             value={getSelectedDate()}
           />
-        </CenteredDivCalendar>
-        
-        {!fetchRealizado ? (
-          <div className="text-center mt-2">
-            <Spinner animation="border" variant="info" role="status" aria-hidden="true" />
-            <span className="visually-hidden">Cargando...</span>
-          </div>
-        ) : (
-          <>
-            {!tieneTurnos ? (
-              <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert>
-            ) : (
-              <Table striped bordered hover>
-                <thead className="bg-white">
-                  <tr>
-                    <th className="text-dark">Especialidad</th>
-                    <th className="text-dark">Hora</th>
-                    <th className="text-dark">Paciente</th>
-                    <th className="text-dark">Primer consulta</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {turnosAsignadosFecha.map((turno) => (
-                    <tr key={turno.id}>
-                      <td className="text-white">{turno.turno.profesional_especialidad.especialidad.nombre}</td>
-                      <td className="text-white">{turno.turno.hora}</td>
-                      <td className="text-white">{turno.paciente.apellido_paciente + " " + turno.paciente.nombre_paciente}</td>
-                      <td className="text-white">{turno.primer_consulta ? "Si" : "No"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            )}
-          </>
-        )}
+        </CenteredDivCalendar>      
+        {!tieneTurnos ? 
+            ( <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert> ) : 
+            ( loading ? 
+                      ( <AppSpinner loading={loading}></AppSpinner> ) :
+                      ( <Table striped bordered hover>
+                        <thead className="bg-white">
+                          <tr>
+                            <th className="text-dark">Especialidad</th>
+                            <th className="text-dark">Hora</th>
+                            <th className="text-dark">Paciente</th>
+                            <th className="text-dark">Primer consulta</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {turnosAsignadosFecha.map((turno) => (
+                            <tr key={turno.id}>
+                              <td className="text-white">{turno.turno.profesional_especialidad.especialidad.nombre}</td>
+                              <td className="text-white">{turno.turno.hora}</td>
+                              <td className="text-white">{turno.paciente.apellido_paciente + " " + turno.paciente.nombre_paciente}</td>
+                              <td className="text-white">{turno.primer_consulta ? "Si" : "No"}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    )
+            )
+        }
       </CardTurnosAsignados>
     </CenteredDiv>
   </Container>

@@ -9,6 +9,7 @@ import Container from "../container-fondo";
 import Card from '../card';
 import { useRouter } from "next/navigation";
 import MyModal from '../modalAlert';
+import AppSpinner from "../app-spinner";
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedFecha }) => {
   const [turnosDisponibles, setTurnosDisponibles] = useState<TurnoDisponible[]>([]);
@@ -16,6 +17,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleShow = () => {
     setShowModal(true);
@@ -28,6 +30,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
   useEffect(() => {
     const fetchTurnosDisponibles = async () => {
       try {
+        setLoading(true);
         const id_especialidad = selectedProfessional.id_profesional_especialidad;
         const response = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/turnos_disponibles_profesional/${id_especialidad}`); 
         const data: TurnoDisponibleResponse = await response.json();
@@ -40,8 +43,8 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
           });
           
           setAvailableDates(dates);
-          console.log(data.data);
-          console.log(dates);
+          setLoading(false);
+
         } else {
           console.log("La respuesta de la API no contiene un array válido de turnos disponibles:", data);
         }
@@ -118,9 +121,11 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
             value={getSelectedDate()}
             />
           </CenteredDiv>
-          <Button variant="dark" className="mt-2" onClick={handleNextPage}>
-            Siguiente
-          </Button>
+          { loading ? 
+             (<AppSpinner loading={loading}></AppSpinner> ) :
+             (<Button variant="dark" className="mt-2" onClick={handleNextPage}>
+              Siguiente
+            </Button>)}              
         </Card>
       </CenteredDiv>
     </Container>

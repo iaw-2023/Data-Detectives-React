@@ -8,6 +8,7 @@ import Container from "../container-fondo";
 import Card from '../card';
 import MyModal from '../modalAlert';
 import { useRouter } from "next/navigation";
+import AppSpinner from "../app-spinner";
 
 
 const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedFecha, onSelectedTurno, selectedTurno }) => {
@@ -90,7 +91,7 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
             <Card>
               <h3 className='text-white text-center mt-3'>Horarios disponibles</h3>
               {loading ? (
-              <Spinner as="span" animation="border" variant="info" role="status" aria-hidden="true" className="mt-2 mx-auto" /> 
+                <AppSpinner loading={loading}></AppSpinner>
               ) : (
               <Form.Select
                 className="bg-dark text-white"

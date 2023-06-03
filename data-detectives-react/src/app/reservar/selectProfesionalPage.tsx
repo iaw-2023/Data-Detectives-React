@@ -7,6 +7,7 @@ import Container from "../container-fondo";
 import Card from '../card';
 import { useRouter } from "next/navigation";
 import MyModal from '../modalAlert';
+import AppSpinner from "../app-spinner";
 
 const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedProfessional, selectedProfessional}) => {
   const [professionals_with_specialty, setProfessionals] = useState<Profesional_con_especialidad_id[]>([]);
@@ -87,7 +88,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione el profesional para {selectedSpecialty.nombre}</h3>
           {loading ? (
-            <Spinner as="span" animation="border" variant="info" role="status" aria-hidden="true" className="mt-2 mx-auto" /> 
+            <AppSpinner loading={loading}></AppSpinner> 
           ) : (
           <Form.Select className="bg-dark text-white" value={selectedOption?.profesional.id || undefined} 
             onChange={handleSelectProfessional}>
@@ -97,9 +98,10 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
               </option>
             ))}
           </Form.Select>)}
-          <Button variant="dark" className="mt-2" onClick={handleNext}>
-            Siguiente
-          </Button>
+          { !loading && (
+            <Button variant="dark" className="mt-2" onClick={handleNext}>
+              Siguiente
+            </Button>)}          
         </Card>
       </CenteredDiv>
     </Container>
