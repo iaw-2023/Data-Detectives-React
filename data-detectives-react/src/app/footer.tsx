@@ -15,7 +15,8 @@ const divStyle : React.CSSProperties = {
   backgroundColor: 'white',
   position: 'absolute',
   width: '100%',
-  zIndex: 100
+  zIndex: 100,
+  marginTop: 'auto'
 };
 
 const Footer: React.FC = () => {
