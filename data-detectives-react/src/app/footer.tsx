@@ -20,21 +20,23 @@ const Footer: React.FC = () => {
     <footer className="py-4" style={divStyle}>
       <Container>
         <Row>
-          <Col md={4}>
-            <h5>Contactate con nosotros</h5>
-            <p>Dirección: Evergreen Terrace 742, Springfield </p>
-            <p>Teléfono: 764 - 84377 </p>
-            <p>Email: healthtime@mail.com </p>
+          <Col md={4} className="text-center">
+            <h5 className='mb-4 mt-2'>Contactate con nosotros</h5>
+            <p>Dirección: Evergreen Terrace 742, Springfield</p>
+            <p>Teléfono: 764 - 84377</p>
+            <p>Email: healthtime@mail.com</p>
           </Col>
-          <Col md={4}>
-            <h5>Seguinos en nuestras redes sociales</h5>
-                <SocialIcon network="instagram" url="https://www.instagram.com/healthtimenutrition/?hl=es" />
-                <SocialIcon network="facebook" url="https://www.facebook.com/healthtime/" />
-                <SocialIcon network="linkedin" url="https://ar.linkedin.com/company/healthtime" />
+          <Col md={4} className="text-center">
+            <h5 className='mt-2'>Seguinos en nuestras redes sociales</h5>
+            <div className="d-flex justify-content-center mt-5">
+              <SocialIcon network="instagram" url="https://www.instagram.com/healthtimenutrition/?hl=es" className="mx-1" />
+              <SocialIcon network="facebook" url="https://www.facebook.com/healthtime/" className="mx-1" />
+              <SocialIcon network="linkedin" url="https://ar.linkedin.com/company/healthtime" className="mx-1" />
+            </div>
           </Col>
-          <Col md={4}>
-            <h6 className='text-uppercase fw-bold mb-4'>
-              <SocialIcon network="smugmug" className="me-3" />
+          <Col md={4} className="text-center">
+            <h6 className="text-uppercase fw-bold mb-4">
+              <SocialIcon network="smugmug" className="me-2" />
               HealthTime
             </h6>
             <p>
@@ -50,6 +52,7 @@ const Footer: React.FC = () => {
       </Container>
     </footer>
   );
+  
 };
 
 export default Footer;

@@ -6,7 +6,7 @@ import {  ApiResponseEspecialidadesProfesional, ApiResponseTurnosProfesional, Es
 import Container from "../container-fondo";
 import { useRouter } from "next/navigation";
 import Calendar from "react-calendar";
-import { Alert, Table } from "react-bootstrap";
+import { Alert, Spinner, Table } from "react-bootstrap";
 import CardTurnosAsignados from "../cardTurnosAsignados";
 import CenteredDivCalendar from "../centeredDivTable";
 
@@ -17,7 +17,6 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
   const [turnosAsignadosFecha, setTurnosAsignadosFecha] = useState<TurnoAsignadoProfesional[]>([]);
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const [selectedOption, setSelectedOption] = useState<string>();
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [tieneTurnos, setTieneTurnos] = useState<boolean>(true);
   const [fetchRealizado, setFetch] = useState<boolean>(false);
 
@@ -71,6 +70,8 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
     };
     fetchEspecialidadesProfesional();
     setFetch(true);
+    console.log("fetch realizado: ", fetchRealizado);
+    console.log("tiene turnos: ", tieneTurnos);
   }, [profesional.id]);
   
   const searchTurnos = async (especialidades: Especialidad_Profesional[]) => {
@@ -144,37 +145,47 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
       <CenteredDiv>
       <CardTurnosAsignados>
       <h3 className='text-white text-center mt-3'>Turnos asignados para {profesional.apellido}, {profesional.nombre}</h3>
-      <CenteredDivCalendar>
-        <Calendar
-          className="text-dark"
-          tileDisabled={tileDisabled}
-          onChange={handleSelectAsignados as any}
-          value={getSelectedDate()}
+        <CenteredDivCalendar>
+          <Calendar
+            className="text-dark"
+            tileDisabled={tileDisabled}
+            onChange={handleSelectAsignados as any}
+            value={getSelectedDate()}
           />
-      </CenteredDivCalendar>
-      {!tieneTurnos ? (
-          <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert>
+        </CenteredDivCalendar>
+        
+        {!fetchRealizado ? (
+          <div className="text-center mt-2">
+            <Spinner animation="border" variant="info" role="status" aria-hidden="true" />
+            <span className="visually-hidden">Cargando...</span>
+          </div>
         ) : (
-          <Table striped bordered hover>
-            <thead className="bg-white">
-              <tr>
-                <th className="text-dark">Especialidad</th>
-                <th className="text-dark">Hora</th>
-                <th className="text-dark">Paciente</th>
-                <th className="text-dark">Primer consulta</th>
-              </tr>
-            </thead>
-            <tbody>
-              {turnosAsignadosFecha.map((turno) => (
-                <tr key={turno.id}>
-                  <td className="text-white">{turno.turno.profesional_especialidad.especialidad.nombre}</td>
-                  <td className="text-white">{turno.turno.hora}</td>
-                  <td className="text-white">{turno.paciente.apellido_paciente + " " + turno.paciente.nombre_paciente}</td>
-                  <td className="text-white">{turno.primer_consulta ? "Si" : "No"}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <>
+            {!tieneTurnos ? (
+              <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert>
+            ) : (
+              <Table striped bordered hover>
+                <thead className="bg-white">
+                  <tr>
+                    <th className="text-dark">Especialidad</th>
+                    <th className="text-dark">Hora</th>
+                    <th className="text-dark">Paciente</th>
+                    <th className="text-dark">Primer consulta</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {turnosAsignadosFecha.map((turno) => (
+                    <tr key={turno.id}>
+                      <td className="text-white">{turno.turno.profesional_especialidad.especialidad.nombre}</td>
+                      <td className="text-white">{turno.turno.hora}</td>
+                      <td className="text-white">{turno.paciente.apellido_paciente + " " + turno.paciente.nombre_paciente}</td>
+                      <td className="text-white">{turno.primer_consulta ? "Si" : "No"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            )}
+          </>
         )}
       </CardTurnosAsignados>
     </CenteredDiv>

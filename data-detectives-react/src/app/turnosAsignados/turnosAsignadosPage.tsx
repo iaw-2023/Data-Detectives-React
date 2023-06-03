@@ -3,16 +3,18 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ShowTurnosAsignadosPageProps, TurnoAsignado } from "../types";
 import Container from "../container-fondo";
-import { Alert, Button, ListGroup } from "react-bootstrap";
+import { Alert, Button, Card, ListGroup, Spinner } from "react-bootstrap";
 import CenteredDiv from "../reservar/centeredDiv";
 import MinCardComponent from "../minCard";
 import CardTitle from "../cardTitle";
+import ContainerSpinner from "../containerSpinner";
 
 
 const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ paciente }) => {
   const [turnosAsignados, setTurnosAsignados] = useState<TurnoAsignado[]>([]);
   const [canceladoExitoso, setCanceladoExitoso] = useState<boolean>(false);  
   const [tieneTurnos, setTieneTurnos] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [fetchRealizado, setFetch] = useState<boolean>(false);
 
   const router = useRouter();
@@ -20,6 +22,7 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
   useEffect(() => {
     const fetchTurnosAsignados = async () => {
       try {
+        setLoading(true)
         const id_paciente = paciente.id;
         const response = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/turnos_asignados_paciente/${id_paciente}`);
         if (!response.ok) {
@@ -38,6 +41,7 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
       }
     };
     fetchTurnosAsignados();
+    setLoading(false);
     setFetch(true);
   }, []);
 
@@ -95,12 +99,13 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
         <CardTitle>
           <h3 className='text-white text-center mt-3'>Turnos asignados a {paciente.apellido_paciente}, {paciente.nombre_paciente}</h3>
         </CardTitle>
+     
         {!tieneTurnos ? (
           <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert>
         ) : (
           turnosAsignados.map((turno) => (
             <MinCardComponent key={turno.id}>
-              <ListGroup key={turno.id}> 
+              <ListGroup key={turno.id}>
                 <ListGroup.Item className='text-white bg-dark'>Turno del {turno.turno.fecha}</ListGroup.Item>
                 <ListGroup.Item className='text-white bg-dark'>Hora: {turno.turno.hora.substring(0, 5)}hs</ListGroup.Item>
                 <ListGroup.Item className='text-white bg-dark'>Profesional: {turno.turno.profesional_especialidad.profesional.apellido}, {turno.turno.profesional_especialidad.profesional.nombre}</ListGroup.Item>
@@ -113,7 +118,7 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
           ))
         )}
       </CenteredDiv>
-    </Container>
+      </Container>
   );
 };
 
