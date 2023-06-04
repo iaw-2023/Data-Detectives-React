@@ -10,7 +10,8 @@ interface ModalProps {
 }
 
 const MyModal: React.FC<ModalProps> = ({ show, onClose, onBack }) => {
-  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' });
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
   return (
     <Modal
@@ -18,7 +19,7 @@ const MyModal: React.FC<ModalProps> = ({ show, onClose, onBack }) => {
       onHide={onClose}
       backdrop="static"
       keyboard={false}
-      centered={!isMobile}
+      centered={!isTabletOrMobile}
     >
       <Modal.Header closeButton>
         <Modal.Title>Advertencia</Modal.Title>
@@ -27,15 +28,15 @@ const MyModal: React.FC<ModalProps> = ({ show, onClose, onBack }) => {
         Se perderá todo el progreso en la reserva del turno.
       </Modal.Body>
       <Modal.Footer>
-        {!isMobile && (
+        {!isTabletOrMobile && (
           <Button variant="secondary" onClick={onClose}>
             Cancelar
           </Button>
         )}
         <Button variant="primary" onClick={onBack}>
-          {isMobile ? 'Volver' : 'Volver a sección Pacientes'}
+          {isTabletOrMobile ? 'Volver' : 'Volver a sección Pacientes'}
         </Button>
-        {isMobile && (
+        {isTabletOrMobile && (
           <Button variant="secondary" onClick={onClose}>
             Cancelar
           </Button>

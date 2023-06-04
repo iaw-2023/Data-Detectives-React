@@ -120,12 +120,13 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
             onChange={handleSelectTurno as any}
             value={getSelectedDate()}
             />
-          </CenteredDiv>
-          { loading ? 
+            { loading ? 
              (<AppSpinner loading={loading}></AppSpinner> ) :
-             (<Button variant="dark" className="mt-2" onClick={handleNextPage}>
+             (selectedOption && (<Button variant="dark" className="mt-2" onClick={handleNextPage}>
               Siguiente
-            </Button>)}              
+            </Button>))} 
+          </CenteredDiv>
+                       
         </Card>
       </CenteredDiv>
     </Container>

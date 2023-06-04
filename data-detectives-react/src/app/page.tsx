@@ -2,7 +2,6 @@
 import React from 'react';
 import NavScroll from './mynavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ContainerHomePage2 from './container-homePage2';
 import Footer from './footer';
 import ContainerHomePage from './container-fondo-homePage';
 

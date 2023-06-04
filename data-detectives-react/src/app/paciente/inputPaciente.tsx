@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Paciente, InputDNIPacienteProps } from '../types';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Alert, Button, ListGroup, Spinner } from 'react-bootstrap';
+import { Button, ListGroup } from 'react-bootstrap';
 import CenteredDiv from '../reservar/centeredDiv';
 import CardComponent from '../card';
 import { useRouter } from "next/navigation";
@@ -10,40 +10,40 @@ import Container from '../container-fondo';
 import AppSpinner from '../app-spinner';
 import AlertWarning from '../alert-warning';
 
-
 const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPaciente }) => {
   const [dni, setDNI] = useState('');
-  const [paciente, setPaciente] = useState<Paciente | null>(null);
+  const [paciente, setPaciente] = useState<Paciente>();
   const [encontrado, setEncontrado] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
+  const [fetchRealizado, setFetchRealizado] = useState<boolean>(false);
+
 
   const router = useRouter();
 
   const buscarPaciente = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/pacientePorDNI/${dni}`);
+       const response = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/pacientePorDNI/${dni}`);
       if (!response.ok) {
         setEncontrado(false);
-        setPaciente(null);
       }
-      else {
-        setEncontrado(true);
-        setLoading(false);
+      else {        
         const data = await response.json();
-        if (data?.data)
-          setPaciente(data.data);
+        setPaciente(data.data);
+        setEncontrado(true);
       }
     } catch (error) {
       console.log(error);
     }
     setLoading(false);
+    setFetchRealizado(true);
     };
 
     const handleNextPage = () => {
       if (paciente && encontrado) {
         onSelectPaciente(paciente);
       } 
+      setLoading(false);
     };
 
     const handleBack = () => {
@@ -52,8 +52,7 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
     
     const handleChangeDNI = (e: React.ChangeEvent<HTMLInputElement>) => {
       setDNI(e.target.value);
-      setEncontrado(false);
-      setPaciente(null);
+      setFetchRealizado(false);
     }
     
   return (
@@ -62,12 +61,12 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
         Back
       </Button>
       <CenteredDiv>
-          {!encontrado && (
+          {!encontrado && fetchRealizado && (
             <AlertWarning mensaje={"No existe un paciente con el DNI ingresado."}/>
           )}
          <CardComponent>
           <h3 className='text-white text-center mt-3'>Ingrese su DNI:</h3>
-          <input type="text" className='text-black text-center' value={dni} onChange={handleChangeDNI} />
+          <input type="text" className='text-dark text-center' value={dni} onChange={handleChangeDNI} />
           {loading ? (
             <AppSpinner loading={loading}></AppSpinner> ) : (
             <Button className="btn mt-2" variant="dark" onClick={buscarPaciente}>Buscar</Button>

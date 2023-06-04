@@ -104,9 +104,9 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
                     </option>
                 ))}
             </Form.Select>)}
-            <Button variant="dark" className="mt-2" onClick={handleNextPage}>
+            { !loading && (<Button variant="dark" className="mt-2" onClick={handleNextPage}>
               Siguiente
-            </Button>
+            </Button>)}
             </Card>
           </CenteredDiv>
         </Container>

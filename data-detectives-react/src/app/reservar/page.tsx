@@ -10,13 +10,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import FifthPage from "./confirmTurnoPage";
 
 
+
 const Formulario: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [paciente, setPaciente] = useState<Paciente | null>(null);
-  const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>(null);
-  const [selectedProfessional, setSelectedProfessional] = useState<Profesional_con_especialidad_id | null>(null);
+  const [paciente, setPaciente] = useState<Paciente>();
+  const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>();
+  const [selectedProfessional, setSelectedProfessional] = useState<Profesional_con_especialidad_id | null>();
   const [selectedFecha, setSelectedFecha] = useState<string | "">();
-  const [selectedTurno, setSelectedTurno] = useState<TurnoDisponible | null>(null);
+  const [selectedTurno, setSelectedTurno] = useState<TurnoDisponible | null>();
   const [primeraConsulta, setPrimerConsulta] = useState<boolean>();
 
   const handleSelectPaciente = (paciente: Paciente) => {
@@ -47,6 +48,7 @@ const Formulario: React.FC = () => {
   const handleConfirmTurno = (turno: TurnoDisponible, profesional_especialidad:Profesional_con_especialidad_id, primeraConsulta:boolean) => {
     setPrimerConsulta(primeraConsulta);
   };
+  
   
   return (
     <div>

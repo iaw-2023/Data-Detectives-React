@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import Container from "../container-fondo";
 import CardComponent from '../card';
 import MyModal from '../modalAlert';
+import AppSpinner from "../app-spinner";
 
 const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTurno, selectedSpecialty, paciente }) => {
   const [primerConsulta, setPrimerConsulta] = useState(false);
   const [turnoConfirmado, setTurnoConfirmado] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [progress, setprogress] = useState<number>(99);
+  const [loading, setLoading] = useState<boolean>(false);
 
 
     const handleShow = () => {
@@ -26,6 +28,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
 
   const handleConfirm = async () => {
     try {
+      setLoading(true);
       const response = await fetch('https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/asignar_turno', {
         method: 'POST',
         headers: {
@@ -44,6 +47,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
         }),
       });
       setprogress(100);
+      setLoading(false);
       setTurnoConfirmado(true);
     } catch (error) {
       console.log('Error al confirmar el turno:', error);
@@ -78,8 +82,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
             </Button>
           </div>
         ) : (
-          <>
-              <CardComponent>
+          <> <CardComponent>
                 <ListGroup>
                   <h3 className='text-white mt-2 text-center'>Resumen del turno:</h3>
                   <ListGroup.Item className="bg-dark text-white">Paciente: {paciente.apellido_paciente}, {paciente.nombre_paciente}</ListGroup.Item>
@@ -97,9 +100,12 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
                   </ListGroup.Item>
                 </ListGroup>
               </CardComponent>
-            <Button variant="outline-dark" className="mt-2" onClick={handleConfirm}>
-              Confirmar
-            </Button>
+            { !loading ? 
+                    (<Button variant="outline-dark" className="mt-2" onClick={handleConfirm}>
+                      Confirmar
+                    </Button>) : 
+                    (<AppSpinner loading={loading}></AppSpinner>)
+            }
           </>
         )}
       </CenteredDiv>

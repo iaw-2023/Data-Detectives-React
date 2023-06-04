@@ -12,9 +12,10 @@ import AlertWarning from '../alert-warning';
 
 const InputDNIProfesional: React.FC<InputDNIProfesionalProps> = ({ onSelectProfesional }) => {
   const [dni, setDNI] = useState('');
-  const [profesional, setProfesional] = useState<Profesional | null>(null);
+  const [profesional, setProfesional] = useState<Profesional | null>();
   const [encontrado, setEncontrado] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
+  const [fetchRealizado, setFetchRealizado] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -35,6 +36,7 @@ const InputDNIProfesional: React.FC<InputDNIProfesionalProps> = ({ onSelectProfe
         catch {
         }
         setLoading(false);
+        setFetchRealizado(true);
     } 
 
     
@@ -52,7 +54,7 @@ const InputDNIProfesional: React.FC<InputDNIProfesionalProps> = ({ onSelectProfe
   const handleChangeDNI = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDNI(e.target.value);
     setProfesional(null);
-    setEncontrado(false);
+    setFetchRealizado(false);
   }
   
 
@@ -62,7 +64,7 @@ const InputDNIProfesional: React.FC<InputDNIProfesionalProps> = ({ onSelectProfe
         Back
       </Button>
       <CenteredDiv>
-          {!encontrado && (
+          {!encontrado && fetchRealizado && (
             <AlertWarning mensaje={"No existe un profesional con el DNI ingresado."} />
           )}      
          <CardComponent>
