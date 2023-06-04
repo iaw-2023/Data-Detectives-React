@@ -8,15 +8,10 @@ interface CenteredDivProps {
 }
 
 const CenteredDiv: React.FC<CenteredDivProps> = ({ children }) => {
-  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
-
-  const colSize = isDesktopOrLaptop ? 6 : 12;
-
   return (
-    <Container className="vh-100 mt-5">
+    <Container className="vh-100 centered-div">
       <Row className="justify-content-center">
-        <Col xs={12} md={colSize}>
+        <Col xs={12} md={6}>
           {children}
         </Col>
       </Row>

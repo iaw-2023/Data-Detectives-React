@@ -18,22 +18,12 @@ const CardPaciente: React.FC<CardPacienteProps> = ({
   buttonText,
   buttonLink,
 }) => {
-  const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' });
-  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
-
-  const cardStyle: React.CSSProperties = {
-    width: isTabletOrMobile ? '100%' : isDesktopOrLaptop ? '25rem' : '20rem',
-    height: isTabletOrMobile ? 'auto' : isDesktopOrLaptop ? '12rem' : '10rem',
-  };
-  
-  const titleClassName = isTabletOrMobile ? 'h4' : 'h3';
-  const descriptionClassName = isTabletOrMobile ? 'mb-3' : '';
 
   return (
-    <Card className="mt-2 bg-light text-dark" style={cardStyle}>
+    <Card className="card-home-paciente mt-2 bg-light text-dark">
       <Card.Body>
-        <Card.Title className={titleClassName}>{title}</Card.Title>
-        <Card.Text className={descriptionClassName}>{description}</Card.Text>
+        <Card.Title>{title}</Card.Title>
+        <Card.Text>{description}</Card.Text>
         <Link href={buttonLink}>
           <Button className="btn-dark">
             <span className="text-decoration-none text-white">{buttonText}</span>

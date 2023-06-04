@@ -7,11 +7,7 @@ interface ContainerFooterProps {
 
 const ContainerFooter: React.FC<ContainerFooterProps> = ({ children }) => {
 
-  const divStyle: React.CSSProperties = {
-    
-  };
-
-  return <div style={divStyle}>{children}</div>;
+  return <div >{children}</div>;
 };
 
 export default ContainerFooter;

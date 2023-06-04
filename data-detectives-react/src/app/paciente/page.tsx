@@ -12,32 +12,30 @@ import TituloHome from '../titulo-home';
 const HomePage: React.FC = () => {
 
     return (
-      <div className="content-wrapper" style={{ display: 'flex', flexDirection: 'column' }}>
+      <div className="content-wrapper div-paciente">
         <ContainerHomePage>
-        <NavScroll />
-          <ContainerPaciente>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <TituloHome></TituloHome>             
-            <Row>
-              <Col>
-                <CardPaciente
-                  title='Reservar turno'
-                  description='Aquí podrás reservar turnos para la especialidad que desees'
-                  buttonLink='/reservar'
-                  buttonText='Reservar turno'
-                />
-              </Col>
-              <Col>
-                <CardPaciente
-                  title='Consultar turnos asignados'
-                  description='Aquí podrás visualizar los turnos reservados anteriormente'
-                  buttonLink='/turnosAsignados'
-                  buttonText='Ver turnos asignados'
-                />
-              </Col>
-            </Row>
-          </div>
-          </ContainerPaciente>  
+          <NavScroll />
+            <ContainerPaciente>
+              <TituloHome></TituloHome>             
+              <Row>
+                <Col>
+                  <CardPaciente
+                    title='Reservar turno'
+                    description='Aquí podrás reservar turnos para la especialidad que desees'
+                    buttonLink='/reservar'
+                    buttonText='Reservar turno'
+                  />
+                </Col>
+                <Col>
+                  <CardPaciente
+                    title='Consultar turnos asignados'
+                    description='Aquí podrás visualizar los turnos reservados anteriormente'
+                    buttonLink='/turnosAsignados'
+                    buttonText='Ver turnos asignados'
+                  />
+                </Col>
+              </Row>
+            </ContainerPaciente>  
         </ContainerHomePage>
         <Footer />
       </div>
