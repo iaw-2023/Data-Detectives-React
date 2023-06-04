@@ -1,7 +1,6 @@
 'use client';
 import React, { ReactNode } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { useMediaQuery } from "react-responsive";
 
 interface CenteredDivProps {
   children: ReactNode;

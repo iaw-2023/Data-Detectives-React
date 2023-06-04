@@ -8,7 +8,7 @@ interface CenteredDivCalendarProps {
 
 const CenteredDivCalendar: React.FC<CenteredDivCalendarProps> = ({ children }) => {
   return (
-    <Container className="mt-3 mb-3">
+    <Container className="centered-div mb-3">
       <Row>
         <Col md={{ span: 6, offset: 3 }}>
             {children}

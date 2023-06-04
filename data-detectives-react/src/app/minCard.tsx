@@ -7,7 +7,6 @@ interface MinCardComponentProps {
 }
 
 const MinCardComponent: React.FC<MinCardComponentProps> = ({ children }) => {
-  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
   return (
     <>
@@ -18,8 +17,7 @@ const MinCardComponent: React.FC<MinCardComponentProps> = ({ children }) => {
           bg={variant.toLowerCase()}
           key={variant}
           text={variant.toLowerCase() === 'light' ? 'dark' : 'white'}
-          style={{ width: isMobile ? '100%' : '40rem', height: isMobile ? 'auto' : '14rem' }}
-          className={`mt-2 border-light ${isMobile ? 'p-3' : ''}`}
+          className="mt-2 border-light min-card-component"
         >
           {children}
         </Card>

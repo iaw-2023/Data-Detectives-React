@@ -38,9 +38,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
         const availableDateCopy = new Date(availableDate.getFullYear(), availableDate.getMonth(), availableDate.getDate());
         return currentDate.getTime() === availableDateCopy.getTime();
       });
-  };
-         
-  
+  };     
       
   const getSelectedDate = () => {
     if (selectedOption) {
@@ -168,7 +166,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
             ( <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert> ) : 
             ( loading ? 
                       ( <AppSpinner loading={loading}></AppSpinner> ) :
-                      ( <Table striped bordered hover>
+                      ( <Table striped bordered hover className="table-responsive-s">
                         <thead className="bg-white">
                           <tr>
                             <th className="text-dark">Especialidad</th>

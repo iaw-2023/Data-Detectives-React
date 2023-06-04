@@ -7,7 +7,6 @@ interface AlertWarningProps {
 }
 
 const AlertWarning: React.FC<AlertWarningProps> = ({ mensaje }) => {
-  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
   useEffect(() => {
     const tiempoVisible = 3000;
@@ -21,10 +20,10 @@ const AlertWarning: React.FC<AlertWarningProps> = ({ mensaje }) => {
     <>
       <Alert
         variant="warning"
-        style={{ width: isMobile ? '100%' : '40rem' }}
+        className="alert-warning"
         dismissible
       >
-        {mensaje}
+      {mensaje}
       </Alert>
     </>
   );

@@ -65,21 +65,24 @@ input:focus {
   flex-wrap: wrap;
 }
 
-/* Estilos para las columnas del Footer */
-.footer-column {
-  flex: 1;
-  margin: 0 10px;
-}
 
 /* Estilos para dispositivos móviles */
 @media (max-width: 767px) {
   .footer-container {
-    height: auto;
+    position: relative;
+    bottom: 0;
+    width: 100%;
     padding: 20px;
   }
   
   .footer-column {
     flex-basis: 100%;
+  }
+
+  .centered-div {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    justify-content: center;
   }
   
   .h1 {
@@ -106,6 +109,11 @@ input:focus {
 
   }
 
+  .div-paciente {
+    display: flex;
+    flex-direction: column;
+  }
+
   .card-home-paciente {
     width: 20rem;
     height: 10rem;
@@ -119,6 +127,7 @@ input:focus {
     padding: 10px 20px;
     image-rendering: auto;
     flex-direction: column;
+    
   }
 
   .card-component {
@@ -127,19 +136,56 @@ input:focus {
   }
 
   .card-turnos-asignados {
-    width: 20rem;
+    width: auto;
     height: auto;
+  }
+
+  .container-fondo {
+    background-image: url('/imgs/fondo-reserva.jpg');
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: 'visible';
+  }
+
+  .card-title {
+    width: 100%;
+    height: auto;
+  }
+
+  .titulo-home {
+    font-size: 1;
+    margin-top: 5;
+  }
+
+  .min-card-component {
+    width: 100%;
+    height: auto;
+    padding: 0.75rem;
+  }
+
+  .alert-warning {
+    width: 100%;
+  }
+
+  .table-show-turnos {
+    
   }
 }
 
 /* Estilos para dispositivos de escritorio */
 @media (min-width: 768px) {
   .footer-container {
-    padding: 40px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
   }
   
   .footer-column {
-    
     margin-bottom: 0;
   }
 
@@ -202,4 +248,34 @@ input:focus {
     height: auto;
   }
 
+  .container-fondo {
+    background-image: url('/imgs/fondo-reserva.jpg');
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: 'auto';
+  }
+
+  .card-title {
+    width: 40rem;
+    height: 4rem;
+  }
+
+  .titulo-home {
+    font-size: 2rem;
+    margin-top: 5;
+  }
+
+  .min-card-component {
+    width: 40rem;
+    height: 14rem;
+  }
+
+  .alert-warning {
+    width: 40rem;
+  }
+ 
 }
