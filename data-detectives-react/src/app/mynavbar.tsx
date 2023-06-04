@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Box, Image } from '@chakra-ui/react';
 import Link from 'next/link';
-import { Button } from 'react-bootstrap';
+import { Button, Offcanvas } from 'react-bootstrap';
 import { useMediaQuery } from 'react-responsive'
 
 
@@ -52,28 +52,46 @@ const NavScroll: React.FC<NavScrollProps> = () => {
     navScrollStyle.padding = '40px';
   }
   return (
-    <Navbar className="bg-light" expand="lg">
+    <>
+    { ['lg'].map((expand) => (
+      <Navbar key={expand} bg="light" expand={expand} className="mb-3">
       <Container fluid>
         <Box boxSize='sm'>
           <Image src='/imgs/htlogo.png' />
         </Box>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav className="me-auto my-2 my-lg-0 gap-2" style={{ maxHeight: '100px' }} >
-            <Button className="btn-light">
-              <Link className='text-decoration-none text-black' href="/">Inicio</Link>
-            </Button >
-            <Button className="btn-light">
-              <Link className='text-decoration-none text-black' href="/profesional">Profesional</Link>
-            </Button>
-            <Button className="btn-light">
-              <Link className='text-decoration-none text-black' href="/paciente">Paciente</Link>
-            </Button>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+        <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+        <Navbar.Offcanvas
+              id={`offcanvasNavbar-expand-${expand}`}
+              aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+              placement="end"
+            >
+            <Offcanvas.Header closeButton>
+                <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+                  Navegación
+                </Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Button className="btn-light">
+                      <Link className='text-decoration-none text-black' href="/">Inicio</Link>
+                  </Button >
+                  <Button className="btn-light">
+                    <Link className='text-decoration-none text-black' href="/profesional">Profesional</Link>
+                  </Button>
+                  <Button className="btn-light">
+                    <Link className='text-decoration-none text-black' href="/paciente">Paciente</Link>
+                  </Button>
+                  <Button className="btn-light">
+                    <Link className='text-decoration-none text-black' href="/nosotros">Sobre nosotros</Link>
+                  </Button>
+                </Nav>
+                </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          </Container>
+        </Navbar>    
+  ))}
+  </>
+ );
 };
 
 export default NavScroll;

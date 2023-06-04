@@ -12,7 +12,7 @@ import TituloHome from '../titulo-home';
 const HomePage: React.FC = () => {
 
     return (
-      <div className="content-wrapper" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <div className="content-wrapper" style={{ display: 'flex', flexDirection: 'column' }}>
         <ContainerHomePage>
         <NavScroll />
           <ContainerPaciente>

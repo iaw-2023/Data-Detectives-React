@@ -96,10 +96,10 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
         {canceladoExitoso && (
           <Alert variant="info" style={{ width: "40rem" }}>El turno se ha cancelado con éxito.</Alert>
         )}
+        { loading && (<AppSpinner loading={loading}></AppSpinner> )}
         <CardTitle>
-          <h3 className='text-white text-center mt-3'>Turnos asignados a {paciente.apellido_paciente}, {paciente.nombre_paciente}</h3>
+          <h3 className='text-white text-center mt-3'>Turnos asignados a {paciente.apellido_paciente}, {paciente.nombre_paciente}</h3>          
         </CardTitle>
-        <AppSpinner loading={loading}></AppSpinner> 
         {!tieneTurnos ? (
           <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert>
         ) : (
