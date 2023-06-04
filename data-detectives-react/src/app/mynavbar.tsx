@@ -24,6 +24,7 @@ const NavScroll: React.FC<NavScrollProps> = () => {
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '10px',
+    imageRendering: 'auto',
   };
   
   if (isDesktopOrLaptop) {

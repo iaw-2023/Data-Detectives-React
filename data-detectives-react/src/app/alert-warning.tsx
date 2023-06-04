@@ -1,32 +1,33 @@
-"use client";
 import React, { useEffect, useState } from 'react';
-import {  Alert } from 'react-bootstrap';
-
+import { useMediaQuery } from 'react-responsive';
+import { Alert } from 'react-bootstrap';
 
 interface AlertWarningProps {
   mensaje: string;
+}
 
-} 
+const AlertWarning: React.FC<AlertWarningProps> = ({ mensaje }) => {
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
-const AlertWarning: React.FC<AlertWarningProps> = ({mensaje}) => {
+  useEffect(() => {
+    const tiempoVisible = 3000;
 
+    const timer = setTimeout(() => {}, tiempoVisible);
 
-    useEffect(() => {
-      const tiempoVisible = 3000; 
-  
-      const timer = setTimeout(() => {
-      }, tiempoVisible);
-  
-      return () => clearTimeout(timer);
-    }, []);
-  
-    return (
-      <>
-          <Alert variant="warning" style={{ width: "40rem" }} dismissible> {mensaje}
-          </Alert>
-        
-      </>
-    );
-  };  
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <>
+      <Alert
+        variant="warning"
+        style={{ width: isMobile ? '100%' : '40rem' }}
+        dismissible
+      >
+        {mensaje}
+      </Alert>
+    </>
+  );
+};
 
 export default AlertWarning;

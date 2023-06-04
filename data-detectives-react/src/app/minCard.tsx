@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import Card from 'react-bootstrap/Card';
 
 interface MinCardComponentProps {
@@ -6,6 +7,8 @@ interface MinCardComponentProps {
 }
 
 const MinCardComponent: React.FC<MinCardComponentProps> = ({ children }) => {
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+
   return (
     <>
       {[
@@ -15,8 +18,8 @@ const MinCardComponent: React.FC<MinCardComponentProps> = ({ children }) => {
           bg={variant.toLowerCase()}
           key={variant}
           text={variant.toLowerCase() === 'light' ? 'dark' : 'white'}
-          style={{ width: '40rem', height: '14rem' }}
-          className="mt-2 border-light"
+          style={{ width: isMobile ? '100%' : '40rem', height: isMobile ? 'auto' : '14rem' }}
+          className={`mt-2 border-light ${isMobile ? 'p-3' : ''}`}
         >
           {children}
         </Card>
@@ -26,3 +29,4 @@ const MinCardComponent: React.FC<MinCardComponentProps> = ({ children }) => {
 };
 
 export default MinCardComponent;
+

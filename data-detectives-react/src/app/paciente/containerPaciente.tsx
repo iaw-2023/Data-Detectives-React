@@ -13,13 +13,13 @@ const ContainerPaciente: React.FC<ContainerPacienteProps> = ({ children }) => {
   const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' })
 
   const containerStyle: React.CSSProperties = {
-     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     margin: '0 auto',
     padding: '20px',
     width: '100%',
     height: '100%',
+    overflowY: 'scroll',
   };
   
   if (isDesktopOrLaptop) {

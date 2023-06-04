@@ -23,7 +23,8 @@ const ContainerHomePage: React.FC<ContainerHomePageProps> = ({ children }) => {
     right: 0,
     bottom: 0,
     left: 0,
-    height: '100vh', // Establece la altura al 100% de la venta
+    height: '100vh',
+    overflowY: 'scroll',
   };
   
   if (isDesktopOrLaptop) {

@@ -2,14 +2,12 @@
 import React from 'react';
 import NavScroll from '../mynavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 import ContainerHomePage from '../container-fondo-homePage';
-import Link from 'next/link';
 import ContainerPaciente from './containerPaciente';
 import Footer from '../footer';
-
-
+import CardPaciente from './card-home-paciente';
+import { Col, Row } from 'react-bootstrap';
+import TituloHome from '../titulo-home';
 
 const HomePage: React.FC = () => {
 
@@ -18,32 +16,27 @@ const HomePage: React.FC = () => {
         <ContainerHomePage>
         <NavScroll />
           <ContainerPaciente>
-            <h1 className='mt-2'>
-              Administra tus citas médicas 
-              <br />
-              de manera eficiente y cómoda</h1>     
-            <Card className="mt-2 bg-light text-dark" style={{ width: '25rem', height: '12rem' }}>
-              <Card.Body>
-                <Card.Title>Reservar turno</Card.Title>
-                <Card.Text>
-                  Aquí podrás seleccionar la especialidad y te mostraremos los profesionales y sus turnos disponibles
-                </Card.Text>
-                <Button className='btn-dark'>
-                  <Link className='text-decoration-none text-white' href="/reservar">Reservar turno</Link>
-                </Button>
-              </Card.Body>
-            </Card>
-            <Card className="mt-2 bg-white text-dark" style={{ width: '25rem', height: '11rem' }}>
-              <Card.Body>
-                <Card.Title>Consultar turnos asignados</Card.Title>
-                <Card.Text>
-                  Aquí podrás visualizar los turnos reservados anteriormente
-                </Card.Text>
-                <Button className='btn-dark mt-1'>
-                  <Link className='text-decoration-none text-white' href="/turnosAsignados">Ver turnos asignados</Link>
-                </Button>
-              </Card.Body>
-            </Card>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <TituloHome></TituloHome>             
+            <Row>
+              <Col>
+                <CardPaciente
+                  title='Reservar turno'
+                  description='Aquí podrás reservar turnos para la especialidad que desees'
+                  buttonLink='/reservar'
+                  buttonText='Reservar turno'
+                />
+              </Col>
+              <Col>
+                <CardPaciente
+                  title='Consultar turnos asignados'
+                  description='Aquí podrás visualizar los turnos reservados anteriormente'
+                  buttonLink='/turnosAsignados'
+                  buttonText='Ver turnos asignados'
+                />
+              </Col>
+            </Row>
+          </div>
           </ContainerPaciente>  
         </ContainerHomePage>
         <Footer />
