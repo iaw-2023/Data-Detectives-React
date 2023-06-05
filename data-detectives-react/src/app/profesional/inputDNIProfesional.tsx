@@ -23,7 +23,7 @@ const InputDNIProfesional: React.FC<InputDNIProfesionalProps> = ({ onSelectProfe
     try {
         setLoading(true);
         const response_professional = await fetch(
-            `https://data-detectives-laravel-1kywjtt0d-data-detectives.vercel.app/rest/profesionalPorDNI/${dni}`
+            `https://data-detectives-laravel.vercel.app/rest/profesionalPorDNI/${dni}`
           );
           if (!response_professional.ok) {
             setEncontrado(false);

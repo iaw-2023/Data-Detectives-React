@@ -127,7 +127,7 @@ input:focus {
     padding: 10px 20px;
     image-rendering: auto;
     flex-direction: column;
-    
+
   }
 
   .card-component {
@@ -170,10 +170,6 @@ input:focus {
   .alert-warning {
     width: 100%;
   }
-
-  .table-show-turnos {
-    
-  }
 }
 
 /* Estilos para dispositivos de escritorio */
@@ -183,6 +179,7 @@ input:focus {
     bottom: 0;
     width: 100%;
     padding: 20px;
+    overflow-y: auto;
   }
   
   .footer-column {
@@ -207,12 +204,14 @@ input:focus {
     bottom: 0;
     left: 0;
     height: 100vh;
+    width: 100%;
     background-repeat: no-repeat;
+    justify-content: flex-start;
   }
 
   .card-home-paciente {
-    width: 25rem;
-    height: 12rem;
+    width: 40rem;
+    height: 10rem;
     font-size: 3;
   }
 
@@ -256,7 +255,7 @@ input:focus {
     right: 0;
     bottom: 0;
     left: 0;
-    overflow: 'auto';
+    overflow-y: scroll;
   }
 
   .card-title {

@@ -36,7 +36,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
     const fetchProfessionals = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://data-detectives-laravel-e5p4ga6p5-data-detectives.vercel.app/rest/profesionales/${selectedSpecialty.id}`);
+        const response = await fetch(`https://data-detectives-laravel.vercel.app/rest/profesionales/${selectedSpecialty.id}`);
         const data = await response.json();
         if (Array.isArray(data?.data)) {
           setProfessionals(data.data);
@@ -53,7 +53,6 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
   }, [selectedOption]);
 
   const handleNext = () => {
-    console.log(selectedOption);
     if (selectedOption) {
       onSelectedProfessional(selectedOption);
     } else {

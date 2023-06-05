@@ -31,7 +31,7 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
             try {
               setLoading(true);
               const id_especialidad = selectedProfessional.id_profesional_especialidad;
-              const response = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/show_turno_fecha/${id_especialidad}/${selectedFecha}`); 
+              const response = await fetch(`https://data-detectives-laravel.vercel.app/rest/show_turno_fecha/${id_especialidad}/${selectedFecha}`); 
               const data: TurnoDisponibleResponse = await response.json();
       
               if (Array.isArray(data?.data)) {
@@ -61,7 +61,6 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
         } else {
           console.log("Debe seleccionar un turno antes de continuar.");
         }
-        console.log(selectedOption);
     };
 
     const handleBack = () => {

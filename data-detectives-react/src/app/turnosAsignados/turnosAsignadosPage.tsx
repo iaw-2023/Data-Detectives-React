@@ -24,7 +24,7 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
       try {
         setLoading(true)
         const id_paciente = paciente.id;
-        const response = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/turnos_asignados_paciente/${id_paciente}`);
+        const response = await fetch(`https://data-detectives-laravel.vercel.app/rest/turnos_asignados_paciente/${id_paciente}`);
         if (!response.ok) {
           setTieneTurnos(false);
         } else {
@@ -56,10 +56,8 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
   };
   
   const handleCancelTurno = async (turno_id: number, turno_asignado_id: number) => {
-    console.log(turno_asignado_id);
-    console.log(turno_id);
     try {
-      const response = await fetch('https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/cancelar_turno', {
+      const response = await fetch('https://data-detectives-laravel.vercel.app/rest/cancelar_turno', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -73,7 +71,6 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
           }],
         }),
       });
-      console.log(response);
       if (response.ok) {
         console.log('Solicitud POST enviada');
         const updatedTurnos = turnosAsignados.filter(turno => turno.id !== turno_asignado_id);

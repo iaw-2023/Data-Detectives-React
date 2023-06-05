@@ -29,7 +29,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   const handleConfirm = async () => {
     try {
       setLoading(true);
-      const response = await fetch('https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/asignar_turno', {
+      const response = await fetch('https://data-detectives-laravel.vercel.app/rest/asignar_turno', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

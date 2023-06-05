@@ -32,7 +32,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
       try {
         setLoading(true);
         const id_especialidad = selectedProfessional.id_profesional_especialidad;
-        const response = await fetch(`https://data-detectives-laravel-git-new-api-data-detectives.vercel.app/rest/turnos_disponibles_profesional/${id_especialidad}`); 
+        const response = await fetch(`https://data-detectives-laravel.vercel.app/rest/turnos_disponibles_profesional/${id_especialidad}`); 
         const data: TurnoDisponibleResponse = await response.json();
 
         if (Array.isArray(data?.data)) {
@@ -58,7 +58,6 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
 
   const handleSelectTurno = (date: Date) => {
     const dateFormat = formatDate(date); 
-    console.log(selectedOption);
     setSelectedOption(dateFormat);
   };
   
@@ -83,12 +82,10 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
     } else {
       console.log("Debe seleccionar un turno antes de continuar.");
     }
-    console.log(selectedOption);
   };
 
   const tileDisabled = ({ date, view }: { date: Date; view: string }) => {
     if (view === "year" || view === "decade" || view === "century") {
-      console.log("estoy en vista año, o lo que sea");
       return false;
     }
 

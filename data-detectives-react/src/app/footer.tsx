@@ -7,7 +7,7 @@ import ContainerFooter from './container-footer';
 const Footer: React.FC = () => {
  
   return (
-    <footer className="py-4 footer-container vw-100">
+    <footer className="py-4 footer-container">
       <ContainerFooter>       
         <h6 className='mt-2 mb-2'>Seguinos en nuestras redes sociales</h6>
         <div className="footer-content">
