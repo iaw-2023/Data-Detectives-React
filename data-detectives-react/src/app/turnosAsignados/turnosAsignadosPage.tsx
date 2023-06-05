@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ShowTurnosAsignadosPageProps, TurnoAsignado } from "../types";
 import Container from "../container-fondo";
-import { Alert, Button, Card, ListGroup, Spinner } from "react-bootstrap";
+import { Alert, Button, ListGroup } from "react-bootstrap";
 import CenteredDiv from "../reservar/centeredDiv";
 import MinCardComponent from "../minCard";
 import CardTitle from "../cardTitle";
 import AppSpinner from "../app-spinner";
+import AlertWarning from "../alert-warning";
 
 
 const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ paciente }) => {
@@ -91,14 +92,14 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
       </Button>
       <CenteredDiv>
         {canceladoExitoso && (
-          <Alert variant="info" style={{ width: "40rem" }}>El turno se ha cancelado con éxito.</Alert>
+          <AlertWarning mensaje={"El turno se ha cancelado con éxito."}/>
         )}
         { loading && (<AppSpinner loading={loading}></AppSpinner> )}
         <CardTitle>
           <h3 className='text-white text-center mt-3'>Turnos asignados a {paciente.apellido_paciente}, {paciente.nombre_paciente}</h3>          
         </CardTitle>
         {!tieneTurnos ? (
-          <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert>
+          <AlertWarning mensaje={"No hay turnos asignados."}/>
         ) : (
           turnosAsignados.map((turno) => (
             <MinCardComponent key={turno.id}>

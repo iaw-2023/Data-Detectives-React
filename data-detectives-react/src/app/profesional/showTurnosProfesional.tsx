@@ -11,6 +11,7 @@ import CardTurnosAsignados from "../cardTurnosAsignados";
 import CenteredDivCalendar from "../centeredDivTable";
 import AppSpinner from "../app-spinner";
 import IconTooltip from "../icon-tooltip";
+import AlertWarning from "../alert-warning";
 
 const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesional }) => {
 
@@ -163,7 +164,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
           />
         </CenteredDivCalendar>      
         {!tieneTurnos ? 
-            ( <Alert variant="info" style={{ width: "40rem" }}>No hay turnos asignados.</Alert> ) : 
+            ( <AlertWarning mensaje={"No hay turnos asignados."}/> ) : 
             ( loading ? 
                       ( <AppSpinner loading={loading}></AppSpinner> ) :
                       ( <Table striped bordered hover className="table-responsive-s">

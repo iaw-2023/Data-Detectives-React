@@ -10,14 +10,16 @@ import Card from '../card';
 import { useRouter } from "next/navigation";
 import MyModal from '../modalAlert';
 import AppSpinner from "../app-spinner";
+import AlertWarning from "../alert-warning";
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedFecha }) => {
-  const [turnosDisponibles, setTurnosDisponibles] = useState<TurnoDisponible[]>([]);
   const [selectedOption, setSelectedOption] = useState<string>();
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [tieneTurnos, setTieneTurnos] = useState<boolean>(true);
+  const [fetchRealizado, setFetch] = useState<boolean>(false);
 
   const handleShow = () => {
     setShowModal(true);
@@ -31,12 +33,13 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
     const fetchTurnosDisponibles = async () => {
       try {
         setLoading(true);
+        setTieneTurnos(true);
         const id_especialidad = selectedProfessional.id_profesional_especialidad;
         const response = await fetch(`https://data-detectives-laravel.vercel.app/rest/turnos_disponibles_profesional/${id_especialidad}`); 
+        setFetch(true);
         const data: TurnoDisponibleResponse = await response.json();
 
         if (Array.isArray(data?.data)) {
-          setTurnosDisponibles(data.data);
           const dates = data.data.map((turno) => {
             const [year, month, day] = turno.fecha.split("-");
             return new Date(Number(year), Number(month) - 1, Number(day), 0, 0, 0);
@@ -55,6 +58,13 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
 
     fetchTurnosDisponibles();
   }, []);
+
+  useEffect(() => {
+    if (fetchRealizado && availableDates.length === 0){
+      setTieneTurnos(false);
+    }
+  }, [availableDates])
+
 
   const handleSelectTurno = (date: Date) => {
     const dateFormat = formatDate(date); 
@@ -108,6 +118,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
       </Button>
       <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
       <CenteredDiv>
+      {!tieneTurnos && ( <AlertWarning mensaje={"No hay turnos asignados."}></AlertWarning> )}
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione un turno para {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</h3>
           <CenteredDiv>
@@ -118,12 +129,15 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
             value={getSelectedDate()}
             />
             { loading ? 
-             (<AppSpinner loading={loading}></AppSpinner> ) :
-             (selectedOption && (<Button variant="dark" className="mt-2" onClick={handleNextPage}>
-              Siguiente
-            </Button>))} 
-          </CenteredDiv>
-                       
+                ( <AppSpinner loading={loading}></AppSpinner> ) :           
+                (selectedOption && (
+                  <Button variant="dark" className="mt-2" onClick={handleNextPage}>
+                    Siguiente
+                  </Button>)
+                )
+          }             
+          </CenteredDiv>  
+                               
         </Card>
       </CenteredDiv>
     </Container>

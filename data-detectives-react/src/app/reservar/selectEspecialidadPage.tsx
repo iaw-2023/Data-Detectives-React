@@ -82,8 +82,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
         Back
       </Button>
       <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
-        <CenteredDiv> 
-        
+        <CenteredDiv>         
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione una especialidad</h3>
           {loading ? (

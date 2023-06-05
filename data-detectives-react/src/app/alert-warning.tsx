@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Alert } from 'react-bootstrap';
@@ -19,7 +20,7 @@ const AlertWarning: React.FC<AlertWarningProps> = ({ mensaje }) => {
   return (
     <>
       <Alert
-        variant="warning"
+        variant="info"
         className="alert-warning"
         dismissible
       >
