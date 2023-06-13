@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -18,10 +16,265 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-start-rgb));
+}
+
+h1 {
+  color:rgb(8, 79, 79); 
+  font-family:'Courier New', Courier, monospace;
+}
+
+h2 {
+  color:rgb(2, 3, 3); 
+  font-family: 'Kaisei Opti', serif;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #0c253d;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+  width: 20rem;
+  align-self: center;
+  background-color: rgb(202, 234, 228);
+  text-decoration-color: beige;
+}
+
+input:focus {
+  border-color: #101427;
+  box-shadow: 0 0 0 0.2rem rgba(53, 79, 90, 0.829);
+}
+
+.footer-container {
+  background-color: white;
+  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 40px;
+  text-align: center;
+  font-size: 16px;
+  height: 150px;
+  overflow-y: scroll;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 767px) {
+  .footer-container {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .footer-column {
+    flex-basis: 100%;
+  }
+
+  .centered-div {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    justify-content: center;
+  }
+  
+  .h1 {
+    size: 50%;
+  }
+
+  .container-paciente {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .container-home-page {
+    background-image: url('/imgs/fondo-homePage.jpg');
+    background-size: cover;
+    background-position: center;
+    justify-content: flex-start;
+    padding: 20px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 100vh;
+    background-repeat: no-repeat;
+
+  }
+
+  .div-paciente {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-home-paciente {
+    width: 20rem;
+    height: 10rem;
+    font-size: 4;
+  }
+
+  .navbar-home {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    image-rendering: auto;
+    flex-direction: column;
+
+  }
+
+  .card-component {
+    width: 20rem;
+    height: 20rem;
+  }
+
+  .card-turnos-asignados {
+    width: auto;
+    height: auto;
+  }
+
+  .container-fondo {
+    background-image: url('/imgs/fondo-reserva.jpg');
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: 'visible';
+  }
+
+  .card-title {
+    width: 100%;
+    height: auto;
+  }
+
+  .titulo-home {
+    font-size: 1;
+    margin-top: 5;
+  }
+
+  .min-card-component {
+    width: 100%;
+    height: auto;
+    padding: 0.75rem;
+  }
+
+  .alert-warning {
+    width: 100%;
+  }
+}
+
+/* Estilos para dispositivos de escritorio */
+@media (min-width: 768px) {
+  .footer-container {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  .footer-column {
+    margin-bottom: 0;
+  }
+
+  .container-paciente {
+    width: 800px;
+    justify-content: center;
+    align-items: flex-end;
+    margin: 0 auto;
+    padding: 20px;
+    height: 100%;
+  }
+
+  .container-home-page {
+    background-image: url('/imgs/fondo-homePage.jpg');
+    background-size: cover;
+    background-position: center;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-repeat: no-repeat;
+    justify-content: flex-start;
+  }
+
+  .card-home-paciente {
+    width: 40rem;
+    height: 10rem;
+    font-size: 3;
+  }
+
+  .div-paciente {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .navbar-home {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    image-rendering: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    max-width: 100%;
+  }
+  
+  .centered-div {
+    margin-top: 5;
+    justify-content: center;
+  }
+
+  .card-component {
+    width: 40rem;
+    height: 30rem;
+  }
+
+  .card-turnos-asignados {
+    width: 40rem;
+    height: auto;
+  }
+
+  .container-fondo {
+    background-image: url('/imgs/fondo-reserva.jpg');
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: scroll;
+  }
+
+  .card-title {
+    width: 40rem;
+    height: 4rem;
+  }
+
+  .titulo-home {
+    font-size: 2rem;
+    margin-top: 5;
+  }
+
+  .min-card-component {
+    width: 40rem;
+    height: 14rem;
+  }
+
+  .alert-warning {
+    width: 40rem;
+  }
+ 
 }
