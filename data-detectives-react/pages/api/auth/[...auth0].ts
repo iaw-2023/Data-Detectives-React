@@ -37,7 +37,7 @@ export default handleAuth({
       // Devuelve una respuesta al cliente
       res.end();
     } catch (error) {
-      res.status(error.status || 500).end(error.message);
+      
     }
   },
 });

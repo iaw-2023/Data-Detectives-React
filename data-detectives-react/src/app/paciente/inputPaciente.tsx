@@ -23,12 +23,13 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
   const buscarPaciente = async () => {
     try {
       setLoading(true);
-       const response = await fetch(`https://data-detectives-laravel.vercel.app/rest/pacientePorDNI/${dni}`);
+       const response = await fetch(`https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/pacientePorDNI/${dni}`);
       if (!response.ok) {
         setEncontrado(false);
       }
       else {        
         const data = await response.json();
+        
         setPaciente(data.data);
         setEncontrado(true);
       }
