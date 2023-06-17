@@ -4,11 +4,11 @@ import HomePage from './page';
 import Formulario from './reservar/page';
 import TurnosAsignadosPage from './turnosAsignados/page';
 import NosotrosPage from './nosotros/page';
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import ProfesionalPage from './profesional/page';
 import React from 'react';
+import MercadoPagoPage from './mercadoPago/page';
 export interface IAppProps {}
 
 const App: React.FC<IAppProps> = (props) => {
@@ -24,6 +24,7 @@ const App: React.FC<IAppProps> = (props) => {
           <Route path="/turnosAsignados" element={<TurnosAsignadosPage />} />
           <Route path="/nosotros" element={<NosotrosPage />} />
           <Route path="/profesional" element={<ProfesionalPage />} />
+          <Route path="/mercadoPago" element={<MercadoPagoPage />} />
         </Routes>
       </BrowserRouter>
     </UserProvider>
