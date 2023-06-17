@@ -1,6 +1,47 @@
 import { handleAuth } from '@auth0/nextjs-auth0';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default handleAuth();
+export default handleAuth({
+  async callback(req: NextApiRequest, res: NextApiResponse) {
+    try {
+      const { user, error, isLoading } = useUser();
+
+      if (isLoading) {
+        // Espera a que se carguen los datos del usuario
+        return res.status(200).end();
+      }
+
+      if (error) {
+        // Maneja el error de autenticación
+        throw new Error(error.message);
+      }
+
+      if (!user) {
+        // No se encontró un usuario autenticado
+        throw new Error('User not authenticated.');
+      }
+
+      // Aquí puedes acceder a los datos del usuario (user) y al token de acceso (user.accessToken)
+      // Puedes enviarlos al backend usando una solicitud HTTP (por ejemplo, usando fetch o axios)
+
+      // Ejemplo de envío de datos al backend usando fetch
+      await fetch('/api/user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user, accessToken: user.accessToken }),
+      });
+
+      // Devuelve una respuesta al cliente
+      res.end();
+    } catch (error) {
+      res.status(error.status || 500).end(error.message);
+    }
+  },
+});
+
 
 
 
