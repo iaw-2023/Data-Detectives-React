@@ -4,11 +4,11 @@ import NavScroll from './mynavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './footer';
 import ContainerHomePage from './container-fondo-homePage';
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+
 
 const HomePage: React.FC = () => {
   return (
-    <UserProvider>
+
     <div className="content-wrapper" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <ContainerHomePage> 
           <NavScroll />
@@ -19,7 +19,7 @@ const HomePage: React.FC = () => {
         </ContainerHomePage>
         <Footer />
     </div>
-    </UserProvider>
+
   );
 };
 

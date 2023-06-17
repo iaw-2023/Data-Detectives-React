@@ -8,15 +8,15 @@ import Footer from '../footer';
 import CardPaciente from './card-home-paciente';
 import { Col, Row } from 'react-bootstrap';
 import TituloHome from '../titulo-home';
-import { UserProvider, useUser } from '@auth0/nextjs-auth0/client';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 const HomePage: React.FC = () => {
-  const { user, isLoading } = useUser();
+  //const { user, isLoading } = useUser();
 
-  const isPacienteAuthenticated = user && user.userType === 'paciente';
+  //const isPacienteAuthenticated = user && user.userType === 'paciente';
 
   return (
-    <UserProvider>
+
     <div className="content-wrapper div-paciente">
       <ContainerHomePage>
         <NavScroll />
@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
                 description="Aquí podrás reservar turnos para la especialidad que desees"
                 buttonText="Reservar turno"
                 buttonLink="/reservar"
-                buttonDisabled={!isPacienteAuthenticated}
+               // buttonDisabled={!isPacienteAuthenticated}
                 tooltipMessage="Debes iniciar sesión como paciente para acceder a esta funcionalidad"
               />
             </Col>
@@ -39,7 +39,7 @@ const HomePage: React.FC = () => {
                 description="Aquí podrás visualizar los turnos reservados anteriormente"
                 buttonText="Ver turnos asignados"
                 buttonLink="/turnosAsignados"
-                buttonDisabled={!isPacienteAuthenticated}
+                //buttonDisabled={!isPacienteAuthenticated}
                 tooltipMessage="Debes iniciar sesión como paciente para acceder a esta funcionalidad"
               />
             </Col>
@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
       </ContainerHomePage>
       <Footer />
     </div>
-    </UserProvider>
+
   );
 };
 

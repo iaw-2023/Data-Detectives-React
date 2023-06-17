@@ -13,7 +13,7 @@ interface NavScrollProps {}
 
 const NavScroll: React.FC<NavScrollProps> = () => {
 
-  const { user, isLoading } = useUser();
+  //const { user, isLoading } = useUser();
   return (
     <>
     { ['lg'].map((expand) => (
@@ -47,15 +47,9 @@ const NavScroll: React.FC<NavScrollProps> = () => {
                   <Button className="btn-light">
                     <Link className='text-decoration-none text-black' href="/nosotros" passHref>Sobre nosotros</Link>
                   </Button>
-                 {user ? (
-                      <Link className="text-decoration-none text-black" href="/api/auth/logout">
-                        Logout
-                      </Link>
-                    ) : (
-                      <Link className="text-decoration-none text-black" href="/api/auth/login">
-                        Login
-                      </Link>
-                    )}}
+                  <Button className="btn-light">
+                    <Link className="text-decoration-none text-black" href="/api/auth/login"> Login </Link>
+                  </Button>
                 </Nav>
                 </Offcanvas.Body>
             </Navbar.Offcanvas>
