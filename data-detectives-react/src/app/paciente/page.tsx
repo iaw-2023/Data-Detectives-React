@@ -8,51 +8,63 @@ import Footer from '../footer';
 import CardPaciente from './card-home-paciente';
 import { Col, Row } from 'react-bootstrap';
 import TituloHome from '../titulo-home';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { UserProvider, useUser } from '@auth0/nextjs-auth0/client';
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 
-const HomePage: React.FC = () => {
-  //const { user, isLoading } = useUser();
+interface HomePageProps {
+  user: User;
+}
 
-  //const isPacienteAuthenticated = user && user.userType === 'paciente';
+const HomePage: React.FC<HomePageProps> = ({ user }) => {
+  
+
+  const isPacienteAuthenticated = user && user.userType === 'paciente';
 
   return (
 
-    <div className="content-wrapper div-paciente">
-      <ContainerHomePage>
-        <NavScroll />
-        <ContainerPaciente>
-          <TituloHome></TituloHome>
-          <Row>
-            <Col>
-              <CardPaciente
-                title="Reservar turno"
-                description="Aquí podrás reservar turnos para la especialidad que desees"
-                buttonText="Reservar turno"
-                buttonLink="/reservar"
-               // buttonDisabled={!isPacienteAuthenticated}
-                tooltipMessage="Debes iniciar sesión como paciente para acceder a esta funcionalidad"
-              />
-            </Col>
-            <Col>
-              <CardPaciente
-                title="Consultar turnos asignados"
-                description="Aquí podrás visualizar los turnos reservados anteriormente"
-                buttonText="Ver turnos asignados"
-                buttonLink="/turnosAsignados"
-                //buttonDisabled={!isPacienteAuthenticated}
-                tooltipMessage="Debes iniciar sesión como paciente para acceder a esta funcionalidad"
-              />
-            </Col>
-          </Row>
-        </ContainerPaciente>
-      </ContainerHomePage>
-      <Footer />
-    </div>
+      <div className="content-wrapper div-paciente">
+          <ContainerHomePage>
+            <NavScroll />
+            <ContainerPaciente>
+              <TituloHome></TituloHome>
+              <Row>
+                <Col>
+                  <CardPaciente
+                    title="Reservar turno"
+                    description="Aquí podrás reservar turnos para la especialidad que desees"
+                    buttonText="Reservar turno"
+                    buttonLink="/reservar"
+                    buttonDisabled={!isPacienteAuthenticated}
+                    tooltipMessage="Debes iniciar sesión como paciente para acceder a esta funcionalidad"
+                  />
+                </Col>
+                <Col>
+                  <CardPaciente
+                    title="Consultar turnos asignados"
+                    description="Aquí podrás visualizar los turnos reservados anteriormente"
+                    buttonText="Ver turnos asignados"
+                    buttonLink="/turnosAsignados"
+                    buttonDisabled={!isPacienteAuthenticated}
+                    tooltipMessage="Debes iniciar sesión como paciente para acceder a esta funcionalidad"
+                  />
+                </Col>
+              </Row>
+            </ContainerPaciente>
+          </ContainerHomePage>
+          <Footer />
+        </div>    
 
-  );
+    );
 };
 
 export default HomePage;
 
-
+export const getServerSideProps = withPageAuthRequired({
+  returnTo: '/login', // Redirige al usuario a la página de inicio de sesión si no está autenticado
+  async getServerSideProps({ req, res }) {
+    // Obtiene el usuario autenticado del `UserProvider`
+    const { user } = useUser({ req });
+    return { props: { user } };
+  },
+});
 

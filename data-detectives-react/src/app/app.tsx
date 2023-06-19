@@ -1,37 +1,30 @@
-import { BrowserRouter, Routes, Route, Router } from 'react-router-dom';
+import { useRouter } from 'next/router';
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 import HomePage from './page';
 import Formulario from './reservar/page';
 import TurnosAsignadosPage from './turnosAsignados/page';
 import NosotrosPage from './nosotros/page';
-import { useRouter } from 'next/navigation';
-import { UserProvider } from '@auth0/nextjs-auth0/client';
 import ProfesionalPage from './profesional/page';
-import React from 'react';
 import MercadoPagoPage from './mercadoPago/page';
-export interface IAppProps {}
 
-const App: React.FC<IAppProps> = (props) => {
+const App: React.FC = () => {
   const router = useRouter();
-
 
   return (
     <UserProvider>
-      <BrowserRouter basename="/">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/reservar" element={<Formulario />} />
-          <Route path="/turnosAsignados" element={<TurnosAsignadosPage />} />
-          <Route path="/nosotros" element={<NosotrosPage />} />
-          <Route path="/profesional" element={<ProfesionalPage />} />
-          <Route path="/mercadoPago" element={<MercadoPagoPage />} />
-        </Routes>
-      </BrowserRouter>
+      {router.pathname === '/' && <HomePage />}
+      {router.pathname === '/reservar' && <Formulario />}
+      {router.pathname === '/turnosAsignados' && <TurnosAsignadosPage />}
+      {router.pathname === '/nosotros' && <NosotrosPage />}
+      {router.pathname === '/profesional' && <ProfesionalPage />}
+      {router.pathname === '/mercadoPago' && <MercadoPagoPage />}
     </UserProvider>
   );
 };
 
 export default App;
+
 
 
 
