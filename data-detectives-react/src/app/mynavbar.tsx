@@ -6,7 +6,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Box, Image } from '@chakra-ui/react';
 import Link from 'next/link';
 import { Button, Offcanvas } from 'react-bootstrap';
-import { useUser } from '@auth0/nextjs-auth0/client';
 
 
 interface NavScrollProps {} 

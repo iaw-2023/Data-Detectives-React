@@ -6,7 +6,6 @@ import Formulario from './reservar/page';
 import TurnosAsignadosPage from './turnosAsignados/page';
 import NosotrosPage from './nosotros/page';
 import ProfesionalPage from './profesional/page';
-import MercadoPagoPage from './mercadoPago/page';
 
 const App: React.FC = () => {
   const router = useRouter();
@@ -18,7 +17,6 @@ const App: React.FC = () => {
       {router.pathname === '/turnosAsignados' && <TurnosAsignadosPage />}
       {router.pathname === '/nosotros' && <NosotrosPage />}
       {router.pathname === '/profesional' && <ProfesionalPage />}
-      {router.pathname === '/mercadoPago' && <MercadoPagoPage />}
     </UserProvider>
   );
 };

@@ -14,8 +14,6 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   const [showModal, setShowModal] = useState(false);
   const [progress, setprogress] = useState<number>(99);
   const [loading, setLoading] = useState<boolean>(false);
-  const [pagado, setPagado] = useState<boolean>(false);
-
 
     const handleShow = () => {
       setShowModal(true);
@@ -67,9 +65,6 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
     router.back()
   };
 
-  const handleMercadoPago = () => {
-    router.push("/mercadoPago");
-  };
 
   return (
     <Container>
@@ -105,15 +100,11 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
                   </ListGroup.Item>
                 </ListGroup>
               </CardComponent>
-            { !loading ? (
-               !pagado ? 
-                (<Button variant="outline-dark" className="mt-2" onClick={handleMercadoPago}>
-                    Pagar la consulta con Mercado Pago
-                  </Button>) : 
+            { !loading ? 
                 (<Button variant="outline-dark" className="mt-2" onClick={handleConfirm}>
                   Confirmar
                 </Button>)
-              ) :
+              :
                 (<AppSpinner loading={loading}></AppSpinner>)
             }
           </>

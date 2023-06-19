@@ -8,8 +8,6 @@ import InputDNIProfesional from "./inputDNIProfesional";
 import 'react-calendar/dist/Calendar.css';
 
 import ShowTurnoProfesional from './showTurnosProfesional';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import AppSpinner from '../app-spinner';
 
 
 const ProfesionalPage: React.FC = () => {
