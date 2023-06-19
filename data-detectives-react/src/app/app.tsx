@@ -3,6 +3,7 @@ import HomePage from './page';
 import Formulario from './reservar/page';
 import TurnosAsignadosPage from './turnosAsignados/page';
 import NosotrosPage from './nosotros/page';
+import MercadoPagoPage from './mercadoPago/page';
 
 export interface IAppProps {}
 
@@ -15,6 +16,7 @@ const App: React.FC<IAppProps> = (props) => {
         <Route path="/reservar" element={<Formulario />} />
         <Route path="/turnosAsignados" element={<TurnosAsignadosPage />} />
         <Route path="/nosotros" element={<NosotrosPage />} />
+        <Route path="/mercadoPago" element={<MercadoPagoPage />} />
       </Routes>
     </BrowserRouter>
   );
