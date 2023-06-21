@@ -1,23 +1,21 @@
-import { useRouter } from 'next/router';
-import { UserProvider } from '@auth0/nextjs-auth0/client';
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Auth0Provider } from '@auth0/auth0-react';
 import HomePage from './page';
 import Formulario from './reservar/page';
 import TurnosAsignadosPage from './turnosAsignados/page';
 import NosotrosPage from './nosotros/page';
-import ProfesionalPage from './profesional/page';
 
 const App: React.FC = () => {
-  const router = useRouter();
 
   return (
-    <UserProvider>
-      {router.pathname === '/' && <HomePage />}
-      {router.pathname === '/reservar' && <Formulario />}
-      {router.pathname === '/turnosAsignados' && <TurnosAsignadosPage />}
-      {router.pathname === '/nosotros' && <NosotrosPage />}
-      {router.pathname === '/profesional' && <ProfesionalPage />}
-    </UserProvider>
+      <BrowserRouter basename="/">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/reservar" element={<Formulario />} />
+          <Route path="/turnosAsignados" element={<TurnosAsignadosPage />} />
+          <Route path="/nosotros" element={<NosotrosPage />} />
+        </Routes>
+      </BrowserRouter>
   );
 };
 

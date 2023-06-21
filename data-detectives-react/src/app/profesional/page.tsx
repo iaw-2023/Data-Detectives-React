@@ -39,7 +39,7 @@ const ProfesionalPage: React.FC = () => {
     <div>
         {currentPage === 0 && <InputDNIProfesional onSelectProfesional={handleSearchProfesional} />}
         {currentPage === 1 && profesional && <ShowTurnoProfesional profesional={profesional} />}
-      </div>
+    </div>
 
   );
 };

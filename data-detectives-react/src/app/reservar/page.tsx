@@ -12,7 +12,7 @@ import FifthPage from "./confirmTurnoPage";
 
 
 const Formulario: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [paciente, setPaciente] = useState<Paciente>();
   const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>();
   const [selectedProfessional, setSelectedProfessional] = useState<Profesional_con_especialidad_id | null>();
@@ -52,9 +52,6 @@ const Formulario: React.FC = () => {
   
   return (
     <div>
-      {currentPage === 0 && (
-        <InputDNIPacientePage onSelectPaciente={handleSelectPaciente} />
-      )}
       {currentPage === 1 && (
         <FirstPage selectedSpecialty={selectedSpecialty} onSelectSpecialty={handleSelectSpecialty} />
       )}
@@ -67,8 +64,8 @@ const Formulario: React.FC = () => {
       {currentPage === 4 && selectedSpecialty && selectedProfessional && selectedFecha && (
         <FourthPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedFecha={selectedFecha} onSelectedTurno={handleSelectTurno} />
       )}
-      {currentPage === 5 && selectedSpecialty && selectedProfessional && selectedTurno && paciente && (
-        <FifthPage paciente={paciente} selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedTurno={selectedTurno} primeraConsulta onConfirmTurno={handleConfirmTurno} />
+      {currentPage === 5 && selectedSpecialty && selectedProfessional && selectedTurno && (
+        <FifthPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedTurno={selectedTurno} primeraConsulta onConfirmTurno={handleConfirmTurno} />
       )}
     </div>
   );

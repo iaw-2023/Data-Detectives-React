@@ -7,8 +7,9 @@ import Container from "../container-fondo";
 import CardComponent from '../card';
 import MyModal from '../modalAlert';
 import AppSpinner from "../app-spinner";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTurno, selectedSpecialty, paciente }) => {
+const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTurno, selectedSpecialty }) => {
   const [primerConsulta, setPrimerConsulta] = useState(false);
   const [turnoConfirmado, setTurnoConfirmado] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -25,29 +26,44 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
     
   const router = useRouter();
 
+  const {isAuthenticated} = useAuth0();
+
+  const { loginWithRedirect } = useAuth0();
+
+  const { user } = useAuth0();
+
   const handleConfirm = async () => {
     try {
-      setLoading(true);
-      const response = await fetch('https://data-detectives-laravel.vercel.app/rest/asignar_turno', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: {
-            turno: {
-              id: selectedTurno.id,
-            },
-            paciente: {
-              id: paciente.id,
-            },
-            primer_consulta: primerConsulta,
+      if (isAuthenticated) {
+        setLoading(true);
+        console.log(user); 
+        const response = await fetch('https://data-detectives-laravel.vercel.app/rest/asignar_turno', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        }),
-      });
-      setprogress(100);
-      setLoading(false);
-      setTurnoConfirmado(true);
+          body: JSON.stringify({
+            data: {
+              turno: {
+                id: selectedTurno.id,
+              },
+              paciente: {
+                email: user?.email
+              },
+              primer_consulta: primerConsulta,
+            },
+          }),
+        });
+        setprogress(100);
+        setLoading(false);
+        setTurnoConfirmado(true);
+      }
+      else {
+        console.log("hola");
+        loginWithRedirect();
+        handleConfirm();
+      }
+      
     } catch (error) {
       console.log('Error al confirmar el turno:', error);
     }
@@ -62,7 +78,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   };
 
   const handleBack = () => {
-    router.back()
+    router.back();
   };
 
 
@@ -85,7 +101,6 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
           <> <CardComponent>
                 <ListGroup>
                   <h3 className='text-white mt-2 text-center'>Resumen del turno:</h3>
-                  <ListGroup.Item className="bg-dark text-white">Paciente: {paciente.apellido_paciente}, {paciente.nombre_paciente}</ListGroup.Item>
                   <ListGroup.Item className="bg-dark text-white">Profesional: {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</ListGroup.Item>
                   <ListGroup.Item className="bg-dark text-white">Especialidad: {selectedSpecialty.nombre}</ListGroup.Item>
                   <ListGroup.Item className="bg-dark text-white">Hora: {selectedTurno.hora.substring(0, 5)}hs</ListGroup.Item>
@@ -115,3 +130,4 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
 };
 
 export default FifthPage;
+

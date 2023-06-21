@@ -46,9 +46,6 @@ const NavScroll: React.FC<NavScrollProps> = () => {
                   <Button className="btn-light">
                     <Link className='text-decoration-none text-black' href="/nosotros" passHref>Sobre nosotros</Link>
                   </Button>
-                  <Button className="btn-light">
-                    <Link className="text-decoration-none text-black" href="/api/auth/login"> Login </Link>
-                  </Button>
                 </Nav>
                 </Offcanvas.Body>
             </Navbar.Offcanvas>
