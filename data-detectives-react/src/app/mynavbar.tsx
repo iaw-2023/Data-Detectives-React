@@ -6,13 +6,16 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Box, Image } from '@chakra-ui/react';
 import Link from 'next/link';
 import { Button, Offcanvas } from 'react-bootstrap';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 interface NavScrollProps {} 
 
 const NavScroll: React.FC<NavScrollProps> = () => {
-
-  //const { user, isLoading } = useUser();
+  const {isAuthenticated} = useAuth0();
+  const { logout } = useAuth0();
+  const { loginWithRedirect } = useAuth0();
+  
   return (
     <>
     { ['lg'].map((expand) => (
@@ -46,6 +49,14 @@ const NavScroll: React.FC<NavScrollProps> = () => {
                   <Button className="btn-light">
                     <Link className='text-decoration-none text-black' href="/nosotros" passHref>Sobre nosotros</Link>
                   </Button>
+                  {isAuthenticated ? (
+                    <Button className="btn-light" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+                      Logout
+                    </Button>
+                  ) : (
+                    <Button onClick={() => loginWithRedirect()}>Log In</Button>
+                  )}
+
                 </Nav>
                 </Offcanvas.Body>
             </Navbar.Offcanvas>

@@ -34,10 +34,10 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
 
   const handleConfirm = async () => {
     try {
+      console.log(user); 
       if (isAuthenticated) {
-        setLoading(true);
-        console.log(user); 
-        const response = await fetch('https://data-detectives-laravel.vercel.app/rest/asignar_turno', {
+        setLoading(true); 
+        const response = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/asignar_turno', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -54,14 +54,16 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
             },
           }),
         });
-        setprogress(100);
-        setLoading(false);
-        setTurnoConfirmado(true);
+        if (response.ok) {
+          setprogress(100);
+          setLoading(false);
+          setTurnoConfirmado(true);
+        }
+          
       }
       else {
         console.log("hola");
         loginWithRedirect();
-        handleConfirm();
       }
       
     } catch (error) {
