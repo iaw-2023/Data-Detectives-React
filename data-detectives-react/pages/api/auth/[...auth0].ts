@@ -25,13 +25,14 @@ export default handleAuth({
       // Aquí puedes acceder a los datos del usuario (user) y al token de acceso (user.accessToken)
       // Puedes enviarlos al backend usando una solicitud HTTP (por ejemplo, usando fetch o axios)
 
+      const userEmail = user.email; // Accede al correo electrónico del usuario autenticado
       // Ejemplo de envío de datos al backend usando fetch
-      await fetch('/api/user', {
+      await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ user, accessToken: user.accessToken }),
+        body: JSON.stringify({ userEmail, accessToken: user.accessToken }),
       });
 
       // Devuelve una respuesta al cliente
