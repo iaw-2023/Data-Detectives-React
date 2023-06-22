@@ -30,7 +30,7 @@ export default function RootLayout({
           useRefreshTokens={true}
           useRefreshTokensFallback={false}
           authorizationParams={{
-            redirect_uri: "http://localhost:3000"+router
+            redirect_uri: "https://health-time-git-promocion-data-detectives-react.vercel.app"+router
           }}
         >
           {children}
