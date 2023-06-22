@@ -38,63 +38,36 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
       console.log(user); 
       if (isAuthenticated) {
         setLoading(true); 
-        const token = await getAccessTokenSilently({
-          authorizationParams: {
-            audience: 'https://dev-b6y5rs8y4it5vikj.us.auth0.com/api/v2/',
-          }
-        });
-  
-        const response = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/login', {
+        const token = await getAccessTokenSilently(); 
+        console.log(token);
+        const asignarTurnoResponse = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/asignar_turno', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify({
-            userEmail: user?.email,
+            data: {
+              turno: {
+                id: selectedTurno.id,
+              },
+              paciente: {
+                email: user?.email
+              },
+              primer_consulta: primerConsulta,
+            },
           }),
         });
   
-        if (response.ok) {
-          const data = await response.json();
-          const tipoUsuario = data.tipoUsuario;
-  
-          if (tipoUsuario === 'paciente') {
-            const asignarTurnoResponse = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/asignar_turno', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({
-                data: {
-                  turno: {
-                    id: selectedTurno.id,
-                  },
-                  paciente: {
-                    email: user?.email
-                  },
-                  primer_consulta: primerConsulta,
-                },
-              }),
-            });
-  
-            if (asignarTurnoResponse.ok) {
-              setprogress(100);
-              setLoading(false);
-              setTurnoConfirmado(true);
-            }
-          } else {
-            // Si el usuario no es un paciente, puedes realizar otra acción o mostrar un mensaje adecuado
-            console.log('El usuario no es un paciente');
-          }
-        } else {
-          // Manejar el caso cuando la solicitud de obtención de tipoUsuario no sea exitosa
-          console.log('Error al obtener el tipo de usuario');
+        if (asignarTurnoResponse.ok) {
+          setprogress(100);
+          setLoading(false);
+          setTurnoConfirmado(true);
         }
-      } else {
-        loginWithRedirect();
       }
+      else {
+        loginWithRedirect();
+      } 
     } catch (error) {
       console.log('Error al confirmar el turno:', error);
     }
