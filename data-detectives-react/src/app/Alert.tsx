@@ -10,7 +10,7 @@ interface ModalProps {
   onBack: () => void;
 }
 
-const ModalRegister: React.FC<ModalProps> = ({ show, message, onClose, onBack }) => {
+const ModalAlert: React.FC<ModalProps> = ({ show, message, onClose, onBack }) => {
   const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' });
   const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' });
 
@@ -37,4 +37,4 @@ const ModalRegister: React.FC<ModalProps> = ({ show, message, onClose, onBack })
   );
 };
 
-export default ModalRegister;
+export default ModalAlert;

@@ -1,12 +1,20 @@
 "use client";
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Form } from 'react-bootstrap';
+import CenteredDiv from '../reservar/centeredDiv';
+import Container from '../container-fondo';
+import { userRegister } from '../api/api';
+import ModalAlert from '../Alert';
+import { useRouter } from "next/navigation";
+import CardComponent from '../card';
 
 interface RegisterPacienteFormState {
   email: string;
-  dni: string;
+  dni: number | undefined;
   apellido: string;
   nombre: string;
-  telefono: string;
+  telefono: number | undefined;
   direccion: string;
   obraSocial: string;
 }
@@ -14,14 +22,19 @@ interface RegisterPacienteFormState {
 const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState<RegisterPacienteFormState>({
     email: '',
-    dni: '',
+    dni: undefined,
     apellido: '',
     nombre: '',
-    telefono: '',
+    telefono: undefined,
     direccion: '',
     obraSocial: '',
   });
-
+  const [showMessage, setShowMessage] = useState(false);
+  const [ messageModal, setMessage ] = useState<string>("");
+  const [showModal, setShowModal] = useState(false);
+  const [route, setRoute] = useState<string>("/");
+  const router = useRouter();
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -29,48 +42,78 @@ const RegisterPage: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí puedes enviar los datos del formulario al backend o realizar las acciones necesarias
-    console.log(formData);
+    const requestBody = {
+      nombrePaciente: formData.nombre,
+      apellidoPaciente: formData.apellido,
+      DNIPaciente: formData.dni,
+      direccionPaciente: formData.direccion,
+      telefonoPaciente: formData.telefono,
+      emailPaciente: formData.email,
+      obraSocial: formData.obraSocial,
+    };
+  
+    const registerResponse = await userRegister(requestBody);
+    setShowMessage(true);
+    setMessage(registerResponse.message); 
+    setShowMessage(true);
+    setRoute("/");
   };
+  
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+  
+  const handleBackModal = () => {
+    router.push(route);
+  };
+  
 
   return (
-    <div>
-      <h2>Registro de Paciente</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
-        </div>
-        <div>
-          <label htmlFor="dni">DNI:</label>
-          <input type="text" id="dni" name="dni" value={formData.dni} onChange={handleChange} required />
-        </div>
-        <div>
-          <label htmlFor="apellido">Apellido:</label>
-          <input type="text" id="apellido" name="apellido" value={formData.apellido} onChange={handleChange} required />
-        </div>
-        <div>
-          <label htmlFor="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="nombre" value={formData.nombre} onChange={handleChange} required />
-        </div>
-        <div>
-          <label htmlFor="telefono">Teléfono:</label>
-          <input type="text" id="telefono" name="telefono" value={formData.telefono} onChange={handleChange} required />
-        </div>
-        <div>
-          <label htmlFor="direccion">Dirección:</label>
-          <input type="text" id="direccion" name="direccion" value={formData.direccion} onChange={handleChange} required />
-        </div>
-        <div>
-          <label htmlFor="obraSocial">Obra Social:</label>
-          <input type="text" id="obraSocial" name="obraSocial" value={formData.obraSocial} onChange={handleChange} required />
-        </div>
-        <button type="submit">Registrarse</button>
-      </form>
-    </div>
+    <Container>    
+    <ModalAlert show={showMessage} onClose={handleCloseModal} onBack={handleBackModal} message={messageModal}/>
+      <CenteredDiv>
+        <CardComponent>
+          <h2 style={{ color: 'white' }}>Registro de Paciente</h2>          
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="email" className="mb-3">
+              <Form.Label>Email:</Form.Label>
+              <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} required style={{ marginBottom: '10px' }} />
+            </Form.Group>
+            <Form.Group controlId="dni" className="mb-3">
+              <Form.Label>DNI:</Form.Label>
+              <Form.Control type="number" name="dni" value={formData.dni} onChange={handleChange} required style={{ marginBottom: '10px' }} />
+            </Form.Group>
+            <Form.Group controlId="apellido" className="mb-3">
+              <Form.Label>Apellido:</Form.Label>
+              <Form.Control type="text" name="apellido" value={formData.apellido} onChange={handleChange} required style={{ marginBottom: '10px' }} />
+            </Form.Group>
+            <Form.Group controlId="nombre" className="mb-3">
+              <Form.Label>Nombre:</Form.Label>
+              <Form.Control type="text" name="nombre" value={formData.nombre} onChange={handleChange} required style={{ marginBottom: '10px' }} />
+            </Form.Group>
+            <Form.Group controlId="telefono" className="mb-3">
+              <Form.Label>Teléfono:</Form.Label>
+              <Form.Control type="number" name="telefono" value={formData.telefono} onChange={handleChange} required style={{ marginBottom: '10px' }} />
+            </Form.Group>
+            <Form.Group controlId="direccion" className="mb-3">
+              <Form.Label>Dirección:</Form.Label>
+              <Form.Control type="text" name="direccion" value={formData.direccion} onChange={handleChange} required style={{ marginBottom: '10px' }} />
+            </Form.Group>
+            <Form.Group controlId="obraSocial" className="mb-4">
+              <Form.Label>Obra Social:</Form.Label>
+              <Form.Control type="text" name="obraSocial" value={formData.obraSocial} onChange={handleChange} required style={{ marginBottom: '10px' }} />
+            </Form.Group>
+            <div className="d-flex justify-content-end">
+              <Button type="submit">Registrarse</Button>
+            </div>
+          </Form>
+        </CardComponent>
+      </CenteredDiv>      
+    </Container>
   );
+  
 };
 
 export default RegisterPage;
