@@ -7,6 +7,7 @@ import Container from "../container-fondo";
 import CardComponent from '../card';
 import MyModal from '../modalAlert';
 import AppSpinner from "../app-spinner";
+import MercadoPagoPage from "../mercadoPago/page";
 
 const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTurno, selectedSpecialty, paciente }) => {
   const [primerConsulta, setPrimerConsulta] = useState(false);
@@ -15,6 +16,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   const [progress, setprogress] = useState<number>(99);
   const [loading, setLoading] = useState<boolean>(false);
   const [pagado, setPagado] = useState<boolean>(false);
+  const [showMercadoPago, setShowMercadoPago] = useState<boolean>(false);
 
 
     const handleShow = () => {
@@ -68,7 +70,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   };
 
   const handleMercadoPago = () => {
-    router.push("/mercadoPago");
+    setShowMercadoPago(true)
   };
 
   return (
@@ -79,7 +81,10 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
       </Button>
       <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
       <CenteredDiv>
-        {turnoConfirmado ? (
+      {showMercadoPago ? (
+        <MercadoPagoPage/>
+      ) : (
+        turnoConfirmado ? (
           <div>
             <h3 className='text-dark mt-2'>El turno fue asignado correctamente</h3>
             <Button variant="outline-dark" className="mt-2" onClick= {handleBackHome}>
@@ -117,7 +122,8 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
                 (<AppSpinner loading={loading}></AppSpinner>)
             }
           </>
-        )}
+        )
+      )}
       </CenteredDiv>
     </Container>
   );
