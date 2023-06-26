@@ -14,7 +14,7 @@ interface NavScrollProps {}
 const NavScroll: React.FC<NavScrollProps> = () => {
   const {isAuthenticated} = useAuth0();
   const { logout } = useAuth0();
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithPopup } = useAuth0();
   
   return (
     <>
@@ -54,7 +54,7 @@ const NavScroll: React.FC<NavScrollProps> = () => {
                       Logout
                     </Button>
                   ) : (
-                    <Button onClick={() => loginWithRedirect()}>Log In</Button>
+                    <Button onClick={() => loginWithPopup()}>Log In</Button>
                   )}
 
                 </Nav>

@@ -87,7 +87,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   };
 
   const handleBackModal = () => {
-    setShowModal(false);
+    setShowMessage(false);
   };
 
   return (
