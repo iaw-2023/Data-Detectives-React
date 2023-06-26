@@ -35,7 +35,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
 
   const { isAuthenticated } = useAuth0();
 
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithPopup } = useAuth0();
 
   const { user } = useAuth0();
 
@@ -69,7 +69,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
       } else { // No esta logueado. Hay que pedirle que se loguee
         setMessage("Para poder reservar un turno deberás loguearte antes."); 
         setShowMessage(true);      
-        loginWithRedirect();
+        loginWithPopup();
       }
     }
 
@@ -87,7 +87,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   };
 
   const handleBackModal = () => {
-    router.push(route);
+    setShowModal(false);
   };
 
   return (
