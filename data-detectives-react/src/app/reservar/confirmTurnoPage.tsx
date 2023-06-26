@@ -7,10 +7,14 @@ import Container from "../container-fondo";
 import CardComponent from '../card';
 import MyModal from '../modalAlert';
 import AppSpinner from "../app-spinner";
+
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUserType } from "../api/api";
 import { asignarTurno } from "../api/api";
 import ModalAlert from "../Alert";
+
+import MercadoPagoPage from "../mercadoPago/page";
+
 
 const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTurno, selectedSpecialty }) => {
   const [primerConsulta, setPrimerConsulta] = useState(false);
@@ -20,8 +24,14 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   const [route, setRoute] = useState<string>("/");
   const [progress, setprogress] = useState<number>(99);
   const [loading, setLoading] = useState<boolean>(false);
+
   const [ messageModal, setMessage ] = useState<string>("");
   const { getAccessTokenSilently } = useAuth0();
+
+  const [pagado, setPagado] = useState<boolean>(false);
+  const [showMercadoPago, setShowMercadoPago] = useState<boolean>(false);
+
+
 
     const handleShow = () => {
       setShowModal(true);
@@ -90,6 +100,10 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
     setShowMessage(false);
   };
 
+  const handleMercadoPago = () => {
+    setShowMercadoPago(true)
+  };
+
   return (
     <Container>
       <ProgressBar striped variant="info" animated now={progress} />
@@ -99,7 +113,10 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
       <ModalAlert show={showMessage} onClose={handleCloseModal} onBack={handleBackModal} message={messageModal}/>
       <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
       <CenteredDiv>
-        {turnoConfirmado ? (
+      {showMercadoPago ? (
+        <MercadoPagoPage/>
+      ) : (
+        turnoConfirmado ? (
           <div>
             <h3 className='text-dark mt-2'>El turno fue asignado correctamente</h3>
             <Button variant="outline-dark" className="mt-2" onClick= {handleBackHome}>
@@ -124,15 +141,22 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
                   </ListGroup.Item>
                 </ListGroup>
               </CardComponent>
-            { !loading ? 
+
+            { !loading ? (
+              !pagado ? 
+                (<Button variant="outline-dark" className="mt-2" onClick={handleMercadoPago}>
+                    Pagar la consulta con Mercado Pago
+                  </Button>) : 
                 (<Button variant="outline-dark" className="mt-2" onClick={handleConfirm}>
                   Confirmar
                 </Button>)
-              :
+              ) :
+
                 (<AppSpinner loading={loading}></AppSpinner>)
             }
           </>
-        )}
+        )
+      )}
       </CenteredDiv>
     </Container>
   );
