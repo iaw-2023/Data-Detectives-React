@@ -39,7 +39,6 @@ export interface FifthPageProps {
     selectedProfessional: Profesional_con_especialidad_id;
     selectedTurno: TurnoDisponible;
     primeraConsulta: boolean;
-    paciente: Paciente;
     onConfirmTurno: (turnoAsignado: TurnoDisponible, profesional_especialidad: Profesional_con_especialidad_id, primera_consulta:boolean) => void;
 }
 

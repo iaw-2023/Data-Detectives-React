@@ -9,6 +9,15 @@ import MinCardComponent from "../minCard";
 import CardTitle from "../cardTitle";
 import AppSpinner from "../app-spinner";
 import AlertWarning from "../alert-warning";
+import { useAuth0 } from "@auth0/auth0-react";
+
+/*
+*
+*   TERMINARRRRRRRR!!!
+*   FALTA: Pasar los fetch a api.ts y acomodar todo lo demas
+*
+*
+*/
 
 
 const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ paciente }) => {
@@ -17,12 +26,21 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
   const [tieneTurnos, setTieneTurnos] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
   const [fetchRealizado, setFetch] = useState<boolean>(false);
+  const [ messageModal, setMessage ] = useState<string>("");
+  const { getAccessTokenSilently } = useAuth0();
 
   const router = useRouter();
+
+  const { isAuthenticated } = useAuth0();
+
+  const { loginWithRedirect } = useAuth0();
+
+  const { user } = useAuth0();
 
   useEffect(() => {
     const fetchTurnosAsignados = async () => {
       try {
+        if (isAuthenticated) { //Esta logueado
         setLoading(true)
         const id_paciente = paciente.id;
         const response = await fetch(`https://data-detectives-laravel.vercel.app/rest/turnos_asignados_paciente/${id_paciente}`);
@@ -37,6 +55,7 @@ const ShowTurnosAsignadosPage: React.FC<ShowTurnosAsignadosPageProps> = ({ pacie
             console.log("La respuesta de la API no contiene un array válido de especialidades:", data);
           }
         }
+      }
       } catch (error) {
         console.log(error);
       }

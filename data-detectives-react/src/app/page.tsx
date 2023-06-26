@@ -5,9 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './footer';
 import ContainerHomePage from './container-fondo-homePage';
 
+
 const HomePage: React.FC = () => {
   return (
-    
+
     <div className="content-wrapper" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <ContainerHomePage> 
           <NavScroll />
@@ -18,6 +19,7 @@ const HomePage: React.FC = () => {
         </ContainerHomePage>
         <Footer />
     </div>
+
   );
 };
 

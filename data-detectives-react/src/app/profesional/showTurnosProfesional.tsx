@@ -54,7 +54,7 @@ const ShowTurnoProfesional: React.FC<ShowTurnosProfesionalProps> = ({ profesiona
       try {
         setLoading(true);
         var id_profesional = profesional.id;
-        const response_specialities = await fetch(`https://data-detectives-laravel.vercel.app/rest/profesional_especialidades/${id_profesional}`);
+        const response_specialities = await fetch(`https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/profesional_especialidades/${id_profesional}`);
         const data_specialities = await response_specialities.json();
         
         if (response_specialities.ok) {
