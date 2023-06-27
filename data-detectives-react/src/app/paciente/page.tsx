@@ -12,10 +12,7 @@ import TituloHome from '../titulo-home';
 
 function HomePage() {
 
-
-
   return (
-
     <div className="content-wrapper div-paciente">
       <ContainerHomePage>
         <NavScroll />

@@ -38,23 +38,23 @@ const InputDNIPacientePage: React.FC<InputDNIPacienteProps> = ({ onSelectPacient
     }
     setLoading(false);
     setFetchRealizado(true);
-    };
+  };
 
-    const handleNextPage = () => {
-      if (paciente && encontrado) {
-        onSelectPaciente(paciente);
-      } 
-      setLoading(false);
-    };
+  const handleNextPage = () => {
+    if (paciente && encontrado) {
+      onSelectPaciente(paciente);
+    } 
+    setLoading(false);
+  };
 
-    const handleBack = () => {
-      router.back()
-    };
+  const handleBack = () => {
+    router.back()
+  };
     
-    const handleChangeDNI = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setDNI(e.target.value);
-      setFetchRealizado(false);
-    }
+  const handleChangeDNI = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDNI(e.target.value);
+    setFetchRealizado(false);
+  }
     
   return (
     <Container>
