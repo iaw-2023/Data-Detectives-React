@@ -1,21 +1,19 @@
 "use client";
 import { CardPayment, initMercadoPago } from '@mercadopago/sdk-react';
 import ContainerPaciente from "../paciente/containerPaciente";
-import { useRouter } from "next/navigation";
 
+interface MercadoPagoPageProps {
+  onPaymentComplete: (response: any) => void;
+}
 
-const MercadoPagoPage : React.FC = () => {
-
-  const initialization = {
-    amount: 100,
-  };
+const MercadoPagoPage: React.FC<MercadoPagoPageProps> = ({ onPaymentComplete }) => {
  
   initMercadoPago("TEST-749a0c68-d11d-474a-a390-888b31a17b66");
 
   const onSubmit = async (formData: any) => {
     // callback llamado al hacer clic en el botón enviar datos
     return new Promise<void>((resolve, reject) => {
-      fetch('/process_payment', {
+      fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/process_payment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,15 +22,17 @@ const MercadoPagoPage : React.FC = () => {
       })
         .then((response) => response.json())
         .then((response) => {
-          // recibir el resultado del pago
+          onPaymentComplete(response);
           resolve();
         })
-        .catch((error) => {
+        .catch(() => {
           // manejar la respuesta de error al intentar crear el pago
           reject();
         });
     });
   };
+
+  
   
   const onError = async (error: any) => {
     // callback llamado para todos los casos de error de Brick

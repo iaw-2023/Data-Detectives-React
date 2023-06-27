@@ -30,16 +30,20 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
 
   const [pagado, setPagado] = useState<boolean>(false);
   const [showMercadoPago, setShowMercadoPago] = useState<boolean>(false);
+  const [idPago, setIDPago] = useState<number>();
 
+  const handlePaymentComplete = (response: any) => {
+    setIDPago(response.id);
+    setPagado(true);
+  };
 
-
-    const handleShow = () => {
+  const handleShow = () => {
       setShowModal(true);
-    };
+  };
 
-    const handleCloseModal = () => {
-      setShowModal(false);
-    };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
     
   const router = useRouter();
 
@@ -59,22 +63,22 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
      */
       console.log(user); 
       if (isAuthenticated) { //Esta logueado
-      
         setLoading(true); 
         const token = await getAccessTokenSilently(); 
         const userType = await getUserType(token);
         const tipo_usuario = userType.tipo_usuario;
-        
-        const asignarTurnoResponse = await asignarTurno(tipo_usuario,token,selectedTurno.id,primerConsulta);
-        
-        if (asignarTurnoResponse.message) {
-          setMessage(asignarTurnoResponse.message); 
-          setShowMessage(true);
-          setRoute(asignarTurnoResponse.route);
-        } else {
-          setprogress(100);
-          setLoading(false);
-          setTurnoConfirmado(true);
+        setShowMercadoPago(true);
+        if (pagado && idPago != undefined) {
+          const asignarTurnoResponse = await asignarTurno(tipo_usuario,token,selectedTurno.id,primerConsulta,idPago);
+          if (asignarTurnoResponse.message) {
+            setMessage(asignarTurnoResponse.message); 
+            setShowMessage(true);
+            setRoute(asignarTurnoResponse.route);
+          } else {
+              setprogress(100);
+              setLoading(false);
+              setTurnoConfirmado(true);
+            }
         }
       } else { // No esta logueado. Hay que pedirle que se loguee
         setMessage("Para poder reservar un turno deberás loguearte antes."); 
@@ -101,7 +105,14 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   };
 
   const handleMercadoPago = () => {
-    setShowMercadoPago(true)
+    if (isAuthenticated) {
+      setShowMercadoPago(true)
+    }
+    else {
+      setMessage("Para poder reservar un turno deberás loguearte antes."); 
+      setShowMessage(true);     
+      loginWithPopup();
+    }
   };
 
   return (
@@ -114,7 +125,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
       <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
       <CenteredDiv>
       {showMercadoPago ? (
-        <MercadoPagoPage/>
+        <MercadoPagoPage onPaymentComplete={handlePaymentComplete}/>
       ) : (
         turnoConfirmado ? (
           <div>
@@ -131,13 +142,13 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
                   <ListGroup.Item className="bg-dark text-white">Especialidad: {selectedSpecialty.nombre}</ListGroup.Item>
                   <ListGroup.Item className="bg-dark text-white">Hora: {selectedTurno.hora.substring(0, 5)}hs</ListGroup.Item>
                   <ListGroup.Item className="bg-dark text-white">
-                  <Form.Check
-                    type="checkbox"
-                    label="Primera consulta"
-                    checked={primerConsulta}
-                    onChange={handleCheckboxChange}
-                    className="text-white"
-                  />
+                    <Form.Check
+                      type="checkbox"
+                      label="Primera consulta"
+                      checked={primerConsulta}
+                      onChange={handleCheckboxChange}
+                      className="text-white"
+                    />
                   </ListGroup.Item>
                 </ListGroup>
               </CardComponent>

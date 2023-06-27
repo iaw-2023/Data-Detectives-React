@@ -16,7 +16,7 @@ export async function getUserType(token: any){
       
 }
 
-export async function asignarTurno(tipo_usuario: string, token: any, turno_id: number, primer_consulta: boolean){
+export async function asignarTurno(tipo_usuario: string, token: any, turno_id: number, primer_consulta: boolean, idPago: number){
 
     if (tipo_usuario === 'paciente') {
         try {// Esta logueado y es paciente registrado en la BD
@@ -32,6 +32,7 @@ export async function asignarTurno(tipo_usuario: string, token: any, turno_id: n
                     id: turno_id,
                   },
                   primer_consulta: primer_consulta,
+                  id_pago: idPago
                 },
               }),
             });    
