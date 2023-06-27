@@ -7,13 +7,11 @@ import Container from "../container-fondo";
 import CardComponent from '../card';
 import MyModal from '../modalAlert';
 import AppSpinner from "../app-spinner";
-
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUserType } from "../api/api";
 import { asignarTurno } from "../api/api";
 import ModalAlert from "../Alert";
-
-import MercadoPagoPage from "../mercadoPago/page";
+import MercadoPagoPage from "../mercadoPago";
 
 
 const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTurno, selectedSpecialty }) => {
@@ -24,17 +22,25 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   const [route, setRoute] = useState<string>("/");
   const [progress, setprogress] = useState<number>(99);
   const [loading, setLoading] = useState<boolean>(false);
-
   const [ messageModal, setMessage ] = useState<string>("");
   const { getAccessTokenSilently } = useAuth0();
-
   const [pagado, setPagado] = useState<boolean>(false);
   const [showMercadoPago, setShowMercadoPago] = useState<boolean>(false);
   const [idPago, setIDPago] = useState<number>();
+  const [status, setStatus] = useState<String>();
+
 
   const handlePaymentComplete = (response: any) => {
     setIDPago(response.id);
-    setPagado(true);
+    setStatus(response.status);
+    if (status === "approved") {
+      setPagado(true);
+      setShowMercadoPago(false)
+    }
+    else {
+      setMessage("Hubo un error en tu pago. Por favor intente nuevamente");
+      setShowMessage(true);
+    }
   };
 
   const handleShow = () => {
@@ -53,22 +59,19 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
 
   const { user } = useAuth0();
 
+  useEffect(() => {
+    if (pagado) {
+      handleConfirm();
+    }
+  }, [pagado]);
+
   const handleConfirm = async () => {
-    /**
-     * Casos:
-     * + Esta logueado y registrado en la BD como paciente
-     * + Esta logueado y no es paciente, es profesional
-     * + Esta logueado y no esta registrado en la BD como paciente
-     * + No esta logueado
-     */
-      console.log(user); 
-      if (isAuthenticated) { //Esta logueado
+      if (isAuthenticated) { 
         setLoading(true); 
         const token = await getAccessTokenSilently(); 
         const userType = await getUserType(token);
         const tipo_usuario = userType.tipo_usuario;
-        setShowMercadoPago(true);
-        if (pagado && idPago != undefined) {
+        if (idPago != null) {
           const asignarTurnoResponse = await asignarTurno(tipo_usuario,token,selectedTurno.id,primerConsulta,idPago);
           if (asignarTurnoResponse.message) {
             setMessage(asignarTurnoResponse.message); 
@@ -80,12 +83,8 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
               setTurnoConfirmado(true);
             }
         }
-      } else { // No esta logueado. Hay que pedirle que se loguee
-        setMessage("Para poder reservar un turno deberás loguearte antes."); 
-        setShowMessage(true);      
-        loginWithPopup();
       }
-    }
+  }
 
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,6 +140,7 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
                   <ListGroup.Item className="bg-dark text-white">Profesional: {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</ListGroup.Item>
                   <ListGroup.Item className="bg-dark text-white">Especialidad: {selectedSpecialty.nombre}</ListGroup.Item>
                   <ListGroup.Item className="bg-dark text-white">Hora: {selectedTurno.hora.substring(0, 5)}hs</ListGroup.Item>
+                  <ListGroup.Item className="bg-dark text-white">Monto de pago: $1000</ListGroup.Item>
                   <ListGroup.Item className="bg-dark text-white">
                     <Form.Check
                       type="checkbox"
@@ -152,19 +152,15 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
                   </ListGroup.Item>
                 </ListGroup>
               </CardComponent>
-
-            { !loading ? (
-              !pagado ? 
-                (<Button variant="outline-dark" className="mt-2" onClick={handleMercadoPago}>
+              {!loading ? (
+                !pagado ? (
+                  <Button variant="outline-dark" className="mt-2" onClick={handleMercadoPago}>
                     Pagar la consulta con Mercado Pago
-                  </Button>) : 
-                (<Button variant="outline-dark" className="mt-2" onClick={handleConfirm}>
-                  Confirmar
-                </Button>)
-              ) :
-
-                (<AppSpinner loading={loading}></AppSpinner>)
-            }
+                  </Button>
+                ) : null
+              ) : (
+                <AppSpinner loading={loading}></AppSpinner>
+              )}
           </>
         )
       )}
