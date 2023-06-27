@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import InputDNIPacientePage from "../paciente/inputPaciente";
+import React, { useState } from "react";
 import FirstPage from "./selectEspecialidadPage";
 import SecondPage from "./selectProfesionalPage";
 import ThirdPage from "./selectFechaTurnoPage";
@@ -13,17 +12,12 @@ import FifthPage from "./confirmTurnoPage";
 
 const Formulario: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [paciente, setPaciente] = useState<Paciente>();
   const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>();
   const [selectedProfessional, setSelectedProfessional] = useState<Profesional_con_especialidad_id | null>();
   const [selectedFecha, setSelectedFecha] = useState<string | "">();
   const [selectedTurno, setSelectedTurno] = useState<TurnoDisponible | null>();
   const [primeraConsulta, setPrimerConsulta] = useState<boolean>();
 
-  const handleSelectPaciente = (paciente: Paciente) => {
-    setPaciente(paciente);
-    setCurrentPage(1);
-  };
 
   const handleSelectSpecialty = (specialty: Especialidad) => {
     setSelectedSpecialty(specialty);

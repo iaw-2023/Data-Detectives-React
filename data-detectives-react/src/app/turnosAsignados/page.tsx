@@ -1,16 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ShowTurnosAsignadosPageProps, TurnoAsignado } from "../types";
+import { TurnoAsignado } from "../types";
 import Container from "../container-fondo";
-import { Alert, Button, ListGroup } from "react-bootstrap";
+import { Button, ListGroup } from "react-bootstrap";
 import CenteredDiv from "../reservar/centeredDiv";
 import MinCardComponent from "../minCard";
 import CardTitle from "../cardTitle";
 import AppSpinner from "../app-spinner";
 import AlertWarning from "../alert-warning";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getUserType } from "../api/api";
+import { cancelarTurno, getTurnosAsignadosPaciente, getUserType } from "../api/api";
 
 const TurnosAsignadosPage: React.FC = () => {
   const [turnosAsignados, setTurnosAsignados] = useState<TurnoAsignado[]>([]);
@@ -35,15 +35,8 @@ const TurnosAsignadosPage: React.FC = () => {
         if (isAuthenticated) {
           const token = await getAccessTokenSilently(); 
           const userType = await getUserType(token);
-          const tipo_usuario = userType.tipo_usuario;
-          if (tipo_usuario == 'paciente') {
-            const asignarTurnoResponse = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/turnos_asignados_paciente', {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-              }
-            })
+          const tipo_usuario = userType.tipo_usuario;          
+            const asignarTurnoResponse = await getTurnosAsignadosPaciente(tipo_usuario,token);
             if (!asignarTurnoResponse.ok) {
               setTieneTurnos(false);
             } else {
@@ -55,8 +48,7 @@ const TurnosAsignadosPage: React.FC = () => {
                 setTieneTurnos(false);
                 console.log("La respuesta de la API no contiene un array válido de especialidades:", data);
               }
-            }
-          }
+            }          
         }
         else {
           loginWithRedirect()
@@ -82,31 +74,23 @@ const TurnosAsignadosPage: React.FC = () => {
   
   const handleCancelTurno = async (turno_id: number, turno_asignado_id: number) => {
     try {
-      const response = await fetch('https://data-detectives-laravel.vercel.app/rest/cancelar_turno', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: [{
-            id: turno_asignado_id,
-            turno: {
-              id: turno_id,
-            },
-          }],
-        }),
-      });
-      if (response.ok) {
-        console.log('Solicitud POST enviada');
-        const updatedTurnos = turnosAsignados.filter(turno => turno.id !== turno_asignado_id);
-        setTurnosAsignados(updatedTurnos);
-        setCanceladoExitoso(true);
-      } else {
-        console.log('Error al enviar la solicitud POST');
+      if (isAuthenticated) {
+        const token = await getAccessTokenSilently(); 
+        const userType = await getUserType(token);
+        const tipo_usuario = userType.tipo_usuario;
+        const response = await cancelarTurno(tipo_usuario, token, turno_id,turno_asignado_id);      
+        if (response.ok) {
+          console.log('Solicitud POST enviada');
+          const updatedTurnos = turnosAsignados.filter(turno => turno.id !== turno_asignado_id);
+          setTurnosAsignados(updatedTurnos);
+          setCanceladoExitoso(true);
+        } else {
+          console.log('Error al enviar la solicitud POST');
+        }
       }
-    } catch (error) {
-      console.log('Error al enviar la solicitud POST', error);
-    }
+    }  catch (error) {
+        console.log('Error al enviar la solicitud POST', error);
+        }
   };
 
   return (
@@ -120,7 +104,7 @@ const TurnosAsignadosPage: React.FC = () => {
         )}
         { loading && (<AppSpinner loading={loading}></AppSpinner> )}
         <CardTitle>
-          <h3 className='text-white text-center mt-3'>Turnos asignados a {user?.email} </h3>          
+          <h3 className='text-white text-center mt-3'>Turnos asignados a {user?.name} </h3>          
         </CardTitle>
         {!tieneTurnos ? (
           <AlertWarning mensaje={"No hay turnos asignados."}/>
@@ -142,7 +126,6 @@ const TurnosAsignadosPage: React.FC = () => {
       </CenteredDiv>
       </Container>
   );
-
 };
 
 export default TurnosAsignadosPage;

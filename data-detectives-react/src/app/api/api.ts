@@ -16,6 +16,62 @@ export async function getUserType(token: any){
       
 }
 
+export async function getTurnosAsignadosProfesional(tipo_usuario: string, token: any) {
+  if (tipo_usuario === 'profesional') {
+    try {
+        const responseTurnos = await fetch(`https://data-detectives-laravel.vercel.app/rest/turnos_asignados_profesional`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },      
+          }     
+        );
+        return responseTurnos.json();
+    } catch (error) {
+      return { 
+          message: "Error al obtener los turnos asignados del profesional: " + error,
+          route: "/profesional"
+      };    
+    }; 
+} else {
+      return { 
+          message: "El usuario logueado no está registrado como profesional.",
+          route: "/"
+      };
+ 
+}
+    
+};
+
+export async function getTurnosAsignadosPaciente(tipo_usuario: string, token: any) {
+  if (tipo_usuario === 'paciente') {
+    try {
+        const responseTurnos = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/turnos_asignados_paciente', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },      
+          }     
+        );
+        return responseTurnos.json();
+    } catch (error) {
+      return { 
+          message: "Error al obtener los turnos asignados del paciente: " + error,
+          route: "/turnosAsignados"
+      };    
+    }; 
+} else {
+      return { 
+          message: "El usuario logueado no está registrado como profesional.",
+          route: "/"
+      };
+ 
+}
+    
+}
+
 export async function asignarTurno(tipo_usuario: string, token: any, turno_id: number, primer_consulta: boolean, idPago: number){
 
     if (tipo_usuario === 'paciente') {
@@ -46,18 +102,50 @@ export async function asignarTurno(tipo_usuario: string, token: any, turno_id: n
    } else {
         if (tipo_usuario === 'no registrado') {
             return { // Esta logueado y NO es paciente registrado en la BD
-                message: "No es posible reservar el turno. No estás registrado como paciente.",
+                message: "No es posible reservar el turno. El usuario logueado no está registrado como paciente.",
                 route: "/register"
             };
         } else  return { // Esta logueado y es profesional registrado en la BD
-            message: "No es posible reservar el turno. Estás registrado como profesional.",
+            message: "No es posible reservar el turno. El usuario logueado está registrado como profesional.",
             route: "/profesional"
         };
     }
 }
 
-export async function userRegister(requestBody: any){
+export async function cancelarTurno(tipo_usuario: string, token: any, turno_id: number, turno_asignado_id: number){
+  if (tipo_usuario === 'paciente') {
+    try {
+      const cancelarTurnoResponse = await fetch('https://data-detectives-laravel.vercel.app/rest/cancelar_turno', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          data: [{
+            id: turno_asignado_id,
+            turno: {
+              id: turno_id,
+            },
+          }],
+        }),
+      });
+      return cancelarTurnoResponse.json();
+    } catch (error) {
+      return { 
+          message: "Error al cancelar el turno del paciente: " + error,
+          route: "/turnosAsignados"
+      };    
+    }; 
+  } else {
+      return { 
+          message: "El usuario logueado no está registrado como paciente.",
+          route: "/"
+      };
+    }
+}
 
+export async function userRegister(requestBody: any){
     try {
         const responseRegister = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/register', {
             method: 'POST',
@@ -74,8 +162,6 @@ export async function userRegister(requestBody: any){
             message: "Error al registrar al paciente: " + error,
             route: "/register"
         };    
-      }; 
-    
-      
+      };           
 }
 
