@@ -11,7 +11,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getUserType } from "../api/api";
 import { asignarTurno } from "../api/api";
 import ModalAlert from "../Alert";
-import MercadoPagoPage from "../mercadoPago/page";
+import MercadoPagoPage from "../mercadoPago";
 
 
 const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTurno, selectedSpecialty }) => {
@@ -27,11 +27,20 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   const [pagado, setPagado] = useState<boolean>(false);
   const [showMercadoPago, setShowMercadoPago] = useState<boolean>(false);
   const [idPago, setIDPago] = useState<number>();
+  const [status, setStatus] = useState<String>();
+
 
   const handlePaymentComplete = (response: any) => {
     setIDPago(response.id);
-    setPagado(true);
-    setShowMercadoPago(false)
+    setStatus(response.status);
+    if (status === "approved") {
+      setPagado(true);
+      setShowMercadoPago(false)
+    }
+    else {
+      setMessage("Hubo un error en tu pago. Por favor intente nuevamente");
+      setShowMessage(true);
+    }
   };
 
   const handleShow = () => {
@@ -73,10 +82,6 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
               setLoading(false);
               setTurnoConfirmado(true);
             }
-        }
-        else {
-          setMessage("Hubo un error en tu pago. Por favor intente nuevamente");
-          setShowMessage(true);
         }
       }
   }

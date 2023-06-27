@@ -1,6 +1,6 @@
 "use client";
 import { CardPayment, initMercadoPago } from '@mercadopago/sdk-react';
-import ContainerPaciente from "../paciente/containerPaciente";
+import ContainerPaciente from "./paciente/containerPaciente";
 import { useAuth0 } from '@auth0/auth0-react';
 
 interface MercadoPagoPageProps {
@@ -31,16 +31,12 @@ const MercadoPagoPage: React.FC<MercadoPagoPageProps> = ({ onPaymentComplete }) 
           resolve();
         })
         .catch(() => {
-          // manejar la respuesta de error al intentar crear el pago
           reject();
         });
     });
   };
 
-  
-  
   const onError = async (error: any) => {
-    // callback llamado para todos los casos de error de Brick
     console.log(error);
   };
   
