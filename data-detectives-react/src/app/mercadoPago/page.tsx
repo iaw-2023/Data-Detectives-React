@@ -15,7 +15,7 @@ const MercadoPagoPage: React.FC<MercadoPagoPageProps> = ({ onPaymentComplete }) 
 
   const onSubmit = async (formData: any) => {
     // callback llamado al hacer clic en el botón enviar datos
-    const token = await getAccessTokenSilently(); 
+    const token = await getAccessTokenSilently();
     return new Promise<void>((resolve, reject) => {
       fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/process_payment', {
         method: 'POST',
@@ -51,7 +51,7 @@ const MercadoPagoPage: React.FC<MercadoPagoPageProps> = ({ onPaymentComplete }) 
   return (
     <ContainerPaciente>
       <CardPayment
-        initialization={{ amount: 100 }}
+        initialization={{ amount: 1000 }}
         onSubmit={onSubmit}
         onReady={onReady}
         onError={onError}
