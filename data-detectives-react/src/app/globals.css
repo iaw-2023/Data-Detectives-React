@@ -47,7 +47,7 @@ input:focus {
   box-shadow: 0 0 0 0.2rem rgba(53, 79, 90, 0.829);
 }
 
-.footer-container {
+/*.footer-container {
   background-color: white;
   margin-top: auto;
   position: fixed;
@@ -63,16 +63,24 @@ input:focus {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-}
+}*/
 
 
 /* Estilos para dispositivos móviles */
 @media (max-width: 767px) {
   .footer-container {
+    background-color: white;
+    margin-top: auto;
     position: relative;
     bottom: 0;
-    width: 100%;
-    padding: 20px;
+    width: 100vw;
+    height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    z-index: 100;
+    text-align: center;
   }
   
   .footer-column {
@@ -92,6 +100,7 @@ input:focus {
   .container-paciente {
     width: 100%;
     padding: 10px;
+    justify-content: center;
   }
 
   .container-home-page {
@@ -99,45 +108,11 @@ input:focus {
     background-size: cover;
     background-position: center;
     justify-content: flex-start;
-    padding: 20px;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 100vh;
+    height: 80vh;
+    width: 100vw;
     background-repeat: no-repeat;
+    overflow-x: hidden;
 
-  }
-
-  .div-paciente {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-home-paciente {
-    width: 20rem;
-    height: 10rem;
-    font-size: 4;
-  }
-
-  .navbar-home {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    image-rendering: auto;
-    flex-direction: column;
-
-  }
-
-  .card-component {
-    width: 20rem;
-    height: 20rem;
-  }
-
-  .card-turnos-asignados {
-    width: auto;
-    height: auto;
   }
 
   .container-fondo {
@@ -148,7 +123,37 @@ input:focus {
     right: 0;
     bottom: 0;
     left: 0;
-    overflow: 'visible';
+    overflow-y: scroll;
+  }
+
+  .div-paciente {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-home-paciente {
+    width: 90vw;
+    height: 25vh;
+    font-size: 4;
+  }
+
+  .navbar-home {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    image-rendering: auto;
+    flex-direction: column;
+    width: 100vw;
+  }
+
+  .card-component {
+    width: 90vw;
+    height: 50vh;
+  }
+
+  .card-turnos-asignados {
+    width: auto;
+    height: auto;
   }
 
   .card-title {
@@ -180,6 +185,16 @@ input:focus {
     width: 100%;
     padding: 20px;
     overflow-y: auto;
+    background-color: white;
+    margin-top: auto;
+    z-index: 100;
+    text-align: center;
+    font-size: 16px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
   }
   
   .footer-column {
@@ -243,7 +258,7 @@ input:focus {
   }
 
   .card-turnos-asignados {
-    width: 40rem;
+    width: 70vw;
     height: auto;
   }
 
