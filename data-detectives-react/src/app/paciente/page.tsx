@@ -37,8 +37,9 @@ function HomePage() {
             </Col>
           </Row>
         </ContainerPaciente>
+        <Footer />
       </ContainerHomePage>
-      <Footer />
+      
     </div>
 
   );

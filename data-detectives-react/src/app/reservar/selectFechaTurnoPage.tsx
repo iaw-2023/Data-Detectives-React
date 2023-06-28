@@ -121,7 +121,6 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
       {!tieneTurnos && ( <AlertWarning mensaje={"No hay turnos asignados."}></AlertWarning> )}
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione un turno para {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</h3>
-          <CenteredDiv>
             <Calendar
             className="text-dark"
             tileDisabled={tileDisabled}
@@ -135,9 +134,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
                     Siguiente
                   </Button>)
                 )
-          }             
-          </CenteredDiv>  
-                               
+          }                
         </Card>
       </CenteredDiv>
     </Container>

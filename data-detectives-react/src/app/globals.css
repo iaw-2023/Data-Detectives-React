@@ -47,7 +47,7 @@ input:focus {
   box-shadow: 0 0 0 0.2rem rgba(53, 79, 90, 0.829);
 }
 
-.footer-container {
+/*.footer-container {
   background-color: white;
   margin-top: auto;
   position: fixed;
@@ -63,16 +63,21 @@ input:focus {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-}
+}*/
 
 
 /* Estilos para dispositivos móviles */
 @media (max-width: 767px) {
   .footer-container {
-    position: relative;
+    background-color: white;
     bottom: 0;
-    width: 100%;
-    padding: 20px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+    position: relative;
   }
   
   .footer-column {
@@ -92,6 +97,11 @@ input:focus {
   .container-paciente {
     width: 100%;
     padding: 10px;
+    justify-content:flex-start;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 100vh;
   }
 
   .container-home-page {
@@ -99,45 +109,11 @@ input:focus {
     background-size: cover;
     background-position: center;
     justify-content: flex-start;
-    padding: 20px;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
     height: 100vh;
+    width: 100vw;
     background-repeat: no-repeat;
-
-  }
-
-  .div-paciente {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-home-paciente {
-    width: 20rem;
-    height: 10rem;
-    font-size: 4;
-  }
-
-  .navbar-home {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    image-rendering: auto;
-    flex-direction: column;
-
-  }
-
-  .card-component {
-    width: 20rem;
-    height: 20rem;
-  }
-
-  .card-turnos-asignados {
-    width: auto;
-    height: auto;
+    overflow-x: hidden;
+    position: relative;
   }
 
   .container-fondo {
@@ -148,7 +124,37 @@ input:focus {
     right: 0;
     bottom: 0;
     left: 0;
-    overflow: 'visible';
+    overflow-y: scroll;
+  }
+
+  .div-paciente {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-home-paciente {
+    width: 90vw;
+    height: 25vh;
+    font-size: 4;
+  }
+
+  .navbar-home {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    image-rendering: auto;
+    flex-direction: column;
+    width: 100vw;
+  }
+
+  .card-component {
+    width: 90vw;
+    height: 50vh;
+  }
+
+  .card-turnos-asignados {
+    width: auto;
+    height: auto;
   }
 
   .card-title {
@@ -180,6 +186,15 @@ input:focus {
     width: 100%;
     padding: 20px;
     overflow-y: auto;
+    background-color: white;
+    margin-top: auto;
+    z-index: 100;
+    text-align: center;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
   }
   
   .footer-column {
@@ -187,12 +202,12 @@ input:focus {
   }
 
   .container-paciente {
-    width: 800px;
+    width: 50vw;
     justify-content: center;
     align-items: flex-end;
     margin: 0 auto;
     padding: 20px;
-    height: 100%;
+    height: 85vh
   }
 
   .container-home-page {
@@ -243,7 +258,7 @@ input:focus {
   }
 
   .card-turnos-asignados {
-    width: 40rem;
+    width: 70vw;
     height: auto;
   }
 
