@@ -1,6 +1,7 @@
 "use client";
 
 import { json } from "react-router-dom";
+import TurnosAsignadosPage from "../turnosAsignados/page";
 
 export async function getUserType(token: any){
 
@@ -16,10 +17,9 @@ export async function getUserType(token: any){
       
 }
 
-export async function getTurnosAsignadosProfesional(tipo_usuario: string, token: any) {
-  if (tipo_usuario === 'profesional') {
+export async function getTurnosAsignadosProfesional(token: any) {
     try {
-        const responseTurnos = await fetch(`https://data-detectives-laravel.vercel.app/rest/turnos_asignados_profesional`, {
+        const responseTurnosProf = await fetch(`https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/turnos_asignados_profesional`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -27,20 +27,14 @@ export async function getTurnosAsignadosProfesional(tipo_usuario: string, token:
             },      
           }     
         );
-        return responseTurnos.json();
+             
+        return responseTurnosProf.json();
     } catch (error) {
       return { 
           message: "Error al obtener los turnos asignados del profesional: " + error,
           route: "/profesional"
       };    
     }; 
-} else {
-      return { 
-          message: "El usuario logueado no está registrado como profesional.",
-          route: "/"
-      };
- 
-}
     
 };
 
@@ -64,7 +58,7 @@ export async function getTurnosAsignadosPaciente(tipo_usuario: string, token: an
     }; 
 } else {
       return { 
-          message: "El usuario logueado no está registrado como profesional.",
+          message: "El usuario logueado no está registrado como paciente.",
           route: "/"
       };
  

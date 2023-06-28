@@ -104,7 +104,7 @@ const TurnosAsignadosPage: React.FC = () => {
         )}
         { loading && (<AppSpinner loading={loading}></AppSpinner> )}
         <CardTitle>
-          <h3 className='text-white text-center mt-3'>Turnos asignados a {user?.name} </h3>          
+          <h3 className='text-white text-center mt-3'>Turnos asignados a {user?.nickname} </h3>          
         </CardTitle>
         {!tieneTurnos ? (
           <AlertWarning mensaje={"No hay turnos asignados."}/>
