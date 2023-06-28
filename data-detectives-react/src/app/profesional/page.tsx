@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import CenteredDiv from "../reservar/centeredDiv";
 import Button from 'react-bootstrap/Button';
-import { TurnoAsignadoProfesional } from '../types';
+import { ApiResponseTurnosProfesional, TurnoAsignadoProfesional } from '../types';
 import Container from "../container-fondo";
 import { useRouter } from "next/navigation";
 import Calendar from "react-calendar";
@@ -25,20 +25,20 @@ const ShowTurnoProfesional: React.FC = () => {
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
   const [selectedOption, setSelectedOption] = useState<string>();
   const [tieneTurnos, setTieneTurnos] = useState<boolean>(true);
-  const [fetchRealizado, setFetch] = useState<boolean>(false);
+  const [fetchTurnosRealizado, setFetchTurnos ] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [showMessage, setShowMessage] = useState(false);
   const [messageModal, setMessage] = useState<string>("");
-  const [isProfesional, setIsProfesional] = useState<boolean>(false);
   const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
   const [canView, setCanView] = useState<boolean>(false);
+  const [route, setRoute] = useState<string>("/");
 
 
   const { getAccessTokenSilently } = useAuth0();
 
   const router = useRouter();
 
-  const { isAuthenticated, loginWithPopup, user } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, loginWithPopup, user } = useAuth0();
 
   
   const handleBack = () => {
@@ -69,9 +69,12 @@ const ShowTurnoProfesional: React.FC = () => {
       const token = await getAccessTokenSilently();
       const userType = await getUserType(token);
       if (userType.tipo_usuario === "profesional") {
-        setIsProfesional(true);
+        setCanView(true);
+        searchTurnos();        
       } else {
         setMessage("No puedes acceder a este módulo ya que no estás registrado como profesional.");
+        setRedirectToLogin(false);
+        setRoute("/");
         setShowMessage(true);
       }
     } catch (error) {
@@ -80,60 +83,56 @@ const ShowTurnoProfesional: React.FC = () => {
     }
   };    
   const searchTurnos = async () => {
-          setCanView(true);
-          setLoading(true);
-          const token = await getAccessTokenSilently();
-          const turnosAsignadosResponse = await getTurnosAsignadosProfesional(token);
-          setLoading(false);
-          if (turnosAsignadosResponse.message) {
-            setShowMessage(true);
-            setMessage(turnosAsignadosResponse.message);
-          } else {            
-            if (Array.isArray(turnosAsignadosResponse?.data)) {
-              setTieneTurnos(true);
-              setTurnosAsignados(turnosAsignadosResponse.data);
+    setLoading(true);   
+      const turnosAsignados = await fetchTurnosAsignados();
+      setLoading(false);    
+      if (Array.isArray(turnosAsignados)) {
+        setTurnosAsignados(turnosAsignados);
+        const dates = turnosAsignados.map((turno) => {
+          const [year, month, day] = turno.turno.fecha.split("-");
+          return new Date(Number(year), Number(month) - 1, Number(day), 0, 0, 0);
+        });
+        setAvailableDates(dates);
+      }         
+  setFetchTurnos(true);
+  setLoading(false);     
+};
 
-              const dates = turnosAsignadosResponse.data.map((turno: { turno: { fecha: { split: (arg0: string) => [any, any, any]; }; }; }) => {
-                const [year, month, day] = turno.turno.fecha.split("-");
-                return new Date(Number(year), Number(month) - 1, Number(day), 0, 0, 0);
-              });
-              setAvailableDates(dates);
-            } else {
-              setTieneTurnos(false);
-              setMessage("No hay turnos asignados");
-            }
-          }
-          
-      setFetch(true);
-      setLoading(false);
-      if (turnosAsignados.length === 0) {
-        setTieneTurnos(false);
-      }
-  }
-
-  useEffect(() => {  
-    fetchUserType();    
-  }, [user]);
-
-  useEffect(() => {     
-    if (isAuthenticated) {
-      setRedirectToLogin(false);
-        if (isProfesional) {
-          setCanView(true);
-          searchTurnos();
-          if (fetchRealizado && turnosAsignados.length === 0) {
-            setTieneTurnos(false);
-          }
-        }  
-      } else {
-        setCanView(false);
-        setMessage("Para poder ver tu agenda deberás estar registrado y logueado como profesional.");
-        setShowMessage(true);
-        setRedirectToLogin(true);
-      }
- }, [isAuthenticated, getUserType, isProfesional]);
+  const fetchTurnosAsignados = async () => {
+    try {
+        setLoading(true);
+        const token = await getAccessTokenSilently();
+        const turnosAsignadosResponse = await getTurnosAsignadosProfesional(token);
+        if (turnosAsignadosResponse.message) {
+          setMessage(turnosAsignadosResponse.message);
+          setShowMessage(true);
+        }
+        else {
+          const apiResponse : ApiResponseTurnosProfesional = turnosAsignadosResponse;
+          return apiResponse.data;
+        }
+        setLoading(false); 
+    } catch (error) {
+      console.log(error);
+    }    
+  };
   
-  /// ACOMODAR LO QUE PASA CUANDO CAMBIA TURNOSASIGNADOS!!!!
+  useEffect(() => {   
+   if (isAuthenticated) {
+    fetchUserType();
+   } else { 
+      setMessage("Para poder seguir, deberás loguearte y estar registrado como profesional.");
+      setShowMessage(true);
+      setRedirectToLogin(true);
+      setRoute("/profesional");
+   }  
+  }, [isAuthenticated])
+
+  useEffect(() => {
+    if (fetchTurnosRealizado && turnosAsignados.length === 0){
+      setTieneTurnos(false);
+    }
+  }, [turnosAsignados])
  
   const handleSelectAsignados = (date: Date) => {
     const dateFormat = date ? formatDate(date) : "";
@@ -157,16 +156,16 @@ const ShowTurnoProfesional: React.FC = () => {
 
   const handleBackModal = () => {
     if (redirectToLogin) {
-      loginWithPopup(); 
-    } else router.push("/");
+      setShowMessage(false);
+      loginWithPopup();
+    } 
+    else 
+      router.push(route);
   };
   
   const handleCloseModal = () => {
-    if (redirectToLogin) {
-      loginWithPopup();
-    } else router.push("/");
+    router.push("/");
   };
-
 
   return (
     <Container>
