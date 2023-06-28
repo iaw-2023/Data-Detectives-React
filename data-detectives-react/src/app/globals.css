@@ -70,17 +70,14 @@ input:focus {
 @media (max-width: 767px) {
   .footer-container {
     background-color: white;
-    margin-top: auto;
-    position: relative;
     bottom: 0;
     width: 100vw;
-    height: 20vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    z-index: 100;
     text-align: center;
+    position: relative;
   }
   
   .footer-column {
@@ -100,7 +97,11 @@ input:focus {
   .container-paciente {
     width: 100%;
     padding: 10px;
-    justify-content: center;
+    justify-content:flex-start;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 100vh;
   }
 
   .container-home-page {
@@ -108,11 +109,11 @@ input:focus {
     background-size: cover;
     background-position: center;
     justify-content: flex-start;
-    height: 80vh;
+    height: 100vh;
     width: 100vw;
     background-repeat: no-repeat;
     overflow-x: hidden;
-
+    position: relative;
   }
 
   .container-fondo {
@@ -124,6 +125,7 @@ input:focus {
     bottom: 0;
     left: 0;
     overflow-y: scroll;
+    /*overflow-x: hidden;*/
   }
 
   .div-paciente {
