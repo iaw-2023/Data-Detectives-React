@@ -137,6 +137,8 @@ export interface Paciente {
     telefono_paciente: string;
     email_paciente: string;
     obra_social: string;
+    url_image: string;
+    id_image: string;
 }
   
 export interface TurnoAsignado {

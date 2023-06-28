@@ -15,9 +15,9 @@ const NosotrosPage: React.FC = () => {
     <div className="content-wrapper div-paciente">
       <ContainerHomePage>
         <NavScroll />
-        <Container className="container-nosotros">
+        <Container className="container-nosotro">
         <Row className="justify-content-center">
-          <Col xs={12} md={10}>
+          <Col xs={10} md={10}>
           <CardTurnosAsignados >
             <h6 className='text-uppercase fw-bold text-center mt-4 mb-4'> Contactate con nosotros </h6>
             <p className="text-center"> Dirección: Evergreen Terrace 742, Springfield </p>

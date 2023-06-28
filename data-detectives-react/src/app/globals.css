@@ -189,13 +189,18 @@ input:focus {
   }
 
   .card-profile {
-    width: 50%;
+    width: 30%;
     justify-content: center;
     margin: 0 auto;
     padding: 20px;
     height: 85vh;
     align-items: center;
     text-decoration-color: beige;
+  }
+
+  .src-img {
+    width: 200px;
+    height: auto;
   }
 
   .footer-container {
@@ -276,7 +281,7 @@ input:focus {
   }
 
   .card-turnos-asignados {
-    width: 70vw;
+    width: 70%;
     height: auto;
   }
 
