@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FirstPage from "./selectEspecialidadPage";
 import SecondPage from "./selectProfesionalPage";
 import ThirdPage from "./selectFechaTurnoPage";
@@ -7,6 +7,11 @@ import FourthPage from "./selectHoraTurnoPage";
 import { Especialidad, TurnoDisponible, Profesional_con_especialidad_id, Paciente } from '../types';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FifthPage from "./confirmTurnoPage";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useRouter } from "next/navigation";
+import { getUserType } from "../api/api";
+import ModalAlert from "../Alert";
+import AppSpinner from "../app-spinner";
 
 
 
@@ -17,7 +22,15 @@ const Formulario: React.FC = () => {
   const [selectedFecha, setSelectedFecha] = useState<string | "">();
   const [selectedTurno, setSelectedTurno] = useState<TurnoDisponible | null>();
   const [primeraConsulta, setPrimerConsulta] = useState<boolean>();
+  const [showMessage, setShowMessage] = useState(false);
+  const [messageModal, setMessage] = useState<string>("");
+  const [canView, setCanView] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+    
+  const { getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, loginWithPopup, user } = useAuth0();
 
+  const router = useRouter();
 
   const handleSelectSpecialty = (specialty: Especialidad) => {
     setSelectedSpecialty(specialty);
@@ -43,12 +56,48 @@ const Formulario: React.FC = () => {
     setPrimerConsulta(primeraConsulta);
   };
   
+  const fetchUserType = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const userType = await getUserType(token);
+      setLoading(false);
+        if (userType.tipo_usuario === "profesional") {
+          setMessage("No podes reservar turnos debido a que te encontras registrado como profesional.");
+          setShowMessage(true);  
+          setCanView(false);
+        } else { 
+            setCanView(true);
+          }
+    } catch {
+    
+      }
+  }
   
-  return (
+  useEffect(() => {   
+    if (isAuthenticated) {
+     fetchUserType();      
+    } else {
+      setLoading(false);
+    } 
+   }, [isAuthenticated])
+ 
+  const handleCloseModal = () => {
+    router.push("/");
+  };
+  
+  return ( 
+    
     <div>
-      {currentPage === 1 && (
+      <AppSpinner loading={loading}></AppSpinner>
+      {currentPage === 1 && canView ? (
         <FirstPage selectedSpecialty={selectedSpecialty} onSelectSpecialty={handleSelectSpecialty} />
-      )}
+      ) : 
+      ( <ModalAlert
+      show={showMessage}
+      onClose={handleCloseModal}
+      onBack={handleCloseModal}
+      message={messageModal}
+      />)} 
       {currentPage === 2 && selectedSpecialty && (
         <SecondPage selectedSpecialty={selectedSpecialty} onSelectedProfessional={handleSelectProfessional} selectedProfessional={selectedProfessional} />
       )}
@@ -61,7 +110,7 @@ const Formulario: React.FC = () => {
       {currentPage === 5 && selectedSpecialty && selectedProfessional && selectedTurno && (
         <FifthPage selectedSpecialty={selectedSpecialty} selectedProfessional={selectedProfessional} selectedTurno={selectedTurno} primeraConsulta onConfirmTurno={handleConfirmTurno} />
       )}
-    </div>
+    </div>   
   );
 };
 

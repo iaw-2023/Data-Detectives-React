@@ -11,6 +11,7 @@ import AppSpinner from "../app-spinner";
 import AlertWarning from "../alert-warning";
 import { useAuth0 } from "@auth0/auth0-react";
 import { cancelarTurno, getTurnosAsignadosPaciente, getUserType } from "../api/api";
+import ModalAlert from "../Alert";
 
 const TurnosAsignadosPage: React.FC = () => {
   const [turnosAsignados, setTurnosAsignados] = useState<TurnoAsignado[]>([]);
@@ -19,54 +20,95 @@ const TurnosAsignadosPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [fetchRealizado, setFetch] = useState<boolean>(false);
   const [ messageModal, setMessage ] = useState<string>("");
+  const [showMessage, setShowMessage] = useState(false);
+  const [canView, setCanView] = useState<boolean>(false);
+  const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
+  
   const { getAccessTokenSilently } = useAuth0();
 
   const router = useRouter();
 
   const { isAuthenticated } = useAuth0();
 
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithPopup } = useAuth0();
 
   const { user } = useAuth0();
 
-  useEffect(() => {
     const fetchTurnosAsignados = async () => {
       try {
         if (isAuthenticated) {
           const token = await getAccessTokenSilently(); 
           const userType = await getUserType(token);
-          const tipo_usuario = userType.tipo_usuario;          
-            const asignarTurnoResponse = await getTurnosAsignadosPaciente(tipo_usuario,token);
-            if (!asignarTurnoResponse.ok) {
-              setTieneTurnos(false);
-            } else {
-              const data = await asignarTurnoResponse.json();
-              if (Array.isArray(data?.data)) {
+          const tipo_usuario = userType.tipo_usuario;
+          if (tipo_usuario === "paciente")
+          {
+            const asignarTurnoResponse = await getTurnosAsignadosPaciente(token);
+            if (asignarTurnoResponse.message) {
+              setMessage(asignarTurnoResponse.message);
+              setShowMessage(true);
+            }
+            else {
+              if (Array.isArray(asignarTurnoResponse?.data)) {
                 setTieneTurnos(true);
-                setTurnosAsignados(data.data);
+                setTurnosAsignados(asignarTurnoResponse.data);
               } else {
                 setTieneTurnos(false);
-                console.log("La respuesta de la API no contiene un array válido de especialidades:", data);
               }
-            }          
+            }
+          }                      
         }
         else {
-          loginWithRedirect()
+          setMessage("Para poder ver turnos asignados como paciente deberás loguearte y estar registrado como paciente");
+          setRedirectToLogin(true);
+          setShowMessage(true);  
+          setCanView(false);
         }
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
+      setFetch(true);
     };
-    fetchTurnosAsignados();
-    setLoading(false);
-    setFetch(true);
-  }, []);
+  
+  const fetchUserType = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const userType = await getUserType(token);
+      setLoading(false);
+      const tipo_usuario = userType.tipo_usuario;
+        if (tipo_usuario === "profesional") {
+          setMessage("No podes ver turnos como paciente debido a que te encontras registrado como profesional.");
+          setShowMessage(true);  
+          setCanView(false);
+        } else { if (tipo_usuario === "paciente") {
+                    setCanView(true);
+                    fetchTurnosAsignados();
+                 } else {
+                    setCanView(false);
+                    setRedirectToLogin(true);
+                 }     
+          }
+    } catch {
+    
+      }
+  }
 
   useEffect(() => {
     if (fetchRealizado && turnosAsignados.length === 0){
       setTieneTurnos(false);
     }
   }, [turnosAsignados])
+  
+  useEffect(() => {   
+    if (isAuthenticated) {
+     fetchUserType();      
+    } else {
+          setMessage("Para poder ver los turnos como paciente debes estar logueado y registrado como paciente.");
+          setShowMessage(true); 
+          setRedirectToLogin(true);
+          setCanView(false);
+      } 
+   }, [isAuthenticated])
 
   const handleBack = () => {
     router.back()
@@ -76,9 +118,7 @@ const TurnosAsignadosPage: React.FC = () => {
     try {
       if (isAuthenticated) {
         const token = await getAccessTokenSilently(); 
-        const userType = await getUserType(token);
-        const tipo_usuario = userType.tipo_usuario;
-        const response = await cancelarTurno(tipo_usuario, token, turno_id,turno_asignado_id);      
+        const response = await cancelarTurno(token, turno_id,turno_asignado_id);      
         if (response.ok) {
           console.log('Solicitud POST enviada');
           const updatedTurnos = turnosAsignados.filter(turno => turno.id !== turno_asignado_id);
@@ -92,40 +132,65 @@ const TurnosAsignadosPage: React.FC = () => {
         console.log('Error al enviar la solicitud POST', error);
         }
   };
+  
+  const handleBackModal = () => {
+    if (redirectToLogin) {
+      setShowMessage(false);
+      loginWithPopup();
+    } 
+    else 
+      router.push("/");
+  };
+  
+  const handleCloseModal = () => {
+    router.push("/");
+  };
 
   return (
     <Container>
       <Button className="btn mt-2" variant="outline-dark" onClick={handleBack}>
         Back
       </Button>
-      <CenteredDiv>
+      <CenteredDiv>       
         {canceladoExitoso && (
           <AlertWarning mensaje={"El turno se ha cancelado con éxito."}/>
         )}
-        { loading && (<AppSpinner loading={loading}></AppSpinner> )}
-        <CardTitle>
-          <h3 className='text-white text-center mt-3'>Turnos asignados a {user?.nickname} </h3>          
-        </CardTitle>
-        {!tieneTurnos ? (
-          <AlertWarning mensaje={"No hay turnos asignados."}/>
+        {loading && (<AppSpinner loading={loading}></AppSpinner>)}
+        {canView ? (
+          <>
+            <CardTitle>
+              <h3 className='text-white text-center mt-3'>Turnos asignados a {user?.nickname} </h3>          
+            </CardTitle>
+            {!tieneTurnos ? (
+              <AlertWarning mensaje={"No hay turnos asignados."}/>
+            ) : (
+              turnosAsignados.map((turno) => (
+                <MinCardComponent key={turno.id}>
+                  <ListGroup key={turno.id}>
+                    <ListGroup.Item className='text-white bg-dark'>Turno del {turno.turno.fecha}</ListGroup.Item>
+                    <ListGroup.Item className='text-white bg-dark'>Hora: {turno.turno.hora.substring(0, 5)}hs</ListGroup.Item>
+                    <ListGroup.Item className='text-white bg-dark'>Profesional: {turno.turno.profesional_especialidad.profesional.apellido}, {turno.turno.profesional_especialidad.profesional.nombre}</ListGroup.Item>
+                    <ListGroup.Item className='text-white bg-dark'>Especialidad: {turno.turno.profesional_especialidad.especialidad.nombre}</ListGroup.Item>
+                    <ListGroup.Item className='bg-dark'>
+                      <Button variant='danger' onClick={() => handleCancelTurno(turno.turno.id, turno.id)}>Cancelar</Button>
+                    </ListGroup.Item>
+                  </ListGroup>
+                </MinCardComponent>
+              ))
+            )}
+          </>
         ) : (
-          turnosAsignados.map((turno) => (
-            <MinCardComponent key={turno.id}>
-              <ListGroup key={turno.id}>
-                <ListGroup.Item className='text-white bg-dark'>Turno del {turno.turno.fecha}</ListGroup.Item>
-                <ListGroup.Item className='text-white bg-dark'>Hora: {turno.turno.hora.substring(0, 5)}hs</ListGroup.Item>
-                <ListGroup.Item className='text-white bg-dark'>Profesional: {turno.turno.profesional_especialidad.profesional.apellido}, {turno.turno.profesional_especialidad.profesional.nombre}</ListGroup.Item>
-                <ListGroup.Item className='text-white bg-dark'>Especialidad: {turno.turno.profesional_especialidad.especialidad.nombre}</ListGroup.Item>
-                <ListGroup.Item className='bg-dark'>
-                  <Button variant='danger' onClick={() => handleCancelTurno(turno.turno.id, turno.id)}>Cancelar</Button>
-                </ListGroup.Item>
-              </ListGroup>
-            </MinCardComponent>
-          ))
+          <ModalAlert
+            show={showMessage}
+            onClose={handleCloseModal}
+            onBack={handleBackModal}
+            message={messageModal}
+          />
         )}
       </CenteredDiv>
-      </Container>
+    </Container>
   );
-};
+
+}  
 
 export default TurnosAsignadosPage;

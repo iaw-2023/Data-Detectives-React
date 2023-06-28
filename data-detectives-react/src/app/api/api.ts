@@ -38,8 +38,8 @@ export async function getTurnosAsignadosProfesional(token: any) {
     
 };
 
-export async function getTurnosAsignadosPaciente(tipo_usuario: string, token: any) {
-  if (tipo_usuario === 'paciente') {
+export async function getTurnosAsignadosPaciente(token: any) {
+
     try {
         const responseTurnos = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/turnos_asignados_paciente', {
             method: 'GET',
@@ -55,15 +55,7 @@ export async function getTurnosAsignadosPaciente(tipo_usuario: string, token: an
           message: "Error al obtener los turnos asignados del paciente: " + error,
           route: "/turnosAsignados"
       };    
-    }; 
-} else {
-      return { 
-          message: "El usuario logueado no está registrado como paciente.",
-          route: "/"
-      };
- 
-}
-    
+    };     
 }
 
 export async function asignarTurno(tipo_usuario: string, token: any, turno_id: number, primer_consulta: boolean, idPago: number){
@@ -106,8 +98,7 @@ export async function asignarTurno(tipo_usuario: string, token: any, turno_id: n
     }
 }
 
-export async function cancelarTurno(tipo_usuario: string, token: any, turno_id: number, turno_asignado_id: number){
-  if (tipo_usuario === 'paciente') {
+export async function cancelarTurno(token: any, turno_id: number, turno_asignado_id: number){
     try {
       const cancelarTurnoResponse = await fetch('https://data-detectives-laravel.vercel.app/rest/cancelar_turno', {
         method: 'POST',
@@ -131,13 +122,8 @@ export async function cancelarTurno(tipo_usuario: string, token: any, turno_id: 
           route: "/turnosAsignados"
       };    
     }; 
-  } else {
-      return { 
-          message: "El usuario logueado no está registrado como paciente.",
-          route: "/"
-      };
-    }
-}
+  } 
+
 
 export async function userRegister(requestBody: any){
     try {

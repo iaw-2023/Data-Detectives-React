@@ -19,7 +19,6 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   const [turnoConfirmado, setTurnoConfirmado] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
-  const [route, setRoute] = useState<string>("/");
   const [progress, setprogress] = useState<number>(99);
   const [loading, setLoading] = useState<boolean>(false);
   const [ messageModal, setMessage ] = useState<string>("");
@@ -27,13 +26,10 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
   const [pagado, setPagado] = useState<boolean>(false);
   const [showMercadoPago, setShowMercadoPago] = useState<boolean>(false);
   const [idPago, setIDPago] = useState<number>();
-  const [status, setStatus] = useState<String>();
-
 
   const handlePaymentComplete = (response: any) => {
     setIDPago(response.id);
-    setStatus(response.status);
-    if (status === "approved") {
+    if (response.status === "approved") {
       setPagado(true);
       setShowMercadoPago(false)
     }
@@ -57,7 +53,6 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
 
   const { loginWithPopup } = useAuth0();
 
-  const { user } = useAuth0();
 
   useEffect(() => {
     if (pagado) {
@@ -76,7 +71,6 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
           if (asignarTurnoResponse.message) {
             setMessage(asignarTurnoResponse.message); 
             setShowMessage(true);
-            setRoute(asignarTurnoResponse.route);
           } else {
               setprogress(100);
               setLoading(false);
@@ -85,7 +79,6 @@ const FifthPage: React.FC<FifthPageProps> = ({ selectedProfessional, selectedTur
         }
       }
   }
-
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPrimerConsulta(e.target.checked);
