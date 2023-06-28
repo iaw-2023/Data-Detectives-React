@@ -5,6 +5,7 @@ import TurnosAsignadosPage from './turnosAsignados/page';
 import NosotrosPage from './nosotros/page';
 import ProfesionalPage from './profesional/page';
 import RegisterPage from './register/page';
+import Profile from './profile/page';
 
 
 const App: React.FC = () => {
@@ -18,6 +19,7 @@ const App: React.FC = () => {
         <Route path="/nosotros" element={<NosotrosPage />} />
         <Route path="/profesional" element={<ProfesionalPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

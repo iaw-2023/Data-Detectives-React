@@ -6,6 +6,7 @@ import Footer from "../footer";
 import CardTurnosAsignados from "../cardTurnosAsignados";
 import CenteredDiv from "../reservar/centeredDiv";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Col, Container, Row } from "react-bootstrap";
 
 
 const NosotrosPage: React.FC = () => {
@@ -14,7 +15,9 @@ const NosotrosPage: React.FC = () => {
     <div className="content-wrapper div-paciente">
       <ContainerHomePage>
         <NavScroll />
-        <CenteredDiv>
+        <Container className="container-nosotros">
+        <Row className="justify-content-center">
+          <Col xs={12} md={10}>
           <CardTurnosAsignados >
             <h6 className='text-uppercase fw-bold text-center mt-4 mb-4'> Contactate con nosotros </h6>
             <p className="text-center"> Dirección: Evergreen Terrace 742, Springfield </p>
@@ -28,7 +31,9 @@ const NosotrosPage: React.FC = () => {
               Somos un grupo de profesionales dedicados a brindarte el mejor servicio de atención médica en una amplia gama de especialidades.
             </p>
           </CardTurnosAsignados>
-        </CenteredDiv>
+          </Col>
+        </Row>
+      </Container>
     </ContainerHomePage>
     <Footer/>
     </div>
