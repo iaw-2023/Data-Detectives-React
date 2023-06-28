@@ -89,7 +89,6 @@ export interface ApiResponseTurnosProfesional {
     data: TurnoAsignadoProfesional[];
 }
 
-  
 export  interface FormData {
     name: string;
     email: string;

@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import Card from 'react-bootstrap/Card';
-import { useMediaQuery } from 'react-responsive';
 
 interface CardComponentProps {
   children?: ReactNode;

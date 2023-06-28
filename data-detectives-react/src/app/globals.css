@@ -180,6 +180,24 @@ input:focus {
 
 /* Estilos para dispositivos de escritorio */
 @media (min-width: 768px) {
+  .container-profile {
+    width: 50%;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 20px;
+    height: 85vh
+  }
+
+  .card-profile {
+    width: 50%;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 20px;
+    height: 85vh;
+    align-items: center;
+    text-decoration-color: beige;
+  }
+
   .footer-container {
     position: relative;
     bottom: 0;
@@ -271,6 +289,11 @@ input:focus {
     bottom: 0;
     left: 0;
     overflow-y: scroll;
+  }
+
+  .container-nosotros {
+    width: 50vw;
+    height: 80vh;
   }
 
   .card-title {
