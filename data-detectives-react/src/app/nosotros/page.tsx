@@ -7,6 +7,7 @@ import CardTurnosAsignados from "../cardTurnosAsignados";
 import CenteredDiv from "../reservar/centeredDiv";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col, Container, Row } from "react-bootstrap";
+import CardNosotros from "../cardNosotros";
 
 
 const NosotrosPage: React.FC = () => {
@@ -15,10 +16,9 @@ const NosotrosPage: React.FC = () => {
     <div className="content-wrapper div-paciente">
       <ContainerHomePage>
         <NavScroll />
-        <Container className="container-nosotro">
-        <Row className="justify-content-center">
-          <Col xs={10} md={10}>
-          <CardTurnosAsignados >
+        <Container className="container-nosotros">
+      
+          <CardNosotros>
             <h6 className='text-uppercase fw-bold text-center mt-4 mb-4'> Contactate con nosotros </h6>
             <p className="text-center"> Dirección: Evergreen Terrace 742, Springfield </p>
             <p className="text-center"> Teléfono: 764 - 84377 </p>
@@ -30,9 +30,8 @@ const NosotrosPage: React.FC = () => {
             <p className="text-center">
               Somos un grupo de profesionales dedicados a brindarte el mejor servicio de atención médica en una amplia gama de especialidades.
             </p>
-          </CardTurnosAsignados>
-          </Col>
-        </Row>
+          </CardNosotros>
+
       </Container>
     </ContainerHomePage>
     <Footer/>

@@ -197,7 +197,7 @@ const ShowTurnoProfesional: React.FC = () => {
           ) : loading ? (
             <AppSpinner loading={loading}></AppSpinner>
           ) : (
-            <Table striped bordered hover className="table-responsive-s">
+            <Table striped bordered hover className=" table-responsive-sm">
               <thead className="bg-white">
                 <tr>
                   <th className="text-dark">Especialidad</th>
