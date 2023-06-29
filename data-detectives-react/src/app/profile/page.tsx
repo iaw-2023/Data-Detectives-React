@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import ModalAlert from "../Alert";
 
 const Profile = () => {
-  const { user, isAuthenticated, isLoading, loginWithPopup, getAccessTokenSilently } = useAuth0();
+  const { user, isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently } = useAuth0();
   const [paciente, setPaciente] = useState<Paciente | null>(null);
   const [profesional, setProfesional] = useState<Profesional | null>(null);
   const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
@@ -83,7 +83,7 @@ const Profile = () => {
   const handleBackModal = () => {
     if (redirectToLogin) {
       setShowMessage(false);
-      loginWithPopup();
+      loginWithRedirect();
     } 
     else 
       router.push("/");
