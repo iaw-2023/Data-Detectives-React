@@ -49,8 +49,11 @@ const NavScroll: React.FC<NavScrollProps> = () => {
                   <Button className="btn-light">
                     <Link className='text-decoration-none text-black' href="/nosotros" passHref>Sobre nosotros</Link>
                   </Button>
+                  <Button className="btn-light">
+                    <Link className='text-decoration-none text-black' href="/profile" passHref>Perfil</Link>
+                  </Button>
                   {isAuthenticated ? (
-                    <Button className="btn-light" onClick={() => logout()}>
+                    <Button className="btn-light" onClick={() => logout({ logoutParams: {returnTo: "health-time-git-promocion-data-detectives-react.vercel.app"}})}>
                       Logout
                     </Button>
                   ) : (
