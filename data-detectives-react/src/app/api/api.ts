@@ -145,3 +145,43 @@ export async function userRegister(token: any, requestBody: any){
       };           
 }
 
+export async function getDatosPaciente(token: any) {
+
+  try {
+      const responseTurnos = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/pacientePorEmail', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },      
+        }     
+      );
+      return responseTurnos;
+  } catch (error) {
+    return { 
+        message: "Error al obtener los datos del paciente: " + error,
+        route: "/paciente"
+    };    
+  };     
+}
+
+export async function getDatosProfesional(token: any) {
+
+  try {
+      const responseTurnos = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/profesionalPorEmail', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },      
+        }     
+      );
+      return responseTurnos;
+  } catch (error) {
+    return { 
+        message: "Error al obtener los datos del profesional: " + error,
+        route: "/"
+    };    
+  };     
+}
+

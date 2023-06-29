@@ -5,53 +5,104 @@ import ContainerHomePage from "../container-fondo-homePage";
 import { Card, Container, ListGroup, Table } from "react-bootstrap";
 import NavScroll from "../mynavbar";
 import Footer from "../footer";
-import { Paciente } from "../types";
+import { Paciente, Profesional } from "../types";
+import { getUserType } from "../api/api";
+import { useRouter } from "next/navigation";
+import ModalAlert from "../Alert";
 
 const Profile = () => {
   const { user, isAuthenticated, isLoading, loginWithPopup, getAccessTokenSilently } = useAuth0();
   const [paciente, setPaciente] = useState<Paciente | null>(null);
+  const [profesional, setProfesional] = useState<Profesional | null>(null);
+  const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [messageModal, setMessage] = useState<string>("");
+  const router = useRouter();
 
-  
 
   useEffect(() => {
-    const fetchPacienteData = async () => {
+    const fetchUserData = async () => {
       try {
         if (isAuthenticated) {
           const token = await getAccessTokenSilently();
-          const response = await fetch("https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/pacientePorEmail", {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            },
-          });
-          if (response.ok) {
-            const data = await response.json();
-            setPaciente(data.data);
-          } else {
-            console.error("Error al obtener los datos del paciente");
+          console.log(token);
+          const user = await getUserType(token);
+          if (user.tipo_usuario === "paciente") {
+            const response = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/pacientePorEmail', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+              },      
+            });
+            if (response.ok) {
+              const data = await response.json();
+              setPaciente(data.data);
+            } else {
+              console.error("Error al obtener los datos del paciente");
+            }
           }
+          if (user.tipo_usuario === "profesional") {
+            const response = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/profesionalPorEmail', {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`,
+                },      
+              }     
+            );
+            if (response.ok) {
+              const data = await response.json();
+              setProfesional(data.data);
+            } else {
+              console.error("Error al obtener los datos del profesional");
+            }
+          }
+          
         }
       } catch (error) {
         console.error("Error al realizar la solicitud a la API", error);
       }
     };
 
-    fetchPacienteData();
+    fetchUserData();
   }, [isAuthenticated, getAccessTokenSilently]);
 
-  if (!isAuthenticated) {
-    loginWithPopup();
-    return null; // Mostrar un componente de carga mientras redirige
-  }
+  useEffect(() => {   
+    if (!isAuthenticated) {
+      setMessage("Debes iniciar sesion para ver tu perfil");
+      setShowMessage(true);
+      setRedirectToLogin(true);
+    }  
+   }, [isAuthenticated])
 
   if (isLoading) {
     return <div>Loading ...</div>;
   }
 
+  const handleBackModal = () => {
+    if (redirectToLogin) {
+      setShowMessage(false);
+      loginWithPopup();
+    } 
+    else 
+      router.push("/");
+  };
+  
+  const handleCloseModal = () => {
+    router.push("/");
+  };
+  
+
   return (
     <ContainerHomePage>
         <NavScroll />
+        <ModalAlert
+          show={showMessage}
+          onClose={handleCloseModal}
+          onBack={handleBackModal}
+          message={messageModal}
+        />
         { isAuthenticated && (
         <Container className="container-profile">
         {paciente && (  
@@ -65,6 +116,20 @@ const Profile = () => {
                   <ListGroup.Item className="bg-dark text-white">Apellido: {paciente.apellido_paciente}</ListGroup.Item>
                   <ListGroup.Item className="bg-dark text-white">Teléfono: {paciente.telefono_paciente}</ListGroup.Item>
                   <ListGroup.Item className="bg-dark text-white">Obra Social: {paciente.obra_social}</ListGroup.Item>
+                </ListGroup>
+              </>
+          </Card>
+        )}
+        {profesional && (  
+          <Card className="card-profile bg-dark text-white">  
+          <Card.Title className="text-center">Perfil de usuario</Card.Title>       
+              <>  
+                <img src="/imgs/medico.jpg" className="src-img"/>
+                <ListGroup variant="flush">
+                  <ListGroup.Item className="bg-dark text-white">DNI: {profesional.DNI}</ListGroup.Item>
+                  <ListGroup.Item className="bg-dark text-white">Nombre: {profesional.nombre}</ListGroup.Item>
+                  <ListGroup.Item className="bg-dark text-white">Apellido: {profesional.apellido}</ListGroup.Item>
+                  <ListGroup.Item className="bg-dark text-white">Teléfono: {profesional.email}</ListGroup.Item>
                 </ListGroup>
               </>
           </Card>
