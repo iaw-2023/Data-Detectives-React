@@ -157,7 +157,7 @@ const ShowTurnoProfesional: React.FC = () => {
   const handleBackModal = () => {
     if (redirectToLogin) {
       setShowMessage(false);
-      loginWithPopup();
+      loginWithRedirect();
     } 
     else 
       router.push(route);

@@ -27,7 +27,7 @@ const Formulario: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
     
   const { getAccessTokenSilently } = useAuth0();
-  const { isAuthenticated, loginWithRedirect, loginWithPopup, user } = useAuth0();
+  const { isAuthenticated } = useAuth0();
 
   const router = useRouter();
 
