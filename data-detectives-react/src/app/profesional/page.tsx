@@ -184,14 +184,12 @@ const ShowTurnoProfesional: React.FC = () => {
           <h3 className="text-white text-center mt-3">
             Turnos asignados para {user?.nickname}
           </h3>
-          <CenteredDivCalendar>
             <Calendar
               className="text-dark"
               tileDisabled={tileDisabled}
               onChange={handleSelectAsignados as any}
               value={getSelectedDate()}
             />
-          </CenteredDivCalendar>
           {!tieneTurnos ? (
             <AlertWarning mensaje={"No hay turnos asignados."} />
           ) : loading ? (
