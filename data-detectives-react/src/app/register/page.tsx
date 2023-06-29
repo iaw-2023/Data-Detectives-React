@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Form } from 'react-bootstrap';
 import CenteredDiv from '../reservar/centeredDiv';
@@ -8,9 +8,11 @@ import { userRegister } from '../api/api';
 import ModalAlert from '../Alert';
 import { useRouter } from "next/navigation";
 import CardComponent from '../card';
+import { useAuth0 } from '@auth0/auth0-react';
+import { userAgent } from 'next/server';
 
 interface RegisterPacienteFormState {
-  email: string;
+  email: string | undefined;
   dni: number | undefined;
   apellido: string;
   nombre: string;
@@ -31,9 +33,21 @@ const RegisterPage: React.FC = () => {
   });
   const [showMessage, setShowMessage] = useState(false);
   const [ messageModal, setMessage ] = useState<string>("");
-  const [showModal, setShowModal] = useState(false);
   const [route, setRoute] = useState<string>("/");
   const router = useRouter();
+  const { getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated } = useAuth0();
+  const { loginWithPopup } = useAuth0();
+  const { user } = useAuth0();
+  
+  
+  useEffect(() => {   
+    if (!isAuthenticated) {
+      loginWithPopup();
+    } else {
+        formData.email = user?.email;
+    }
+  }, [isAuthenticated])
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prevFormData) => ({
@@ -53,16 +67,15 @@ const RegisterPage: React.FC = () => {
       emailPaciente: formData.email,
       obraSocial: formData.obraSocial,
     };
-  
-    const registerResponse = await userRegister(requestBody);
+    const token = await getAccessTokenSilently(); 
+    const registerResponse = await userRegister(token,requestBody);
     setShowMessage(true);
     setMessage(registerResponse.message); 
-    setShowMessage(true);
-    setRoute("/");
+    setRoute("/"); 
   };
   
   const handleCloseModal = () => {
-    setShowModal(false);
+    setShowMessage(false);
   };
   
   const handleBackModal = () => {
@@ -74,12 +87,13 @@ const RegisterPage: React.FC = () => {
     <Container>    
     <ModalAlert show={showMessage} onClose={handleCloseModal} onBack={handleBackModal} message={messageModal}/>
       <CenteredDiv>
-        <CardComponent>
+      { isAuthenticated && 
+        (<CardComponent>
           <h2 style={{ color: 'white' }}>Registro de Paciente</h2>          
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="email" className="mb-3">
               <Form.Label>Email:</Form.Label>
-              <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} required style={{ marginBottom: '10px' }} />
+              <Form.Control type="email" name="email" value={user?.email} onChange={handleChange} required style={{ marginBottom: '10px' }} disabled />
             </Form.Group>
             <Form.Group controlId="dni" className="mb-3">
               <Form.Label>DNI:</Form.Label>
@@ -109,7 +123,7 @@ const RegisterPage: React.FC = () => {
               <Button type="submit">Registrarse</Button>
             </div>
           </Form>
-        </CardComponent>
+        </CardComponent>) }
       </CenteredDiv>      
     </Container>
   );

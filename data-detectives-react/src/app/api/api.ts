@@ -100,7 +100,7 @@ export async function asignarTurno(tipo_usuario: string, token: any, turno_id: n
 
 export async function cancelarTurno(token: any, turno_id: number, turno_asignado_id: number){
     try {
-      const cancelarTurnoResponse = await fetch('https://data-detectives-laravel.vercel.app/rest/cancelar_turno', {
+      const cancelarTurnoResponse = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/cancelar_turno', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -125,16 +125,16 @@ export async function cancelarTurno(token: any, turno_id: number, turno_asignado
   } 
 
 
-export async function userRegister(requestBody: any){
+export async function userRegister(token: any, requestBody: any){
     try {
         const responseRegister = await fetch('https://data-detectives-laravel-git-promo-data-detectives.vercel.app/rest/register', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify(requestBody),
           })
-        console.log(responseRegister.json())
         return responseRegister.json();
     
     } catch (error) {

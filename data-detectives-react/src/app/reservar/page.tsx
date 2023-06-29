@@ -14,7 +14,6 @@ import ModalAlert from "../Alert";
 import AppSpinner from "../app-spinner";
 
 
-
 const Formulario: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedSpecialty, setSelectedSpecialty] = useState<Especialidad | null>();
@@ -78,6 +77,7 @@ const Formulario: React.FC = () => {
      fetchUserType();      
     } else {
       setLoading(false);
+      setCanView(true);
     } 
    }, [isAuthenticated])
  

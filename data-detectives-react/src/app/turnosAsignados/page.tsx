@@ -23,6 +23,7 @@ const TurnosAsignadosPage: React.FC = () => {
   const [showMessage, setShowMessage] = useState(false);
   const [canView, setCanView] = useState<boolean>(false);
   const [redirectToLogin, setRedirectToLogin] = useState<boolean>(false);
+  const [redirectToRegister, setRedirectToRegister] = useState<boolean>(false);
   
   const { getAccessTokenSilently } = useAuth0();
 
@@ -37,6 +38,7 @@ const TurnosAsignadosPage: React.FC = () => {
     const fetchTurnosAsignados = async () => {
       try {
         if (isAuthenticated) {
+          setRedirectToLogin(false);
           const token = await getAccessTokenSilently(); 
           const userType = await getUserType(token);
           const tipo_usuario = userType.tipo_usuario;
@@ -58,7 +60,7 @@ const TurnosAsignadosPage: React.FC = () => {
           }                      
         }
         else {
-          setMessage("Para poder ver turnos asignados como paciente deberás loguearte y estar registrado como paciente");
+          setMessage("Para poder ver los turnos como paciente debes estar logueado y registrado como paciente.");
           setRedirectToLogin(true);
           setShowMessage(true);  
           setCanView(false);
@@ -85,7 +87,10 @@ const TurnosAsignadosPage: React.FC = () => {
                     fetchTurnosAsignados();
                  } else {
                     setCanView(false);
-                    setRedirectToLogin(true);
+                    setRedirectToRegister(true);
+                    setMessage("No te encontras registrado en nuestra base de datos. Por favor registrate para comenzar poder reservar turnos y visualizarlos.");
+                    setShowMessage(true);
+                    
                  }     
           }
     } catch {
@@ -101,6 +106,7 @@ const TurnosAsignadosPage: React.FC = () => {
   
   useEffect(() => {   
     if (isAuthenticated) {
+     setRedirectToLogin(false);
      fetchUserType();      
     } else {
           setMessage("Para poder ver los turnos como paciente debes estar logueado y registrado como paciente.");
@@ -137,9 +143,12 @@ const TurnosAsignadosPage: React.FC = () => {
     if (redirectToLogin) {
       setShowMessage(false);
       loginWithPopup();
-    } 
-    else 
-      router.push("/");
+    } else {
+        if (redirectToRegister) {
+          setShowMessage(false);
+          router.push("/register");
+        } else router.push("/");
+    }    
   };
   
   const handleCloseModal = () => {
