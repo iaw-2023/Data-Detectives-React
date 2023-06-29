@@ -9,6 +9,7 @@ import { Paciente, Profesional } from "../types";
 import { getUserType } from "../api/api";
 import { useRouter } from "next/navigation";
 import ModalAlert from "../Alert";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Profile = () => {
   const { user, isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently } = useAuth0();
@@ -82,6 +83,7 @@ const Profile = () => {
 
   const handleBackModal = () => {
     if (redirectToLogin) {
+      setRedirectToLogin(false);
       setShowMessage(false);
       loginWithRedirect();
     } 
