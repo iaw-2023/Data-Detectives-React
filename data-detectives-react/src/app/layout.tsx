@@ -30,7 +30,7 @@ export default function RootLayout({
           useRefreshTokens={true}
           useRefreshTokensFallback={false}
           authorizationParams={{
-            redirect_uri: "health-time-git-promocion-data-detectives-react.vercel.app"+router,
+            redirect_uri: "https://health-time-git-promocion-data-detectives-react.vercel.app"+router,
             audience: 'https://data-detectives-laravel.vercel.app/rest',
             scope: 'openid profile email'
           }}
