@@ -73,6 +73,13 @@ input:focus {
     justify-content: center;
   }
   
+  .centered-div-reservar {
+    margin-top: 5;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+  }
+  
   .h1 {
     size: 50%;
   }
@@ -231,8 +238,8 @@ input:focus {
   }
 
   .card-home-paciente {
-    width: 40rem;
-    height: 10rem;
+    width: 100%;
+    height: auto;
     font-size: 3;
   }
 
@@ -258,9 +265,17 @@ input:focus {
     justify-content: center;
   }
 
+  .centered-div-reservar {
+    margin-top: 5;
+    justify-content: center;
+    align-items: center;
+    width: 100vh;
+    height: auto;
+  }
+
   .card-component {
-    width: 40rem;
-    height: 30rem;
+    width: 100%;
+    height: auto;
   }
 
   .card-turnos-asignados {
@@ -292,8 +307,8 @@ input:focus {
   }
 
   .card-title {
-    width: 40rem;
-    height: 4rem;
+    width: 100%;
+    height: auto;
   }
 
   .titulo-home {

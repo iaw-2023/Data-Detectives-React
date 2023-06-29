@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import CenteredDiv from "./centeredDiv";
-import { Button, Form, ProgressBar, Spinner } from "react-bootstrap";
+import { Button, Form, ProgressBar } from "react-bootstrap";
 import { SecondPageProps, Profesional_con_especialidad_id } from '../types';
 import Container from "../container-fondo";
 import Card from '../card';
 import { useRouter } from "next/navigation";
 import MyModal from '../modalAlert';
 import AppSpinner from "../app-spinner";
+import CenteredDivReservar from "./centeredDivReservar";
 
 const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedProfessional, selectedProfessional}) => {
   const [professionals_with_specialty, setProfessionals] = useState<Profesional_con_especialidad_id[]>([]);
@@ -83,7 +83,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
         Back
       </Button>
       <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
-      <CenteredDiv>
+      <CenteredDivReservar>
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione el profesional para {selectedSpecialty.nombre}</h3>
           {loading ? (
@@ -102,7 +102,7 @@ const SecondPage: React.FC<SecondPageProps> = ({ selectedSpecialty, onSelectedPr
               Siguiente
             </Button>)}          
         </Card>
-      </CenteredDiv>
+      </CenteredDivReservar>
     </Container>
   );
 };

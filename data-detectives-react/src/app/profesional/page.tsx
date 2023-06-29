@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import CenteredDiv from "../reservar/centeredDiv";
+import CenteredDiv from '../centeredDiv';
 import Button from 'react-bootstrap/Button';
 import { ApiResponseTurnosProfesional, TurnoAsignadoProfesional } from '../types';
 import Container from "../container-fondo";

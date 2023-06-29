@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import CenteredDiv from "./centeredDiv";
+import CenteredDiv from "./centeredDivReservar";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FirstPageProps, Especialidad } from '../types';
@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import Card from '../card';
 import MyModal from '../modalAlert';
 import AppSpinner from "../app-spinner";
+import CenteredDivReservar from "./centeredDivReservar";
 
 const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
   const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
@@ -82,7 +83,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
         Back
       </Button>
       <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
-        <CenteredDiv>         
+      <CenteredDivReservar>         
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione una especialidad</h3>
           {loading ? (
@@ -101,7 +102,7 @@ const FirstPage: React.FC<FirstPageProps> = ({ onSelectSpecialty }) => {
               Siguiente
             </Button>) }          
         </Card>
-      </CenteredDiv>
+      </CenteredDivReservar>
     </Container>
   );
 };

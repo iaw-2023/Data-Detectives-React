@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { TurnoAsignado } from "../types";
 import Container from "../container-fondo";
 import { Button, ListGroup } from "react-bootstrap";
-import CenteredDiv from "../reservar/centeredDiv";
+import CenteredDiv from '../centeredDiv';
 import MinCardComponent from "../minCard";
 import CardTitle from "../cardTitle";
 import AppSpinner from "../app-spinner";
@@ -94,8 +94,7 @@ const TurnosAsignadosPage: React.FC = () => {
                  }     
           }
     } catch {
-    
-      }
+    }
   }
 
   useEffect(() => {
@@ -124,8 +123,8 @@ const TurnosAsignadosPage: React.FC = () => {
     try {
       if (isAuthenticated) {
         const token = await getAccessTokenSilently(); 
-        const response = await cancelarTurno(token, turno_id,turno_asignado_id);      
-        if (response.ok) {
+        const response = await cancelarTurno(token, turno_id,turno_asignado_id);
+        if (response.message) {
           const updatedTurnos = turnosAsignados.filter(turno => turno.id !== turno_asignado_id);
           setTurnosAsignados(updatedTurnos);
           setCanceladoExitoso(true);
@@ -135,7 +134,7 @@ const TurnosAsignadosPage: React.FC = () => {
       }
     }  catch (error) {
         console.log('Error al enviar la solicitud POST', error);
-        }
+    }
   };
   
   const handleBackModal = () => {

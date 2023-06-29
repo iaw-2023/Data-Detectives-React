@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Form } from 'react-bootstrap';
-import CenteredDiv from '../reservar/centeredDiv';
+import CenteredDiv from '../centeredDiv';
 import Container from '../container-fondo';
 import { userRegister } from '../api/api';
 import ModalAlert from '../Alert';
