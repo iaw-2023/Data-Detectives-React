@@ -19,7 +19,6 @@ const App: React.FC = () => {
         <Route path="/nosotros" element={<NosotrosPage />} />
         <Route path="/profesional" element={<ProfesionalPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
