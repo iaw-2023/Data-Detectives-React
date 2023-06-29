@@ -59,6 +59,9 @@ const Profile = () => {
               console.error("Error al obtener los datos del profesional");
             }
           }
+          if (user.tipo_usuario === "no registrado") {
+            router.push("/register");
+          }
           
         }
       } catch (error) {
