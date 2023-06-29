@@ -8,7 +8,7 @@ import Footer from "../footer";
 import { Paciente } from "../types";
 
 const Profile = () => {
-  const { user, isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently } = useAuth0();
+  const { user, isAuthenticated, isLoading, loginWithPopup, getAccessTokenSilently } = useAuth0();
   const [paciente, setPaciente] = useState<Paciente | null>(null);
 
   
@@ -41,7 +41,7 @@ const Profile = () => {
   }, [isAuthenticated, getAccessTokenSilently]);
 
   if (!isAuthenticated) {
-    loginWithRedirect();
+    loginWithPopup();
     return null; // Mostrar un componente de carga mientras redirige
   }
 
