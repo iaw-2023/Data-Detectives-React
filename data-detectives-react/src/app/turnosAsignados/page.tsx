@@ -126,12 +126,11 @@ const TurnosAsignadosPage: React.FC = () => {
         const token = await getAccessTokenSilently(); 
         const response = await cancelarTurno(token, turno_id,turno_asignado_id);      
         if (response.ok) {
-          console.log('Solicitud POST enviada');
           const updatedTurnos = turnosAsignados.filter(turno => turno.id !== turno_asignado_id);
           setTurnosAsignados(updatedTurnos);
           setCanceladoExitoso(true);
         } else {
-          console.log('Error al enviar la solicitud POST');
+          console.log(response.message);
         }
       }
     }  catch (error) {
