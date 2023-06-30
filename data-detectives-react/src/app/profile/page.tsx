@@ -20,7 +20,6 @@ const Profile = () => {
   const [messageModal, setMessage] = useState<string>("");
   const router = useRouter();
 
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
