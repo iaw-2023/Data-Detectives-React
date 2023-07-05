@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.1.1",
     "@babel/preset-react": "^7.22.3",
     "@chakra-ui/react": "^2.6.1",
     "@emotion/react": "^11.11.0",
@@ -19,6 +20,7 @@
     "@fullcalendar/list": "^6.1.8",
     "@fullcalendar/react": "^6.1.8",
     "@fullcalendar/timegrid": "^6.1.8",
+    "@mercadopago/sdk-react": "^0.0.11",
     "@types/node": "20.2.1",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",

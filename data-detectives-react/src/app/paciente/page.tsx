@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from 'react';
 import NavScroll from '../mynavbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,37 +9,42 @@ import CardPaciente from './card-home-paciente';
 import { Col, Row } from 'react-bootstrap';
 import TituloHome from '../titulo-home';
 
-const HomePage: React.FC = () => {
 
-    return (
-      <div className="content-wrapper div-paciente">
-        <ContainerHomePage>
-          <NavScroll />
-            <ContainerPaciente>
-              <TituloHome></TituloHome>             
-              <Row>
-                <Col>
-                  <CardPaciente
-                    title='Reservar turno'
-                    description='Aquí podrás reservar turnos para la especialidad que desees'
-                    buttonLink='/reservar'
-                    buttonText='Reservar turno'
-                  />
-                </Col>
-                <Col>
-                  <CardPaciente
-                    title='Consultar turnos asignados'
-                    description='Aquí podrás visualizar los turnos reservados anteriormente'
-                    buttonLink='/turnosAsignados'
-                    buttonText='Ver turnos asignados'
-                  />
-                </Col>
-              </Row>
-            </ContainerPaciente>  
-        </ContainerHomePage>
+function HomePage() {
+
+  return (
+    <div className="content-wrapper div-paciente">
+      <ContainerHomePage>
+        <NavScroll />
+        <ContainerPaciente>
+          <TituloHome></TituloHome>
+          <Row>
+            <Col>
+              <CardPaciente
+                title="Reservar turno"
+                description="Aquí podrás reservar turnos para la especialidad que desees"
+                buttonText="Reservar turno"
+                buttonLink="/reservar"
+                tooltipMessage="Debes iniciar sesión como paciente para acceder a esta funcionalidad" />
+            </Col>
+            <Col>
+              <CardPaciente
+                title="Consultar turnos asignados"
+                description="Aquí podrás visualizar los turnos reservados anteriormente"
+                buttonText="Ver turnos asignados"
+                buttonLink="/turnosAsignados"
+                tooltipMessage="Debes iniciar sesión como paciente para acceder a esta funcionalidad" />
+            </Col>
+          </Row>
+        </ContainerPaciente>
         <Footer />
-      </div>
-    );
-  };
+      </ContainerHomePage>
+      
+    </div>
+
+  );
+}
 
 export default HomePage;
+
+

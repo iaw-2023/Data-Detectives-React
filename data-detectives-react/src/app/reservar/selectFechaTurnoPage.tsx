@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import CenteredDiv from "./centeredDiv";
 import { Button, ProgressBar } from "react-bootstrap";
-import { ThirdPageProps, TurnoDisponible, TurnoDisponibleResponse } from '../types';
+import { ThirdPageProps, TurnoDisponibleResponse } from '../types';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Container from "../container-fondo";
@@ -11,6 +10,7 @@ import { useRouter } from "next/navigation";
 import MyModal from '../modalAlert';
 import AppSpinner from "../app-spinner";
 import AlertWarning from "../alert-warning";
+import CenteredDivReservar from "./centeredDivReservar";
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedFecha }) => {
   const [selectedOption, setSelectedOption] = useState<string>();
@@ -117,11 +117,10 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
         Back
       </Button>
       <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
-      <CenteredDiv>
+      <CenteredDivReservar>
       {!tieneTurnos && ( <AlertWarning mensaje={"No hay turnos asignados."}></AlertWarning> )}
         <Card>
           <h3 className='text-white text-center mt-3'>Seleccione un turno para {selectedProfessional.profesional.apellido}, {selectedProfessional.profesional.nombre}</h3>
-          <CenteredDiv>
             <Calendar
             className="text-dark"
             tileDisabled={tileDisabled}
@@ -135,11 +134,9 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ selectedProfessional, onSelectedF
                     Siguiente
                   </Button>)
                 )
-          }             
-          </CenteredDiv>  
-                               
+          }                
         </Card>
-      </CenteredDiv>
+      </CenteredDivReservar>
     </Container>
   );
 };

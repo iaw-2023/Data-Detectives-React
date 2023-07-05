@@ -2,11 +2,11 @@ import React, { ReactNode } from 'react';
 import Card from 'react-bootstrap/Card';
 import { useMediaQuery } from 'react-responsive';
 
-interface CardTurnosAsignadosProps {
+interface CardNosotrosProps {
   children?: ReactNode;
 }
 
-const CardTurnosAsignados: React.FC<CardTurnosAsignadosProps> = ({ children }) => {
+const CardNosotros: React.FC<CardNosotrosProps> = ({ children }) => {
 
   return (
     <>
@@ -15,7 +15,7 @@ const CardTurnosAsignados: React.FC<CardTurnosAsignadosProps> = ({ children }) =
           bg={variant.toLowerCase()}
           key={variant}
           text={variant.toLowerCase() === 'light' ? 'dark' : 'white'}
-          className="mb-2 mt-5 card-turnos-asignados"
+          className="card-nosotros"
         >
           {children}
         </Card>
@@ -24,5 +24,4 @@ const CardTurnosAsignados: React.FC<CardTurnosAsignadosProps> = ({ children }) =
   );
 };
 
-export default CardTurnosAsignados;
-
+export default CardNosotros;

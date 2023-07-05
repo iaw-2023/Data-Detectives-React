@@ -1,7 +1,6 @@
 "use client";
 
-import { Button, Form, ProgressBar, Spinner } from "react-bootstrap";
-import CenteredDiv from "./centeredDiv";
+import { Button, Form, ProgressBar } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { FourthPageProps, TurnoDisponible, TurnoDisponibleResponse } from "../types";
 import Container from "../container-fondo";
@@ -9,6 +8,7 @@ import Card from '../card';
 import MyModal from '../modalAlert';
 import { useRouter } from "next/navigation";
 import AppSpinner from "../app-spinner";
+import CenteredDivReservar from "./centeredDivReservar";
 
 
 const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedFecha, onSelectedTurno, selectedTurno }) => {
@@ -86,7 +86,7 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
             Back
           </Button>
           <MyModal show={showModal} onClose={handleCloseModal} onBack={handleBack} />
-          <CenteredDiv>
+          <CenteredDivReservar>
             <Card>
               <h3 className='text-white text-center mt-3'>Horarios disponibles</h3>
               {loading ? (
@@ -107,7 +107,7 @@ const FourthPage: React.FC<FourthPageProps> = ({ selectedProfessional, selectedF
               Siguiente
             </Button>)}
             </Card>
-          </CenteredDiv>
+          </CenteredDivReservar>
         </Container>
       );
 };

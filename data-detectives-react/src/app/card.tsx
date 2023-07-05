@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import Card from 'react-bootstrap/Card';
-import { useMediaQuery } from 'react-responsive';
 
 interface CardComponentProps {
   children?: ReactNode;
@@ -15,7 +14,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ children }) => {
           bg={variant.toLowerCase()}
           key={variant}
           text={variant.toLowerCase() === 'light' ? 'dark' : 'white'}
-          className="mb-2 card-component"
+          className="mb-2 card-component p-5 mt-5"
         >
           {children}
         </Card>
